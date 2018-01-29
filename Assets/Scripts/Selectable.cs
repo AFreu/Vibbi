@@ -20,7 +20,7 @@ public class Selectable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		bool leftMouseButtonDown = Input.GetMouseButtonDown (0);
+		//bool leftMouseButtonDown = Input.GetMouseButtonDown (0);
 		bool leftMouseButtonUp = Input.GetMouseButtonUp (0);
 		bool leftShift = Input.GetKey (KeyCode.LeftShift);
 

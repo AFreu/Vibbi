@@ -12,8 +12,6 @@ public class PolygonEditor : MonoBehaviour {
 	protected PolygonCollider2D polygon;
 	protected MeshFilter meshFilter;
 
-	protected Collider collider;
-	protected BoxCollider boxCollider;
 
 	///<summary>The index of the polygon path to use for the mesh</summary>
 	int pathIndex = 0;
@@ -23,9 +21,6 @@ public class PolygonEditor : MonoBehaviour {
 	void Start() {
 		polygon = gameObject.GetComponent<PolygonCollider2D>();
 		meshFilter = gameObject.GetComponent<MeshFilter>();
-
-		collider = gameObject.GetComponent<Collider> ();
-		boxCollider = gameObject.GetComponent<BoxCollider> ();
 	} 
 
 	#if UNITY_EDITOR
