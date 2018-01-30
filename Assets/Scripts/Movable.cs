@@ -9,6 +9,8 @@ public class Movable : MonoBehaviour {
 
 	private Ray mousePositionRay;
 
+	public Material highlightMaterial;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -43,6 +45,10 @@ public class Movable : MonoBehaviour {
 		//gameObject.transform.position.y += Input.GetAxis ("Mouse Y");
 
 
+	}
+
+	public void Selected(){
+		gameObject.GetComponent<Renderer> ().material = highlightMaterial;
 	}
 	
 }
