@@ -4,6 +4,8 @@
 /[Bb]uild/
 /[Bb]uilds/
 /Assets/AssetStoreTools*
+/Assets/DeformAssets*
+/Assets/Plugins*
 
 # Visual Studio 2015 cache directory
 /.vs/
@@ -32,3 +34,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+
+# vivace
+*.dll
+*.xml
