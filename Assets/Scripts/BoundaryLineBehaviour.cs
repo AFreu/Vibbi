@@ -7,6 +7,8 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 	public Transform first;
 	public Transform second;
 
+	public float width;
+
 
 	// Use this for initialization
 	void Start () {
@@ -47,7 +49,6 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 		var end = second.transform.position;
 
 		var parentScaleCompensation = transform.parent.transform.localScale.x;
-		var width = 1.0f;
 		var offset = end - start;
 		var scale = new Vector3(offset.magnitude/parentScaleCompensation, width, width);
 		var position = start;
