@@ -121,11 +121,11 @@ public class Triangulator : MonoBehaviour {
 		mesh.uv = uvs;
 	}
 
-	public void Triangulate(Mesh m, List<Vector2> ps, List<List<Vector2>> hs)
+	public void Triangulate(Mesh m, List<Vector2> points, List<List<Vector2>> holes)
 	{
 
-		List<Vector2> points = ps;
-		List<List<Vector2>> holes = hs;
+		//List<Vector2> points = ps;
+		//List<List<Vector2>> holes = hs;
 
 		List<int> indices = null;
 		List<Vector3> vertices = null;
@@ -145,5 +145,6 @@ public class Triangulator : MonoBehaviour {
 			uvs [i] = new Vector2 (m.vertices[i].x, m.vertices[i].y);
 		}
 		m.uv = uvs;
+
 	}
 }

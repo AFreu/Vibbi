@@ -15,9 +15,12 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public GameObject cloth;
 
 
+    private static bool save;
+
 	// Use this for initialization
 	void Start () {
 
+        save = false;
 		InitQuad ();
 
 	}
@@ -33,12 +36,25 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			coords.Add (new Vector2 (t.x, t.y));
 		}
 
-		Mesh mesh = cloth.GetComponent<MeshFilter> ().mesh;
+		Mesh mesh = cloth.GetComponent<MeshFilter>().sharedMesh;
 
-		test.Triangulate (mesh, coords, holeCoords);
+		test.Triangulate(mesh, coords, holeCoords);
 
-		cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh; 
-	}
+        //GetComponent<MeshFilter>().sharedMesh = mesh;
+
+       // Debug.Log(cloth.GetComponent<MeshFilter>().sharedMesh.vertices[0]);
+
+
+        cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
+
+        if (save)
+        {
+            save = false;
+            Debug.Log("hej");
+            ObjExporter.MeshToFile(cloth.GetComponent<MeshFilter>(), "meshyoyo.obj");
+        }
+       
+    }
 
 	public void AddBoundaryPoint(GameObject line, Vector3 position){
 		if (!boundaryLines.Contains (line)) {
@@ -70,33 +86,40 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 		boundaryPoints.Insert (index + 1, newPoint);
 		boundaryLines.Insert (index + 1, newLine);
-
-
+        
 	}
 
 	void InitQuad(){
-		//Instantiate boundar
+		//Instantiate boundary
 		GameObject o1 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
 		GameObject o2 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
 		GameObject o3 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
 		GameObject o4 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
 
-		o1.transform.Translate (new Vector3 (0.5f, 0.5f, 0.0f));
-		o2.transform.Translate (new Vector3 (-0.5f, 0.5f, 0.0f));
-		o3.transform.Translate (new Vector3 (-0.5f, -0.5f, 0.0f));
-		o4.transform.Translate (new Vector3 (0.5f, -0.5f, 0.0f));
+        GameObject o5 = Instantiate(boundaryPointPrefab, gameObject.transform) as GameObject;
 
-		//0
-		boundaryPoints.Add(o1);
+
+        o1.transform.Translate (new Vector3 (0.6f, 0.6f, 0.0f));
+		o2.transform.Translate (new Vector3 (-0.6f, 0.6f, 0.0f));
+		o3.transform.Translate (new Vector3 (-0.6f, -0.6f, 0.0f));
+		o4.transform.Translate (new Vector3 (0.6f, -0.6f, 0.0f));
+
+        o5.transform.Translate(new Vector3(1.6f, -1.6f, 0.0f));
+
+
+        //0
+        boundaryPoints.Add(o1);
 		//1
 		boundaryPoints.Add (o2);
 		//2
 		boundaryPoints.Add (o3);
 		//3
 		boundaryPoints.Add (o4);
-		//4
+        //4
 
-		GameObject l1 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
+        //boundaryPoints.Add(o5);
+
+        GameObject l1 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
 		GameObject l2 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
 		GameObject l3 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
 		GameObject l4 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
@@ -123,4 +146,12 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryLines.Add (l4);
 
 	}
+
+    public void saveMesh()
+    {
+        Debug.Log("tjena");
+        save = true;
+        //Debug.Log(GetComponent<MeshFilter>().sharedMesh.vertices[0]);
+        //ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
+    }
 }
