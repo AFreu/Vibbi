@@ -8,6 +8,7 @@
 /Assets/Plugins*
 /UnityPackageManager/
 /ProjectSettings/ProjectVersion.txt/
+/TESTMESHES/*
 
 # Visual Studio 2015 cache directory
 /.vs/
