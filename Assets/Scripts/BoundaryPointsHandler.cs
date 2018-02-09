@@ -27,7 +27,14 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+
+		if (save)
+		{
+			save = false;
+			Debug.Log("hej");
+			ObjExporter.MeshToFile(cloth.GetComponent<MeshFilter>(), "meshyoyo.obj");
+		}
 	}
 
 	public void TriangulateModel() {
@@ -44,19 +51,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 		test.Triangulate(mesh, coords, holeCoords);
 
-        //GetComponent<MeshFilter>().sharedMesh = mesh;
-
-       // Debug.Log(cloth.GetComponent<MeshFilter>().sharedMesh.vertices[0]);
-
-
         cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
 
-        if (save)
-        {
-            save = false;
-            Debug.Log("hej");
-            ObjExporter.MeshToFile(cloth.GetComponent<MeshFilter>(), "meshyoyo.obj");
-        }
+        
        
     }
 
@@ -158,4 +155,5 @@ public class BoundaryPointsHandler : MonoBehaviour {
         //Debug.Log(GetComponent<MeshFilter>().sharedMesh.vertices[0]);
         //ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
     }
+		
 }
