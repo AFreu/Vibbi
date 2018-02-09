@@ -27,6 +27,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+	}
+
+	public void TriangulateModel() {
 
 		var coords = new List<Vector2>();
 		var holeCoords = new List<List<Vector2>> ();

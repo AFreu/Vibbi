@@ -47,7 +47,7 @@ public class ConditionedTriangulator {
 				bool found = false;
 				for (int k = 0; k < outVertices.Count; k++) 
 				{
-					if((outVertices[k].x == t.GetVertex(j).X) && (outVertices[k].z == t.GetVertex(j).Y))
+					if((outVertices[k].x == t.GetVertex(j).X) && (outVertices[k].y == t.GetVertex(j).Y))
 					{
 						outIndices.Add(k);
 						found = true;
@@ -56,7 +56,7 @@ public class ConditionedTriangulator {
 				}
 
 				if(!found){
-					outVertices.Add (new Vector3 ((float)t.GetVertex (j).X, 0, (float)t.GetVertex (j).Y));
+					outVertices.Add (new Vector3 ((float)t.GetVertex (j).X, (float)t.GetVertex (j).Y, 0));
 					outIndices.Add (outVertices.Count - 1);
 				}
 			}
