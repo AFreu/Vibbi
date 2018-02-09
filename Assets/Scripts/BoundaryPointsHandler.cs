@@ -13,6 +13,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	public Triangulator test;
 	public GameObject cloth;
+    public GarmentHandler gH;
 
 
     private static bool save;
@@ -53,6 +54,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
         cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
 
+        gH.LoadCloth(cloth);
         
        
     }
