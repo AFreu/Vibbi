@@ -4,7 +4,12 @@
 /[Bb]uild/
 /[Bb]uilds/
 /Assets/AssetStoreTools*
-/Assets/DeformAssets*
+
+
+/Assets/DeformAssets/*
+!/Assets/DeformAssets/Scripts
+
+
 /Assets/Plugins*
 /UnityPackageManager/
 /ProjectSettings/ProjectVersion.txt/
