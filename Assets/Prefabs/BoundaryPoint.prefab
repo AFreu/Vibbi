@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 23785272348129848}
   - component: {fileID: 114667528721666848}
   - component: {fileID: 114408312139317694}
-  - component: {fileID: 114499572315895334}
   m_Layer: 0
   m_Name: BoundaryPoint
   m_TagString: Untagged
@@ -98,19 +97,6 @@ MonoBehaviour:
   selectedMaterial: {fileID: 2100000, guid: 065322cfd02e64d9e95ca905c35149e3, type: 2}
   highlightMaterial: {fileID: 2100000, guid: 01eb17def71244c9b852bdab0e183712, type: 2}
   normalMaterial: {fileID: 2100000, guid: c29d8b23659a44d3f9545c0205ae8e14, type: 2}
---- !u!114 &114499572315895334
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1931533834868222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 076e4dede11cd46008b7af7cbdeeab3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedX: 0
-  speedY: 0
 --- !u!114 &114667528721666848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,6 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfba0f5006acc4d98949154ac22db119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedX: 0
+  speedY: 0
 --- !u!135 &135246554257214154
 SphereCollider:
   m_ObjectHideFlags: 1

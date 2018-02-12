@@ -7,7 +7,8 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 	public Transform first;
 	public Transform second;
 
-	public float width;
+	private Ray mousePositionRay;
+	private Vector3 unitVector;
 
 
 	// Use this for initialization
@@ -21,11 +22,11 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 			return;
 		UpdateLine ();
 
+		mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 	}
 
 	void OnMouseOver(){
-		Debug.Log ("OnMouseOver");
 		if (Input.GetMouseButtonUp (1)) {
 			Debug.Log ("RightClick");
 			int layerMask = 1 << 8;
@@ -40,6 +41,26 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 		}
 	}
 
+	void OnMouseDrag(){
+
+		int layerMask = 1 << 8;
+		RaycastHit hit;
+		if (Physics.Raycast (mousePositionRay, out hit, 30f, layerMask)) {
+
+			//Calculate vector rejection of vector 'a' going from line to raycast hit (mouse position on model plane).
+			Vector3 a = hit.point - first.transform.position;
+			Vector3 a2 = a - Vector3.Dot(a , unitVector) * unitVector;
+
+			//Add the rejection vector to both boundary points of this line
+			first.transform.position += a2;
+			second.transform.position += a2;
+
+			//Love linear algebra! 
+		}else {
+			Debug.Log ("RAY missed modelplane");
+		}
+	}
+
 	void OnMouseEnter(){
 		Debug.Log ("Enter Boundary");
 	}
@@ -50,8 +71,11 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 
 		var parentScaleCompensation = transform.parent.transform.localScale.x;
 		var offset = end - start;
-		var scale = new Vector3(offset.magnitude/parentScaleCompensation, width, width);
+		var scale = new Vector3(offset.magnitude/parentScaleCompensation, 1, 1);
 		var position = start;
+
+		//Save unit vector for other uses
+		unitVector = offset.normalized;
 
 		transform.position = position;
 		transform.right = offset;

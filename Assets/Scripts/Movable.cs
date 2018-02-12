@@ -33,18 +33,6 @@ public class Movable : MonoBehaviour {
 		}else {
 			Debug.Log ("RAY missed modelplane");
 		}
-		//float xPos = gameObject.transform.position.x;
-		//float yPos = gameObject.transform.position.x;
-
-		//float dX = Input.GetAxis ("Mouse X") * speedX;
-		//float dY = Input.GetAxis ("Mouse Y") * speedY;
-	
-
-		//gameObject.transform.Translate (new Vector3 (dX, dY, 0f));
-		//gameObject.transform.position.x += Input.GetAxis("Mouse X");
-		//gameObject.transform.position.y += Input.GetAxis ("Mouse Y");
-
-
 	}
 
 	public void Selected(){

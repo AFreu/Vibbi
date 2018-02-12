@@ -14,8 +14,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public Triangulator test;
 	public GameObject cloth;
 
-
-    private static bool save;
+	public bool autoTriangulate = false;
+    
+	private static bool save;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +29,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (autoTriangulate) {
+			TriangulateModel ();
+		}
 
 		if (save)
 		{
@@ -155,5 +159,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
         //Debug.Log(GetComponent<MeshFilter>().sharedMesh.vertices[0]);
         //ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
     }
+
+
 		
 }
