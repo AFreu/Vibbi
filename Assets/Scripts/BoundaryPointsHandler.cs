@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoundaryPointsHandler : MonoBehaviour {
+	private int MINIMUM_AMOUNT_BOUNDARYPOINTS = 3; 
 
 	//The lists are order dependent
 	private List<GameObject> boundaryPoints = new List<GameObject> ();
@@ -92,6 +93,50 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryPoints.Insert (index + 1, newPoint);
 		boundaryLines.Insert (index + 1, newLine);
         
+	}
+
+	public void RemoveBoundaryPoint(GameObject point){
+		if (boundaryPoints.Count <= MINIMUM_AMOUNT_BOUNDARYPOINTS) {
+			Debug.Log ("Not allowed to have less boundary points!");
+			return;
+		}
+
+		if (!boundaryPoints.Contains (point))
+			return;
+
+		var index = boundaryPoints.IndexOf (point);
+
+		var bP = boundaryPoints [index];
+		var bL = boundaryLines [index];
+
+		//Store second boundary point transform
+		var second = bL.GetComponent<BoundaryLineBehaviour> ().second;
+
+		//Remove and destroy object and references
+		boundaryPoints.Remove (bP);
+		boundaryLines.Remove (bL);
+
+		GameObject.Destroy (bP);
+		GameObject.Destroy (bL);
+
+		bP = null;
+		bL = null;
+
+		//Update line which had point as second
+		UpdateLineSecond (index - 1, second);
+
+
+	}
+
+	private void UpdateLineSecond(int index, Transform newSecond){
+		//Wrap around index
+		if (index < 0) {
+			index = boundaryLines.Count - 1;
+		}
+		var bL = boundaryLines [index];
+		bL.GetComponent<BoundaryLineBehaviour> ().second = newSecond;
+
+
 	}
 
 	void InitQuad(){

@@ -17,10 +17,17 @@ public class BoundaryPointBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+
 	}
 
-	void OnMouseEnter(){
-		Debug.Log ("Enter Handle");
+	void OnMouseOver(){
+	
+
+		if (Input.GetKey (KeyCode.D)) {
+			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().RemoveBoundaryPoint(gameObject);
+		}
+
 	}
 
 	void OnMouseDrag() {
@@ -34,17 +41,5 @@ public class BoundaryPointBehaviour : MonoBehaviour {
 		}else {
 			Debug.Log ("RAY missed modelplane");
 		}
-		//float xPos = gameObject.transform.position.x;
-		//float yPos = gameObject.transform.position.x;
-
-		//float dX = Input.GetAxis ("Mouse X") * speedX;
-		//float dY = Input.GetAxis ("Mouse Y") * speedY;
-
-
-		//gameObject.transform.Translate (new Vector3 (dX, dY, 0f));
-		//gameObject.transform.position.x += Input.GetAxis("Mouse X");
-		//gameObject.transform.position.y += Input.GetAxis ("Mouse Y");
-
-
 	}
 }

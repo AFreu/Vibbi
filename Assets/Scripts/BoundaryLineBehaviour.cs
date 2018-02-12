@@ -15,7 +15,7 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (first == null || second == null)
@@ -27,8 +27,7 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 	}
 
 	void OnMouseOver(){
-		if (Input.GetMouseButtonUp (1)) {
-			Debug.Log ("RightClick");
+		if (Input.GetKey (KeyCode.A)) {
 			int layerMask = 1 << 8;
 			RaycastHit hit;
 
