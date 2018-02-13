@@ -368,8 +368,6 @@ public class DeformManager : MonoBehaviour {
 
         foreach(DeformBody body in deformables)
         {
-            Debug.Log("hittade en kropp!");
-            Debug.Log(body.meshVertices[0]);
 
             int id = CreateDeformableObject(body.meshVertices, body.mesh.uv, (uint)body.mesh.vertices.Length, body.mesh.triangles,
                                             (uint)body.mesh.triangles.Length / 3, body.transform.position, body.GetRotation(),
@@ -653,5 +651,17 @@ public class DeformManager : MonoBehaviour {
     {
         mouseCursorInGUI = false;
         mouseOrbit.SetActive(true);
+    }
+
+
+    //###########################
+    public void CreateNewDeformableObject(DeformBody body, Vector3 location)
+    {
+        int id = CreateDeformableObject(body.meshVertices, body.mesh.uv, (uint)body.mesh.vertices.Length, body.mesh.triangles,
+                                            (uint)body.mesh.triangles.Length / 3, location, body.GetRotation(),
+                                            body.distanceStiffness, body.bendingStiffness);
+        body.SetId(id);
+
+        StartSimulation();
     }
 }

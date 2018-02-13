@@ -26,10 +26,7 @@ public class DeformCloth : DeformBody {
 
     protected override void Start()
     {
-        Debug.Log("malinlog:: starting piece of cloth");
         base.Start();
-
-        Debug.Log("malinlog:: finishing piece of cloth");
     }
     
     void OnDestroy()
@@ -44,14 +41,14 @@ public class DeformCloth : DeformBody {
         
         size.x = Mathf.Max(0.1f, size.x);
         size.y = Mathf.Max(0.1f, size.y);
-
+        
         resolution = Math.Max(Math.Min(resolution, MAX_RESOLUTION), MIN_RESOLUTION);
 
         //#Malin: for simulating while modeling
         InitMeshComponents();
 
 
-        if (!size.Equals(oldSize) || resolution != oldResolution)
+        if (!size.Equals(oldSize) || resolution != oldResolution) //if we changed the size or resolution
         {
             RebuildMesh();
 
@@ -85,6 +82,8 @@ public class DeformCloth : DeformBody {
         }
 
         MeshUtils.CreateClothMesh(size, resolution, mesh);
+
+        Debug.Log(mesh.vertices.Length);
         
         ResetColorBuffers();
         
@@ -96,6 +95,8 @@ public class DeformCloth : DeformBody {
 
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer>().material = material;
+
+       // UpdateMesh(mesh.vertices, mesh.normals);
     }
 
     void SendClothToVivace()
@@ -127,6 +128,10 @@ public class DeformCloth : DeformBody {
     //#Malin: so we can set size during run time
     public void SetSize(float x, float y)
     {
+        if (!(size == null))
+        {
+            oldSize = size;
+        }
         size.x = x;
         size.y = y;
         this.OnValidate();
@@ -137,4 +142,11 @@ public class DeformCloth : DeformBody {
         this.material = material;
         this.OnValidate();
     }
+
+    public void UseReset()
+    {
+        Reset();
+    }
+
+
 }

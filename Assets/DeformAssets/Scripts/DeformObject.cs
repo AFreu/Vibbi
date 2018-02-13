@@ -103,6 +103,8 @@ public class DeformObject : DeformBody {
         return base.GetRotation();
     }
 
+
+    //#Malin:: functions to allow simulation of a model created during runtime
     public void SetMesh(Mesh mesh)
     {
         if(!(originalMesh == null))
@@ -117,5 +119,10 @@ public class DeformObject : DeformBody {
     {
         this.material = material;
         this.OnValidate();
+    }
+
+    public void SetRotation(float degrees)
+    {
+
     }
 }

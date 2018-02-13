@@ -11,6 +11,11 @@ public class Test_DeformManager : MonoBehaviour
     public GameObject pieceOfCloth;
 
     public Mesh meshForDeformObject;
+    public GameObject cubeCollider;
+
+
+    private DeformCloth dc;
+
 
     public void MakePrefabCloth()
     {
@@ -21,8 +26,8 @@ public class Test_DeformManager : MonoBehaviour
     {
         GameObject go = new GameObject("A piece of cloth");
 
-        DeformCloth dc = go.AddComponent<DeformCloth>();
-        dc.SetSize(2, 3);
+        dc = go.AddComponent<DeformCloth>();
+        dc.SetSize(2, 2);
         dc.SetMaterial(garmentMaterial);
 
         deformManager.Reset();
@@ -39,5 +44,18 @@ public class Test_DeformManager : MonoBehaviour
 
 
         deformManager.Reset();
+    }
+
+
+    //for now, changing the size
+    public void UpdateClothMesh()
+    {
+        dc.SetSize(2, 3);
+        //dc.UseReset();
+
+        //figure out location:: location of cube?
+        Vector3 location = cubeCollider.transform.position;
+
+        deformManager.CreateNewDeformableObject(dc, location); //doesnt work very well
     }
 }
