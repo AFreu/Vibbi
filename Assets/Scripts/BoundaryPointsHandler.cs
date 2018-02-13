@@ -76,8 +76,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var lineBehaviour = boundaryLines[index].GetComponent<BoundaryLineBehaviour> ();
 
 		//Create new point and line
-		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, gameObject.transform) as GameObject;
-		GameObject newLine = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
+		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, cloth.transform) as GameObject;
+		GameObject newLine = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
 
 		//Store current line's second point reference
 		var secondPointTransform = lineBehaviour.second;
