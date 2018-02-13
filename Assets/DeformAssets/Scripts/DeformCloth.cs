@@ -26,7 +26,10 @@ public class DeformCloth : DeformBody {
 
     protected override void Start()
     {
+        Debug.Log("malinlog:: starting piece of cloth");
         base.Start();
+
+        Debug.Log("malinlog:: finishing piece of cloth");
     }
     
     void OnDestroy()
@@ -37,6 +40,10 @@ public class DeformCloth : DeformBody {
 
     void OnValidate()
     {
+
+        //#Malin: for simulating while modeling
+        InitMeshComponents();
+
         size.x = Mathf.Max(0.1f, size.x);
         size.y = Mathf.Max(0.1f, size.y);
 

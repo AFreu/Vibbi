@@ -60,6 +60,7 @@ public class DeformObject : DeformBody {
     public void Build()
     {
         base.Reset();
+        //RebuildMesh();
     }
     
     unsafe void RebuildMesh()

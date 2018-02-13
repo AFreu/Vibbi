@@ -10,6 +10,7 @@ public class GarmentHandler : MonoBehaviour {
     private DeformObject deformObject;
 
     public Material garmentMaterial;
+    public DeformManager deformManager;
 
 	// Use this for initialization
 	void Start () {
@@ -24,21 +25,24 @@ public class GarmentHandler : MonoBehaviour {
     public void LoadCloth(GameObject o)
     {
         cloth = new GameObject("Garment");
-        deformObject = cloth.AddComponent<DeformObject>();
+        deformObject = cloth.AddComponent<DeformObject>() as DeformObject;
         
-        Mesh mesh = Mesh.Instantiate(o.GetComponent<MeshFilter>().sharedMesh);
+        Mesh mesh = Mesh.Instantiate(o.GetComponent<MeshFilter>().sharedMesh) as Mesh;
 
         
-        Debug.Log("Mesh" + mesh.vertices[0]);
+        //Debug.Log("Mesh" + mesh.vertices[0]);
         deformObject.material = garmentMaterial;
         deformObject.originalMesh = mesh;
 
+        //deformObject.Build();
+
+
         cloth.transform.parent = transform;
         cloth.transform.position = transform.position;
+
+
         //cloth = GameObject.Instantiate(o);
         //cloth.transform.position = transform.position;
-
-        deformObject.Build();
 
 
     }
@@ -47,7 +51,12 @@ public class GarmentHandler : MonoBehaviour {
     {
         if (cloth == null) return;
 
-        GameObject go = GameObject.Instantiate(cloth);
+        Instantiate(cloth, new Vector3(-0.09f, -0.01f, 4.6f), Quaternion.identity);
+
+       // deformManager.Reset();
+
+        //GameObject go = new GameObject("hej");
+        //go.AddComponent<DeformObject>();
 
     }
 }

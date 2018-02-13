@@ -143,6 +143,8 @@ public class DeformManager : MonoBehaviour {
         ResetSimulation();
         //SetGUIParameters(clothArr[0].distanceStiffness, clothArr[0].bendingStiffness);
         SetGUIParameters(0, 0);
+
+        Debug.Log("malinlog:: DeformManager start done");
     }
 
     unsafe void Update()
@@ -219,13 +221,18 @@ public class DeformManager : MonoBehaviour {
 
     void ResetSimulation()
     {
+
+        Debug.Log("Log:: Reset Simulation");
         InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
 
         SetGlobalParameters();
         InitDeformObjects();
 
         if (deformables.Length == 0) return;
-        
+
+
+        Debug.Log("Log:: Deformables > 0");
+
         StartSimulation();
 
         //Fixed particles
@@ -351,6 +358,8 @@ public class DeformManager : MonoBehaviour {
 
     void InitDeformObjects()
     {
+
+        Debug.Log("Log:: Init Deform Objects");
         objectArr = FindObjectsOfType<DeformObject>();
         clothArr = FindObjectsOfType<DeformCloth>();
         colliderArr = FindObjectsOfType(typeof(DeformCollider)) as DeformCollider[];
@@ -359,6 +368,9 @@ public class DeformManager : MonoBehaviour {
 
         foreach(DeformBody body in deformables)
         {
+            Debug.Log("hittade en kropp!");
+            Debug.Log(body.meshVertices[0]);
+
             int id = CreateDeformableObject(body.meshVertices, body.mesh.uv, (uint)body.mesh.vertices.Length, body.mesh.triangles,
                                             (uint)body.mesh.triangles.Length / 3, body.transform.position, body.GetRotation(),
                                             body.distanceStiffness, body.bendingStiffness);
@@ -564,6 +576,8 @@ public class DeformManager : MonoBehaviour {
     
     public void Reset()
     {
+
+        Debug.Log("Log:: Resetting");
         ShutdownDeformPlugin();
         ResetSimulation();
     }
