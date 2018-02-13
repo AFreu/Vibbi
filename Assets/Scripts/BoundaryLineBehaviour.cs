@@ -27,7 +27,7 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 	}
 
 	void OnMouseOver(){
-		if (Input.GetKey (KeyCode.A)) {
+		if (Input.GetKeyUp (KeyCode.A)) {
 			int layerMask = 1 << 8;
 			RaycastHit hit;
 
