@@ -31,7 +31,7 @@ public class Test_DeformManager : MonoBehaviour {
 
         //Instantiate(go, new Vector3(0, 2, 0), Quaternion.identity);
 
-        //deformManager.Reset();
+        deformManager.Reset();
 
 
     }
