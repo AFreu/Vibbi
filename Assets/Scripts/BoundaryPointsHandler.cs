@@ -9,11 +9,12 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	private List<GameObject> boundaryPoints = new List<GameObject> ();
 	private List<GameObject> boundaryLines = new List<GameObject> ();
 
+	public GameObject clothPrefab;
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
 
-	public Triangulator test;
-	public GameObject cloth;
+	public Triangulator triangulator;
+	private GameObject cloth;
     public GarmentHandler gH;
 
 	public bool autoTriangulate = false;
@@ -49,18 +50,18 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var holeCoords = new List<List<Vector2>> ();
 
 		foreach(GameObject o in boundaryPoints){
-			var t = o.transform.position;
+			var t = o.transform.localPosition;
 			coords.Add (new Vector2 (t.x, t.y));
 		}
 
 		Mesh mesh = cloth.GetComponent<MeshFilter>().sharedMesh;
 
-		test.Triangulate(mesh, coords, holeCoords);
+		triangulator.Triangulate(mesh, coords, holeCoords);
 
         cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
 
         gH.LoadCloth(cloth);
-        
+
        
     }
 
@@ -142,22 +143,19 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 
 	void InitQuad(){
+
+		cloth = Instantiate (clothPrefab, gameObject.transform) as GameObject;
+
 		//Instantiate boundary
-		GameObject o1 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
-		GameObject o2 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
-		GameObject o3 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
-		GameObject o4 = Instantiate (boundaryPointPrefab, gameObject.transform) as GameObject;
-
-        GameObject o5 = Instantiate(boundaryPointPrefab, gameObject.transform) as GameObject;
-
+		GameObject o1 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
+		GameObject o2 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
+		GameObject o3 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
+		GameObject o4 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
 
         o1.transform.Translate (new Vector3 (0.6f, 0.6f, 0.0f));
 		o2.transform.Translate (new Vector3 (-0.6f, 0.6f, 0.0f));
 		o3.transform.Translate (new Vector3 (-0.6f, -0.6f, 0.0f));
 		o4.transform.Translate (new Vector3 (0.6f, -0.6f, 0.0f));
-
-        o5.transform.Translate(new Vector3(1.6f, -1.6f, 0.0f));
-
 
         //0
         boundaryPoints.Add(o1);
@@ -169,12 +167,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryPoints.Add (o4);
         //4
 
-        //boundaryPoints.Add(o5);
-
-        GameObject l1 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
-		GameObject l2 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
-		GameObject l3 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
-		GameObject l4 = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
+        GameObject l1 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
+		GameObject l2 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
+		GameObject l3 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
+		GameObject l4 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
 
 		var lb1 = l1.GetComponent<BoundaryLineBehaviour> ();
 		lb1.first = o1.transform;
@@ -196,6 +192,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryLines.Add (l2);
 		boundaryLines.Add (l3);
 		boundaryLines.Add (l4);
+
 
 	}
 
