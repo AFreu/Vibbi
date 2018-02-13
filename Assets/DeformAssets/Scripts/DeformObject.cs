@@ -39,6 +39,8 @@ public class DeformObject : DeformBody {
 
     void OnValidate()
     {
+        InitMeshComponents();
+
         if(!originalMesh.Equals(oldMesh))
         {
             RebuildMesh();
@@ -99,5 +101,21 @@ public class DeformObject : DeformBody {
     public override Vector4 GetRotation()
     {
         return base.GetRotation();
+    }
+
+    public void SetMesh(Mesh mesh)
+    {
+        if(!(originalMesh == null))
+        {
+            oldMesh = originalMesh;
+        }
+        originalMesh = mesh;
+        this.OnValidate();
+    }
+
+    public void SetMaterial(Material material)
+    {
+        this.material = material;
+        this.OnValidate();
     }
 }

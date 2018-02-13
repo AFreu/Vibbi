@@ -10,6 +10,8 @@ public class Test_DeformManager : MonoBehaviour
 
     public GameObject pieceOfCloth;
 
+    public Mesh meshForDeformObject;
+
     public void MakePrefabCloth()
     {
         Instantiate(pieceOfCloth, new Vector3(0, 2, 0), Quaternion.identity);
@@ -19,16 +21,23 @@ public class Test_DeformManager : MonoBehaviour
     {
         GameObject go = new GameObject("A piece of cloth");
 
-        DeformCloth testDeformCloth = new DeformCloth();
-        testDeformCloth.size = new Vector2(2, 3);
-        testDeformCloth.material = garmentMaterial;
-
         DeformCloth dc = go.AddComponent<DeformCloth>();
         dc.SetSize(2, 3);
         dc.SetMaterial(garmentMaterial);
 
         deformManager.Reset();
+    }
+
+    public void MakeAPieceOfClothFromMesh()
+    {
+        GameObject go2 = new GameObject("A weird piece of cloth");
+
+        DeformObject deformObject = go2.AddComponent<DeformObject>();
+
+        deformObject.SetMesh(meshForDeformObject);
+        deformObject.SetMaterial(garmentMaterial);
 
 
+        deformManager.Reset();
     }
 }
