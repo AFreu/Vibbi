@@ -41,13 +41,15 @@ public class DeformCloth : DeformBody {
     void OnValidate()
     {
 
-        //#Malin: for simulating while modeling
-        InitMeshComponents();
-
+        
         size.x = Mathf.Max(0.1f, size.x);
         size.y = Mathf.Max(0.1f, size.y);
 
         resolution = Math.Max(Math.Min(resolution, MAX_RESOLUTION), MIN_RESOLUTION);
+
+        //#Malin: for simulating while modeling
+        InitMeshComponents();
+
 
         if (!size.Equals(oldSize) || resolution != oldResolution)
         {
@@ -120,5 +122,19 @@ public class DeformCloth : DeformBody {
     public override Vector4 GetRotation()
     {
         return base.GetRotation();
+    }
+
+    //#Malin: so we can set size during run time
+    public void SetSize(float x, float y)
+    {
+        size.x = x;
+        size.y = y;
+        this.OnValidate();
+    }
+
+    public void SetMaterial(Material material)
+    {
+        this.material = material;
+        this.OnValidate();
     }
 }
