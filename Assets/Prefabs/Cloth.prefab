@@ -24,9 +24,10 @@ GameObject:
   - component: {fileID: 23468158768576462}
   - component: {fileID: 114728033519377216}
   - component: {fileID: 114171948724535794}
+  - component: {fileID: 114967424686839776}
   m_Layer: 0
   m_Name: Cloth
-  m_TagString: Untagged
+  m_TagString: Cloth
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,3 +126,14 @@ MonoBehaviour:
   speedX: 0
   speedY: 0
   highlightMaterial: {fileID: 0}
+--- !u!114 &114967424686839776
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439684478429570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1cb22a0c2a214bcfaf5c2d4810ca4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

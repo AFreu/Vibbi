@@ -6,12 +6,13 @@ public class ClothModelHandler : MonoBehaviour {
 
 	public GameObject clothModelPrefab;
 
+	private List<GameObject> clothModels = new List<GameObject> ();
+
 	// Use this for initialization
 	void Start () {
-
-		GameObject o1 = Instantiate (clothModelPrefab) as GameObject;
+		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyUp (KeyCode.C)){
@@ -20,7 +21,38 @@ public class ClothModelHandler : MonoBehaviour {
 	}
 
 	void AddClothModel(Vector3 position){
-		GameObject o = Instantiate (clothModelPrefab) as GameObject;
+		GameObject o = Instantiate (clothModelPrefab, transform) as GameObject;
 		o.transform.Translate (position);
+		o.GetComponent<BoundaryPointsHandler> ().InitQuad ();
+		clothModels.Add (o);
 	}
+
+	public void RemoveClothModel(GameObject clothModel){
+
+		clothModels.Remove (clothModel);
+		GameObject.Destroy (clothModel);
+		
+	}
+
+	public void CopyClothModel(GameObject clothModel, Vector3 position){
+
+		GameObject o = Instantiate (clothModel, transform);
+		o.GetComponent<BoundaryPointsHandler> ().InitCopy ();
+		o.transform.Translate (position);
+		clothModels.Add (o);
+
+	}
+
+	public void TriangulateModels()
+	{
+		foreach(GameObject o in clothModels){
+			o.GetComponent<BoundaryPointsHandler> ().TriangulateModel ();
+		}	
+	}
+
+
+
+
+
+
 }
