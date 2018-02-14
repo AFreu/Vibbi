@@ -73,9 +73,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
        
     }
 
-	public void AddBoundaryPoint(GameObject line, Vector3 position){
+	public GameObject AddBoundaryPoint(GameObject line, Vector3 position){
 		if (!boundaryLines.Contains (line)) {
-			return;
+			return null;
 		}
 			
 		int index = boundaryLines.IndexOf (line);
@@ -108,6 +108,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		newPoint.transform.SetSiblingIndex (index + 1);
 		boundaryLines.Insert (index + 1, newLine);
 		newLine.transform.SetSiblingIndex (boundaryPoints.Count + index + 1);
+
+		return newPoint;
 
         
 	}
@@ -254,8 +256,58 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
-	/*
+	public void Unfold(GameObject line){
+		if (!boundaryLines.Contains (line))
+			return;
 
+		//Store position and direction of line since it is changing when we add a new point to it
+		var lineBehaviour = line.GetComponent<BoundaryLineBehaviour> ();
+		var lineOrigin = lineBehaviour.first.transform.position;
+		var end = lineBehaviour.second.transform.position;
+		var lineDirection = end - lineOrigin;
+
+		/*Debug.Log ("Start: " +start);
+		Debug.Log ("Start: " +end);
+		Debug.Log ("Offset: " +offset);
+		Debug.Log ("Normalized: " +offset.normalized);*/
+
+		//Make a list containing position of all points except the ones the line is attached to (index && index + 1).
+		List<Vector3> positions = new List<Vector3> ();
+		var index = boundaryLines.IndexOf (line);
+		int count = boundaryPoints.Count;	
+		for (int i = 0; i < count - 2; i++) {
+			/*It is important that the points are ordered, 
+			 * starting with the one closest to the end of the line (index + 1)
+			 * and ending with the one closest to the start of the line (index).
+			 * This way ALL the points can be added to the same line, even though new lines are created each time.
+			*/
+			positions.Add(boundaryPoints [(index + 2 + i) % count].transform.position); 
+		}
+
+		//Add a new boundary point to the line at each position and mirror it through the original line
+		foreach (Vector3 p in positions) {
+			var newPoint = AddBoundaryPoint (line, p);  
+			MirrorPosition(lineDirection.normalized, lineOrigin, newPoint);
+		}
+	}
+
+	public void MirrorPosition(Vector3 direction, Vector3 origin, GameObject point){
+
+		var position = point.transform.position;
+		var positionOnLine = origin + (direction * Vector3.Dot ((position - origin), direction) / Vector3.Dot (direction, direction));
+		var translationToLineFromPoint = (positionOnLine - position);
+
+		/*Debug.DrawLine (p1, p1 + v, Color.green, 100);
+		Debug.DrawLine (p1, p1 + d, Color.red, 100);
+		Debug.DrawLine (p, p + d, Color.cyan, 100);
+		Debug.DrawLine (p1, p1 + 2 * translation, Color.blue, 100);*/
+
+		//Move point twice in magnitude and direction of the translation to the line from the point
+		point.transform.position += 2 * translationToLineFromPoint;
+
+	}
+		
+	/*
 	private void setBoundary(List<GameObject> bPs, List<GameObject> bLs){
 		foreach (GameObject p in boundaryPoints) {
 			GameObject.Destroy (p);
