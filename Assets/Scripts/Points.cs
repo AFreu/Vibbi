@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Points : MonoBehaviour {
 
-	public Text outPut;
+	//public Text outPut;
 
 	public List<Vector2> points;
 	public List<List<Vector2>> holes;
@@ -31,7 +31,7 @@ public class Points : MonoBehaviour {
 		holes = new List<List<Vector2>> ();
 
 
-		outPut.text = "Hej hallå!!!! ";
+		//outPut.text = "Hej hallå!!!! ";
 	}
 	
 	// Update is called once per frame
