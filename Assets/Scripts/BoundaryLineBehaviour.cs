@@ -8,7 +8,8 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 	public Transform second;
 
 	private Ray mousePositionRay;
-	private Vector3 unitVector;
+	public Vector3 unitVector;
+
 
 
 	// Use this for initialization
@@ -37,6 +38,8 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 			
 
 
+		}else if(Input.GetKeyUp(KeyCode.U)){
+			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
 		}
 	}
 
@@ -79,6 +82,10 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 		transform.position = position;
 		transform.right = offset;
 		transform.localScale = scale;
+	}
+
+	public Ray getRayRepresentation(){
+		return new Ray (new Vector3(first.position.x, first.position.y, first.position.z), new Vector3(unitVector.x, unitVector.y, unitVector.z));
 	}
 
 	/*public GameObject Copy(Transform parent){

@@ -73,9 +73,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
        
     }
 
-	public void AddBoundaryPoint(GameObject line, Vector3 position){
+	public GameObject AddBoundaryPoint(GameObject line, Vector3 position){
 		if (!boundaryLines.Contains (line)) {
-			return;
+			return null;
 		}
 			
 		int index = boundaryLines.IndexOf (line);
@@ -108,6 +108,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		newPoint.transform.SetSiblingIndex (index + 1);
 		boundaryLines.Insert (index + 1, newLine);
 		newLine.transform.SetSiblingIndex (boundaryPoints.Count + index + 1);
+
+		return newPoint;
 
         
 	}
@@ -254,8 +256,65 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
-	/*
+	public void Unfold(GameObject line){
+		if (!boundaryLines.Contains (line))
+			return;
 
+		var lineBehaviour = line.GetComponent<BoundaryLineBehaviour> ();
+		var start = lineBehaviour.first.transform.position;
+		var end = lineBehaviour.second.transform.position;
+		var offset = end - start;
+
+
+
+		Debug.Log ("Start: " +start);
+		Debug.Log ("Start: " +end);
+		Debug.Log ("Offset: " +offset);
+		Debug.Log ("Normalized: " +offset.normalized);
+		//Ray ray = line.GetComponent<BoundaryLineBehaviour> ().getRayRepresentation ();
+
+		//Debug.DrawLine (start, end, Color.cyan, 100);
+
+		//Debug.DrawRay (offset, start, Color.cyan, 100);
+
+		var index = boundaryLines.IndexOf (line);
+
+		Debug.Log ("index: " + index);
+		GameObject point;
+		if (index - 1 < 0) {
+			point = boundaryPoints [boundaryPoints.Count-1];
+		}else{
+			point = boundaryPoints [index - 1];	
+		}
+			
+		var newPoint = AddBoundaryPoint (line, point.transform.position);  
+		MirrorPosition(offset.normalized, start, newPoint);
+	}
+
+	public void MirrorPosition(Vector3 direction, Vector3 origin, GameObject point){
+
+		var p1 = point.transform.position;
+		var p = origin;
+
+		var d = direction;
+		var v = p - p1;
+
+		var pl = p + (d * Vector3.Dot (v, d) / Vector3.Dot (d, d));
+
+		Debug.DrawLine (p1, p1 + v, Color.green, 100);
+
+		var translation = (pl - p1);
+
+		Debug.DrawLine (p1, p1 + d, Color.red, 100);
+		Debug.DrawLine (p, p + d, Color.cyan, 100);
+
+		Debug.DrawLine (p1, p1 + 2 * translation, Color.blue, 100);
+
+		point.transform.position += 2 * translation;
+
+	}
+		
+	/*
 	private void setBoundary(List<GameObject> bPs, List<GameObject> bLs){
 		foreach (GameObject p in boundaryPoints) {
 			GameObject.Destroy (p);
