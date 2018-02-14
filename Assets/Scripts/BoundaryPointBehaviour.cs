@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryPointBehaviour : MonoBehaviour, ICopyable<GameObject> {
+public class BoundaryPointBehaviour : MonoBehaviour{
 
 	private Ray mousePositionRay;
 
@@ -37,10 +37,10 @@ public class BoundaryPointBehaviour : MonoBehaviour, ICopyable<GameObject> {
 		}
 	}
 
-	public GameObject Copy(Transform parent){
+	/*public GameObject Copy(Transform parent){
 		GameObject copy = Instantiate (gameObject, parent) as GameObject;
 		copy.transform.position = transform.position;
 
 		return copy;
-	}
+	}*/
 }

@@ -47,7 +47,7 @@ public class GarmentHandler : MonoBehaviour {
     {
         if (cloth == null) return;
 
-        GameObject go = GameObject.Instantiate(cloth);
+        GameObject.Instantiate(cloth);
 
     }
 }
