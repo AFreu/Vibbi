@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryPointBehaviour : MonoBehaviour {
-
-	public float speedX;
-	public float speedY;
+public class BoundaryPointBehaviour : MonoBehaviour{
 
 	private Ray mousePositionRay;
 
@@ -17,13 +14,10 @@ public class BoundaryPointBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-
-
 	}
 
 	void OnMouseOver(){
-	
-
+		
 		if (Input.GetKeyUp (KeyCode.D)) {
 			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().RemoveBoundaryPoint(gameObject);
 		}
@@ -42,4 +36,11 @@ public class BoundaryPointBehaviour : MonoBehaviour {
 			Debug.Log ("RAY missed modelplane");
 		}
 	}
+
+	/*public GameObject Copy(Transform parent){
+		GameObject copy = Instantiate (gameObject, parent) as GameObject;
+		copy.transform.position = transform.position;
+
+		return copy;
+	}*/
 }

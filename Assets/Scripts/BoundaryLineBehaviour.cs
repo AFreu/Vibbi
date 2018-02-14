@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryLineBehaviour : MonoBehaviour {
+public class BoundaryLineBehaviour : MonoBehaviour{
 
 	public Transform first;
 	public Transform second;
@@ -80,4 +80,13 @@ public class BoundaryLineBehaviour : MonoBehaviour {
 		transform.right = offset;
 		transform.localScale = scale;
 	}
+
+	/*public GameObject Copy(Transform parent){
+		GameObject copy = Instantiate (gameObject, parent) as GameObject;
+		copy.transform.position = transform.position;
+		copy.transform.rotation = transform.rotation;
+		copy.transform.localScale = transform.localScale;
+
+		return copy;
+	}*/
 }

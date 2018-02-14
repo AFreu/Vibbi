@@ -9,13 +9,13 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	private List<GameObject> boundaryPoints = new List<GameObject> ();
 	private List<GameObject> boundaryLines = new List<GameObject> ();
 
+	private GameObject cloth;
+
 	public GameObject clothPrefab;
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
 
 	public Triangulator triangulator;
-	private GameObject cloth;
-    public GarmentHandler gH;
 
 	public bool autoTriangulate = false;
     
@@ -25,7 +25,6 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	void Start () {
 
         save = false;
-		InitQuad ();
 
 	}
 	
@@ -46,6 +45,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	public void TriangulateModel() {
 
+		//Debug.Log ("Triangulate Model");
+
 		var coords = new List<Vector2>();
 		var holeCoords = new List<List<Vector2>> ();
 
@@ -54,13 +55,20 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			coords.Add (new Vector2 (t.x, t.y));
 		}
 
+		//Debug.Log ("Number of coords: " + coords.Count);
+
+		if (cloth == null)
+			Debug.Log ("Cloth is null");
+
 		Mesh mesh = cloth.GetComponent<MeshFilter>().sharedMesh;
+
+		if (mesh == null)
+			Debug.Log ("Mesh is null");
 
 		triangulator.Triangulate(mesh, coords, holeCoords);
 
         cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
 
-        gH.LoadCloth(cloth);
 
        
     }
@@ -76,8 +84,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var lineBehaviour = boundaryLines[index].GetComponent<BoundaryLineBehaviour> ();
 
 		//Create new point and line
-		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, gameObject.transform) as GameObject;
-		GameObject newLine = Instantiate (boundaryLinePrefab, gameObject.transform) as GameObject;
+		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, cloth.transform) as GameObject;
+		GameObject newLine = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
+
 
 		//Store current line's second point reference
 		var secondPointTransform = lineBehaviour.second;
@@ -93,8 +102,13 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		//Set new line's second point to the stored second point reference
 		newLineBehaviour.second = secondPointTransform;
 
+		//Add new point and line to lists
+		//Make sure the child hierarchy has the same order as the lists
 		boundaryPoints.Insert (index + 1, newPoint);
+		newPoint.transform.SetSiblingIndex (index + 1);
 		boundaryLines.Insert (index + 1, newLine);
+		newLine.transform.SetSiblingIndex (boundaryPoints.Count + index + 1);
+
         
 	}
 
@@ -142,8 +156,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
-	void InitQuad(){
+	public void InitQuad(){
 
+		Debug.Log ("InitQuad!");
 		cloth = Instantiate (clothPrefab, gameObject.transform) as GameObject;
 
 		//Instantiate boundary
@@ -203,6 +218,143 @@ public class BoundaryPointsHandler : MonoBehaviour {
         //Debug.Log(GetComponent<MeshFilter>().sharedMesh.vertices[0]);
         //ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
     }
+
+	public void Remove(){
+		gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveClothModel(gameObject);
+	}
+
+	//Probably some nicer way to implement this
+	public void Duplicate(){
+		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.zero);
+	}
+
+
+	public void InitCopy(){
+		Debug.Log ("InitCopy");
+		boundaryPoints.Clear ();
+		boundaryLines.Clear ();
+
+		var clothTransform = transform.GetChild (0);
+
+		Debug.Log ("Adding Cloth");
+		cloth = clothTransform.gameObject;
+
+		foreach (Transform t in clothTransform) {
+			switch (t.tag) {
+			case "BoundaryLine":
+				Debug.Log ("Adding BoundaryLine");
+				boundaryLines.Add (t.gameObject);
+				break;
+			case "BoundaryPoint":
+				Debug.Log ("Adding BoundaryPoint");
+				boundaryPoints.Add (t.gameObject);
+				break;
+			}
+		}
+
+	}
+
+	/*
+
+	private void setBoundary(List<GameObject> bPs, List<GameObject> bLs){
+		foreach (GameObject p in boundaryPoints) {
+			GameObject.Destroy (p);
+		}
+
+		foreach (GameObject l in boundaryLines) {
+			GameObject.Destroy (l);
+		}
+
+		boundaryPoints = null;
+		boundaryLines = null;
+
+		this.boundaryPoints = bPs;
+		this.boundaryLines = bLs;
+	}
+
+	public void setCloth(){
+		//var temp = cloths [0];
+
+		GameObject cloth = Instantiate (clothPrefab, gameObject.transform) as GameObject;
+		cloths.Add(cloth);
+		//cloths.Remove (temp);
+		foreach (Transform t in transform) {
+			if (t.tag != "Cloth") {
+				t.parent = cloth.transform;
+			}
+		}
+
+		//GameObject.Destroy (temp);
+		//temp = null;
+
+
+		//cloths.Add (cloth);
+
+	}
+		
+
+	public GameObject Copy(Transform parent){
+		
+
+		//Deep copy list of boundary points and lines
+		List<GameObject> bPList = new List<GameObject> ();
+		List<GameObject> bLList = new List<GameObject> ();
+
+		var newCloth = Instantiate (clothPrefab, transform) as GameObject;
+
+		var newFirst = boundaryLines [0].GetComponent<BoundaryLineBehaviour> ().first.gameObject;
+		//var newFirstCopy = newFirst.GetComponent<BoundaryPointBehaviour>().Copy (transform);
+		var newFirstCopy = Instantiate(boundaryPointPrefab, newCloth.transform);
+		copyPoint (newFirst, newFirstCopy);
+
+		for (int i = 0; i < boundaryLines.Count; i++) {
+
+			bPList.Add (newFirstCopy);
+
+			var lineBehaviour = boundaryLines [i].GetComponent<BoundaryLineBehaviour>();
+
+
+			//var f = lineBehaviour.first.gameObject.GetComponent<BoundaryPointBehaviour>().Copy();
+			var f = newFirstCopy;
+			//var s = lineBehaviour.second.gameObject.GetComponent<BoundaryPointBehaviour>().Copy(transform);
+			var s = Instantiate(boundaryPointPrefab, newCloth.transform);
+			copyPoint (lineBehaviour.second.gameObject, s);
+
+			newFirstCopy = s;
+
+			//var lineCopy = lineBehaviour.Copy (transform);
+			var lineCopy = Instantiate(boundaryLinePrefab, newCloth.transform);
+			copyLine (boundaryLines [i], lineCopy);
+
+			var lineCopyBehaviour = lineCopy.GetComponent<BoundaryLineBehaviour> ();
+
+			lineCopyBehaviour.first = f.transform;
+			lineCopyBehaviour.second = s.transform;
+
+			bLList.Add (lineCopy);
+
+		}
+
+
+		GameObject copy = Instantiate (gameObject, parent) as GameObject;
+		var copyBehaviour = copy.GetComponent<BoundaryPointsHandler> ();
+
+		copyBehaviour.setBoundary (bPList, bLList);
+
+		return copy;
+
+	}
+
+
+	void copyLine(GameObject line, GameObject copy){
+		copy.transform.position = line.transform.position;
+		copy.transform.rotation = line.transform.rotation;
+		copy.transform.localScale = line.transform.localScale;
+	}
+
+	void copyPoint(GameObject point, GameObject copy){
+		copy.transform.position = point.transform.position;
+	}*/
 
 
 		

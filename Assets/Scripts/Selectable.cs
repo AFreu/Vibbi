@@ -60,5 +60,9 @@ public class Selectable : MonoBehaviour {
 			GetComponent<Renderer> ().material = normalMaterial;
 		}
 	}
+
+	public bool isSelected(){
+		return selected;
+	}
 		
 }

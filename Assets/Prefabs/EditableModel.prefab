@@ -59,5 +59,4 @@ MonoBehaviour:
     type: 2}
   triangulator: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
     type: 2}
-  gH: {fileID: 0}
-  autoTriangulate: 1
+  autoTriangulate: 0
