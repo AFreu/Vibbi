@@ -39,6 +39,8 @@ public class DeformObject : DeformBody {
 
     void OnValidate()
     {
+        InitMeshComponents();
+
         if(!originalMesh.Equals(oldMesh))
         {
             RebuildMesh();
@@ -60,6 +62,7 @@ public class DeformObject : DeformBody {
     public void Build()
     {
         base.Reset();
+        //RebuildMesh();
     }
     
     unsafe void RebuildMesh()
@@ -98,5 +101,28 @@ public class DeformObject : DeformBody {
     public override Vector4 GetRotation()
     {
         return base.GetRotation();
+    }
+
+
+    //#Malin:: functions to allow simulation of a model created during runtime
+    public void SetMesh(Mesh mesh)
+    {
+        if(!(originalMesh == null))
+        {
+            oldMesh = originalMesh;
+        }
+        originalMesh = mesh;
+        this.OnValidate();
+    }
+
+    public void SetMaterial(Material material)
+    {
+        this.material = material;
+        this.OnValidate();
+    }
+
+    public void SetRotation(float degrees)
+    {
+
     }
 }

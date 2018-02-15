@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
+  deformManager: {fileID: 0}
 --- !u!114 &114738996091809866
 MonoBehaviour:
   m_ObjectHideFlags: 1

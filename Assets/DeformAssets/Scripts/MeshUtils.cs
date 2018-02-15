@@ -20,6 +20,7 @@ public class MeshUtils : MonoBehaviour {
         yRes = Mathf.Max(size.x, size.y) == size.y ? res : (uint)(res * (size.y / size.x));
 
         numVertices = xRes * yRes;
+        Debug.Log(numVertices);
         numIndices = (xRes - 1) * (yRes - 1) * 6;
     }
 
@@ -35,6 +36,8 @@ public class MeshUtils : MonoBehaviour {
         uint numVertices, numIndices, xRes, yRes;
 
         mesh.Clear();
+        Debug.Log("MeshUtils:: mesh is cleared");
+        Debug.Log("Size is "+ size);
         GetPatchInfo(size, resolution, out numVertices, out numIndices, out xRes, out yRes);
 
         Vector3[] vertices = new Vector3[numVertices];
@@ -74,8 +77,8 @@ public class MeshUtils : MonoBehaviour {
         mesh.uv = uvs;
         mesh.triangles = triangles;
 
-        mesh.RecalculateTangents();
-        mesh.RecalculateBounds();
+        //mesh.RecalculateTangents();
+        //mesh.RecalculateBounds();
     }
 
     public static void CreateParticles(DeformBody body, int layer, out Mesh[] meshes)

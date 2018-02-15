@@ -15,6 +15,7 @@ public class DeformBody : MonoBehaviour {
     public GameObject attachTo;
 
     [HideInInspector] public int id;
+
     [HideInInspector] public Mesh mesh;
 
     [HideInInspector] public Vector3[] meshVertices;
@@ -126,16 +127,18 @@ public class DeformBody : MonoBehaviour {
         #endif
     }
 
-    void InitMeshComponents()
+    public void InitMeshComponents()
     {
         if(!gameObject.GetComponent<MeshFilter>())
         {
-            gameObject.AddComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
+            gameObject.AddComponent<MeshFilter>();
+//            gameObject.AddComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
         }
 
         if(!gameObject.GetComponent<MeshRenderer>())
         {
-            gameObject.AddComponent<MeshRenderer>().hideFlags = HideFlags.HideInInspector;
+            gameObject.AddComponent<MeshRenderer>();
+//            gameObject.AddComponent<MeshRenderer>().hideFlags = HideFlags.HideInInspector;
         }
     }
 
