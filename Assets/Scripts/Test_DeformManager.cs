@@ -54,8 +54,13 @@ public class Test_DeformManager : MonoBehaviour
         //dc.UseReset();
 
         //figure out location:: location of cube?
+        //dc.transform
         Vector3 location = cubeCollider.transform.position;
+        location.y = location.y + 0.5f;
 
-        deformManager.CreateNewDeformableObject(dc, location); //doesnt work very well
+        Vector3 locationDC = dc.transform.position;
+        locationDC.y = locationDC.y + 0.5f;
+
+        deformManager.CreateNewDeformableObject(dc, locationDC); //doesnt work very well
     }
 }

@@ -654,7 +654,9 @@ public class DeformManager : MonoBehaviour {
     }
 
 
-    //###########################
+    //######################################
+    // MALIN PRÖVAR SAKER
+    //######################################s
     public void CreateNewDeformableObject(DeformBody body, Vector3 location)
     {
         int id = CreateDeformableObject(body.meshVertices, body.mesh.uv, (uint)body.mesh.vertices.Length, body.mesh.triangles,
