@@ -5,8 +5,10 @@ using UnityEngine;
 public class ClothModelHandler : MonoBehaviour {
 
 	public GameObject clothModelPrefab;
+    public Material garmentMaterial;
+    public DeformManager deformManager;
 
-	private List<GameObject> clothModels = new List<GameObject> ();
+    private List<GameObject> clothModels = new List<GameObject> ();
 
 	// Use this for initialization
 	void Start () {
@@ -49,6 +51,34 @@ public class ClothModelHandler : MonoBehaviour {
 			o.GetComponent<BoundaryPointsHandler> ().TriangulateModel ();
 		}	
 	}
+
+
+    public void Simulate()
+    {
+        GameObject go = new GameObject("A piece of cloth");
+        go.transform.parent = deformManager.transform.parent;
+        go.transform.localPosition = new Vector3(0,5,0);
+        go.transform.localRotation = Quaternion.AngleAxis(90,new Vector3(1,0,0));
+        DeformObject deformObject = go.AddComponent<DeformObject>();
+
+
+        Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
+
+        for (int i = 0; i<mesh.GetIndices(0).Length; i++)
+        {
+            Debug.Log(mesh.GetIndices(0)[i]);
+
+//            Debug.Log(mesh.GetIndices(0)[i]+" " + mesh.GetIndices(0)[i+1] +" "+ mesh.GetIndices(0)[i+2]);
+        }
+
+
+
+        deformObject.SetMesh(mesh);
+        deformObject.SetMaterial(garmentMaterial);
+
+
+        //deformManager.Reset();
+    }
 
 
 
