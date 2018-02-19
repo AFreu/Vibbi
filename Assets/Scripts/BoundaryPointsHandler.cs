@@ -225,7 +225,37 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryLines.Add (l3);
 		boundaryLines.Add (l4);
 
+	}
 
+	public void InitPolygon(Points points){
+
+		BoundaryLineBehaviour lb = null;
+
+		foreach (Vector2 p in points.points) {
+			//Make a new boundary point
+			GameObject o = Instantiate (boundaryPointPrefab, transform) as GameObject;
+			o.transform.Translate (new Vector3 (p.x, p.y, 0.0f));
+			boundaryPoints.Add (o);
+
+			//Make a new line
+			GameObject l = Instantiate (boundaryLinePrefab, transform) as GameObject;
+			boundaryLines.Add (l);
+			//Add this point as second to the previous line
+			if (lb != null) {
+				lb.second = o.transform;
+			}
+			//Get the new line behaviour
+			lb = l.GetComponent<BoundaryLineBehaviour> ();
+
+			//Add this point as first to the new line
+			lb.first = o.transform;
+
+		}
+
+		//Set last line's second point to be the first point of the set
+		lb.second = boundaryPoints [0].transform;
+			
+	
 	}
 
     public void saveMesh()
