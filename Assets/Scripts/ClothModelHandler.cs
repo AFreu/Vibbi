@@ -64,12 +64,12 @@ public class ClothModelHandler : MonoBehaviour {
 
         Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
 
-        for (int i = 0; i<mesh.GetIndices(0).Length; i++)
-        {
-            Debug.Log(mesh.GetIndices(0)[i]);
+       // for (int i = 0; i<mesh.GetIndices(0).Length; i++)
+        //{
+           // Debug.Log(mesh.GetIndices(0)[i]);
 
 //            Debug.Log(mesh.GetIndices(0)[i]+" " + mesh.GetIndices(0)[i+1] +" "+ mesh.GetIndices(0)[i+2]);
-        }
+//        }
 
 
 
@@ -77,7 +77,7 @@ public class ClothModelHandler : MonoBehaviour {
         deformObject.SetMaterial(garmentMaterial);
 
 
-        //deformManager.Reset();
+        deformManager.Reset();
     }
 
 

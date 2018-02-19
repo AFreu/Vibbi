@@ -7,7 +7,7 @@ public class DeformBody : MonoBehaviour {
 
     [Header("Behavior")]
     [Range(0, 1)]
-    public float distanceStiffness = 1;
+    public float distanceStiffness = 0.05f;
 
     [Range(0, 1)]
     public float bendingStiffness = 0.05f;
