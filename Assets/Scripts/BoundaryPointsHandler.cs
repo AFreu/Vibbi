@@ -9,9 +9,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	private List<GameObject> boundaryPoints = new List<GameObject> ();
 	private List<GameObject> boundaryLines = new List<GameObject> ();
 
-	private GameObject cloth;
+	private PolygonCollider2D polygonCollider;
 
-	public GameObject clothPrefab;
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
 
@@ -24,12 +23,14 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+		polygonCollider = GetComponent<PolygonCollider2D> ();
         save = false;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		HandleInput ();
 
 		if (autoTriangulate) {
 			TriangulateModel ();
@@ -39,8 +40,23 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		{
 			save = false;
 			Debug.Log("hej");
-			ObjExporter.MeshToFile(cloth.GetComponent<MeshFilter>(), "meshyoyo.obj");
+			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
+
+		UpdateCollider ();
+	}
+
+	void UpdateCollider(){
+		var array = new Vector2[boundaryPoints.Count];
+
+		//collider.points = boundaryPoints;
+
+		for (int i = 0; i < boundaryPoints.Count; i++) {
+			array [i] = new Vector2 (boundaryPoints [i].transform.localPosition.x, boundaryPoints [i].transform.localPosition.y);
+			//collider.points [0] = boundaryPoints [0].transform.localPosition;
+		}
+
+		polygonCollider.points = array;
 	}
 
 	public void TriangulateModel() {
@@ -57,19 +73,18 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 		//Debug.Log ("Number of coords: " + coords.Count);
 
-		if (cloth == null)
-			Debug.Log ("Cloth is null");
 
-		Mesh mesh = cloth.GetComponent<MeshFilter>().sharedMesh;
+
+		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
 
 		if (mesh == null)
 			Debug.Log ("Mesh is null");
 
 		triangulator.Triangulate(mesh, coords, holeCoords);
 
-        cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
+        //cloth.GetComponent<MeshCollider> ().sharedMesh = cloth.GetComponent<MeshFilter>().mesh;
 
-
+		GetComponent<MeshFilter>().sharedMesh = GetComponent<MeshFilter> ().mesh;
        
     }
 
@@ -84,8 +99,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var lineBehaviour = boundaryLines[index].GetComponent<BoundaryLineBehaviour> ();
 
 		//Create new point and line
-		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, cloth.transform) as GameObject;
-		GameObject newLine = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
+		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, transform) as GameObject;
+		GameObject newLine = Instantiate (boundaryLinePrefab, transform) as GameObject;
 
 
 		//Store current line's second point reference
@@ -161,13 +176,13 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public void InitQuad(){
 
 		Debug.Log ("InitQuad!");
-		cloth = Instantiate (clothPrefab, gameObject.transform) as GameObject;
+		//cloth = Instantiate (clothPrefab, gameObject.transform) as GameObject;
 
 		//Instantiate boundary
-		GameObject o1 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
-		GameObject o2 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
-		GameObject o3 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
-		GameObject o4 = Instantiate (boundaryPointPrefab, cloth.transform) as GameObject;
+		GameObject o1 = Instantiate (boundaryPointPrefab, transform) as GameObject;
+		GameObject o2 = Instantiate (boundaryPointPrefab, transform) as GameObject;
+		GameObject o3 = Instantiate (boundaryPointPrefab, transform) as GameObject;
+		GameObject o4 = Instantiate (boundaryPointPrefab, transform) as GameObject;
 
         o1.transform.Translate (new Vector3 (0.6f, 0.6f, 0.0f));
 		o2.transform.Translate (new Vector3 (-0.6f, 0.6f, 0.0f));
@@ -184,10 +199,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryPoints.Add (o4);
         //4
 
-        GameObject l1 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
-		GameObject l2 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
-		GameObject l3 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
-		GameObject l4 = Instantiate (boundaryLinePrefab, cloth.transform) as GameObject;
+        GameObject l1 = Instantiate (boundaryLinePrefab, transform) as GameObject;
+		GameObject l2 = Instantiate (boundaryLinePrefab, transform) as GameObject;
+		GameObject l3 = Instantiate (boundaryLinePrefab, transform) as GameObject;
+		GameObject l4 = Instantiate (boundaryLinePrefab, transform) as GameObject;
 
 		var lb1 = l1.GetComponent<BoundaryLineBehaviour> ();
 		lb1.first = o1.transform;
@@ -221,13 +236,24 @@ public class BoundaryPointsHandler : MonoBehaviour {
         //ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
     }
 
+	public void HandleInput(){
+	
+		if (GetComponent<Selectable> ().isSelected ()) {
+			if (Input.GetKeyUp(KeyCode.D) && Input.GetKey(KeyCode.LeftControl)) {
+				Duplicate();
+			} else if (Input.GetKeyUp (KeyCode.D)) {
+				Remove ();
+			}
+		}
+	}
+
 	public void Remove(){
 		gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveClothModel(gameObject);
 	}
 
 	//Probably some nicer way to implement this
 	public void Duplicate(){
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.zero);
+		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.one);
 	}
 
 
@@ -236,12 +262,12 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryPoints.Clear ();
 		boundaryLines.Clear ();
 
-		var clothTransform = transform.GetChild (0);
+		//var clothTransform = transform.GetChild (0);
 
-		Debug.Log ("Adding Cloth");
-		cloth = clothTransform.gameObject;
+		//Debug.Log ("Adding Cloth");
+		//cloth = clothTransform.gameObject;
 
-		foreach (Transform t in clothTransform) {
+		foreach (Transform t in transform) {
 			switch (t.tag) {
 			case "BoundaryLine":
 				Debug.Log ("Adding BoundaryLine");
