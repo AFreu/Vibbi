@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TriangleNet.Geometry;
 using TriangleNet.Meshing;
-
+using System;
 
 public class ConditionedTriangulator {
 
@@ -47,16 +47,29 @@ public class ConditionedTriangulator {
 				bool found = false;
 				for (int k = 0; k < outVertices.Count; k++) 
 				{
-					if((outVertices[k].x == t.GetVertex(j).X) && (outVertices[k].y == t.GetVertex(j).Y))
+
+                    //double absA = Math.Abs(outVertices[k].x);
+                    //double absB = Math.Abs((float)t.GetVertex(j).X);
+                    float diffX = Math.Abs(outVertices[k].x - (float)t.GetVertex(j).X);
+                    float diffY = Math.Abs(outVertices[k].y - (float)t.GetVertex(j).Y);
+
+                    float epsilon = 0.00001f;
+
+
+                    if ((diffX <= epsilon) && (diffY <= epsilon))
 					{
-						outIndices.Add(k);
+                        outIndices.Add(k);
 						found = true;
 						break;
 					}
 				}
 
 				if(!found){
-					outVertices.Add (new Vector3 ((float)t.GetVertex (j).X, (float)t.GetVertex (j).Y, 0));
+                    //Debug.Log("Not found:");
+                    //Debug.Log("Triangle vertex " + t.GetVertex(j).X);
+                    //Debug.Log("Triangle FLOAT vertex " + (float)t.GetVertex(j).X);
+                    
+                    outVertices.Add (new Vector3 ((float)t.GetVertex (j).X, (float)t.GetVertex (j).Y, 0));
 					outIndices.Add (outVertices.Count - 1);
 				}
 			}

@@ -20,7 +20,6 @@ public class MeshUtils : MonoBehaviour {
         yRes = Mathf.Max(size.x, size.y) == size.y ? res : (uint)(res * (size.y / size.x));
 
         numVertices = xRes * yRes;
-        Debug.Log(numVertices);
         numIndices = (xRes - 1) * (yRes - 1) * 6;
     }
 

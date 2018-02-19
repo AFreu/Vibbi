@@ -16,12 +16,6 @@ public class Test_DeformManager : MonoBehaviour
 
     private DeformCloth dc;
 
-
-    public void MakePrefabCloth()
-    {
-        Instantiate(pieceOfCloth, new Vector3(0, 2, 0), Quaternion.identity);
-    }
-
     public void MakeAPieceOfCloth()
     {
         GameObject go = new GameObject("A piece of cloth");
@@ -60,6 +54,7 @@ public class Test_DeformManager : MonoBehaviour
 
         Vector3 locationDC = dc.transform.position;
         locationDC.y = locationDC.y + 0.5f;
+        
 
         deformManager.CreateNewDeformableObject(dc, locationDC); //doesnt work very well
     }

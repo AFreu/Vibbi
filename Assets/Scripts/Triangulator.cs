@@ -58,7 +58,8 @@ public class Triangulator : MonoBehaviour {
 
 		mesh.Clear();
 		mesh.vertices = vertices.ToArray();
-		mesh.triangles = indices.ToArray();
+        
+        mesh.triangles = indices.ToArray();
 		//MeshUtility.Optimize(mesh);
 
 		//mesh.Optimize ();
@@ -106,7 +107,9 @@ public class Triangulator : MonoBehaviour {
 
 		mesh.Clear();
 		mesh.vertices = vertices.ToArray();
-		mesh.triangles = indices.ToArray();
+
+        
+        mesh.triangles = indices.ToArray();
 		//MeshUtility.Optimize(mesh);
 
 		//mesh.Optimize ();
@@ -137,7 +140,7 @@ public class Triangulator : MonoBehaviour {
 
 		m.Clear();
 		m.vertices = vertices.ToArray();
-		m.triangles = indices.ToArray();
+        m.triangles = indices.ToArray();
 		m.RecalculateNormals ();
 
 		Vector2[] uvs = new Vector2[m.vertices.Length];
