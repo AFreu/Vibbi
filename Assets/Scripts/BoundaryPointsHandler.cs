@@ -109,7 +109,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		actionManager.RecordAction (apa);
 	}
 
-	private GameObject ActivateBoundaryPoint (GameObject newPoint, GameObject line, Vector3 position){
+	public GameObject ActivateBoundaryPoint (GameObject newPoint, GameObject line, Vector3 position){
 		if (!boundaryLines.Contains (line)) {
 			return null;
 		}
@@ -141,7 +141,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 		
 
-	private GameObject AddBoundaryPoint(GameObject line, Vector3 position){
+	public GameObject AddBoundaryPoint(GameObject line, Vector3 position){
 		if (!boundaryLines.Contains (line)) {
 			return null;
 		}
@@ -190,8 +190,15 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		actionManager.RecordAction (rpa);
 	}
 
-	private GameObject DeactivateBoundaryPoint(GameObject point){
-	
+	public GameObject DeactivateBoundaryPoint(GameObject point){
+		if (boundaryPoints.Count <= MINIMUM_AMOUNT_BOUNDARYPOINTS) {
+			Debug.Log ("Not allowed to have less boundary points!");
+			return null;
+		}
+
+		if (!boundaryPoints.Contains (point))
+			return null;
+
 		var index = boundaryPoints.IndexOf (point);
 
 		var bP = boundaryPoints [index];
@@ -215,7 +222,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		return UpdateLineSecond (index - 1, second);
 	}
 
-	private GameObject RemoveBoundaryPoint(GameObject point){
+	public GameObject RemoveBoundaryPoint(GameObject point){
 		if (boundaryPoints.Count <= MINIMUM_AMOUNT_BOUNDARYPOINTS) {
 			Debug.Log ("Not allowed to have less boundary points!");
 			return null;
@@ -262,7 +269,6 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public void InitQuad(){
 
 		Debug.Log ("InitQuad!");
-		//cloth = Instantiate (clothPrefab, gameObject.transform) as GameObject;
 
 		//Instantiate boundary
 		GameObject o1 = Instantiate (boundaryPointPrefab, transform) as GameObject;
@@ -459,73 +465,4 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		point.transform.position += 2 * translationToLineFromPoint;
 
 	}
-		
-	private class AddPointAction : AbstractAction{
-	
-
-		public AddPointAction(BoundaryPointsHandler handler, GameObject line, Vector3 pos){
-			Debug.Log("Creating AddPointAction");
-			boundaryLine = line;
-			position = pos;
-			boundaryPointsHandler = handler;
-
-		}
-
-		public GameObject boundaryPoint { get; set; }
-		public GameObject boundaryLine { get; set; }
-		public Vector3 position { get; set;}
-		public BoundaryPointsHandler boundaryPointsHandler { get; set; }
-
-		protected override void ExecuteCore()
-		{
-			Debug.Log ("AP: ExecuteCore");
-			if (boundaryPoint == null) {
-				boundaryPoint = boundaryPointsHandler.AddBoundaryPoint (boundaryLine, position);
-			} else {
-				boundaryPointsHandler.ActivateBoundaryPoint (boundaryPoint, boundaryLine, position);
-			}
-
-			
-		}
-
-		protected override void UnExecuteCore()
-		{
-			Debug.Log ("AP: UnExecuteCore");
-			boundaryLine = boundaryPointsHandler.DeactivateBoundaryPoint (boundaryPoint);
-		}
-	
-	}
-
-	private class RemovePointAction : AbstractAction{
-
-
-		public RemovePointAction(BoundaryPointsHandler handler, GameObject point){
-			Debug.Log("Creating RemovePointAction");
-			boundaryPoint = point;
-			boundaryPointsHandler = handler;
-
-		}
-
-		public GameObject boundaryPoint { get; set; }
-		public GameObject boundaryLine { get; set; }
-		public Vector3 position { get; set;}
-		public BoundaryPointsHandler boundaryPointsHandler { get; set; }
-
-		protected override void ExecuteCore()
-		{
-			Debug.Log ("RP: ExecuteCore");
-			position = boundaryPoint.transform.position;
-			boundaryLine = boundaryPointsHandler.DeactivateBoundaryPoint (boundaryPoint);
-
-		}
-
-		protected override void UnExecuteCore()
-		{
-			Debug.Log ("RP: UnExecuteCore");
-			boundaryPoint = boundaryPointsHandler.ActivateBoundaryPoint (boundaryPoint, boundaryLine, position);
-
-		}
-
-	}
-		
 }
