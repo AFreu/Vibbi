@@ -374,24 +374,18 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyUp (KeyCode.Q)) {
-			Debug.Log ("Undo");
-			actionManager.Undo ();
-		}
 
-		if (Input.GetKeyUp (KeyCode.R)) {
-			Debug.Log ("Redo");
-			actionManager.Redo ();
-		}
 	}
 
 	public void Remove(){
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveClothModel(gameObject);
+		//gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveClothModel(gameObject);
+		gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
 	}
 
 	//Probably some nicer way to implement this
 	public void Duplicate(){
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.one);
+		//gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.one);
+		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, Vector3.one);
 	}
 
 
@@ -423,12 +417,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var lineBehaviour = line.GetComponent<BoundaryLineBehaviour> ();
 		var lineOrigin = lineBehaviour.first.transform.position;
 		var end = lineBehaviour.second.transform.position;
-		var lineDirection = end - lineOrigin;
-
-		/*Debug.Log ("Start: " +start);
-		Debug.Log ("Start: " +end);
-		Debug.Log ("Offset: " +offset);
-		Debug.Log ("Normalized: " +offset.normalized);*/
+		var lineDirection = end - lineOrigin;s
 
 		//Make a list containing position of all points except the ones the line is attached to (index && index + 1).
 		List<Vector3> positions = new List<Vector3> ();

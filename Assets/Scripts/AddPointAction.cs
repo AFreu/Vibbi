@@ -7,7 +7,6 @@ public class AddPointAction : AbstractAction{
 
 
 	public AddPointAction(BoundaryPointsHandler handler, GameObject line, Vector3 pos){
-		Debug.Log("Creating AddPointAction");
 		boundaryLine = line;
 		position = pos;
 		boundaryPointsHandler = handler;
@@ -21,7 +20,6 @@ public class AddPointAction : AbstractAction{
 
 	protected override void ExecuteCore()
 	{
-		Debug.Log ("AP: ExecuteCore");
 		if (boundaryPoint == null) {
 			boundaryPoint = boundaryPointsHandler.AddBoundaryPoint (boundaryLine, position);
 		} else {
@@ -33,7 +31,6 @@ public class AddPointAction : AbstractAction{
 
 	protected override void UnExecuteCore()
 	{
-		Debug.Log ("AP: UnExecuteCore");
 		boundaryLine = boundaryPointsHandler.DeactivateBoundaryPoint (boundaryPoint);
 	}
 

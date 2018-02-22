@@ -11,47 +11,96 @@ public class ClothModelHandler : MonoBehaviour {
 
     private List<GameObject> clothModels = new List<GameObject> ();
 
+	private ActionManager actionManager;
+
+
 	// Use this for initialization
 	void Start () {
-		
+		actionManager = GetComponentInParent<ActionManager> ();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyUp (KeyCode.C)){
-			AddClothModel (new Vector3 (1.0f, 1.0f, 0.0f));
+			AddCloth (new Vector3 (1.0f, 1.0f, 0.0f));
+
+		}
+
+		if (Input.GetKeyUp (KeyCode.Q)) {
+			Debug.Log ("Undo");
+			actionManager.Undo ();
+		}
+
+		if (Input.GetKeyUp (KeyCode.R)) {
+			Debug.Log ("Redo");
+			actionManager.Redo ();
 		}
 	}
 
-	void AddClothModel(Vector3 position){
+	public void AddCloth(Vector3 position){
+		AddClothAction aca = new AddClothAction (this, position);
+		actionManager.RecordAction (aca);
+	}
+
+	public GameObject AddClothModel(Vector3 position){
 		GameObject o = Instantiate (clothModelPrefab, transform) as GameObject;
 		o.transform.Translate (position);
 		o.GetComponent<BoundaryPointsHandler> ().InitQuad ();
 		clothModels.Add (o);
+		return o;
 	}
 
-	public void AddClothModel(Vector3 position, Points points){
+	public GameObject AddClothModel(Vector3 position, Points points){
 		GameObject o = Instantiate (clothModelPrefab, transform) as GameObject;
 		o.transform.Translate (position);
 		o.GetComponent<BoundaryPointsHandler> ().InitPolygon (points);
-		clothModels.Add (o);	
+		clothModels.Add (o);
+		return o;
+	}
+
+	public void RemoveCloth(GameObject clothModel){
+		RemoveClothAction rca = new RemoveClothAction (this, clothModel);
+		actionManager.RecordAction (rca);
 	}
 
 	public void RemoveClothModel(GameObject clothModel){
-
 		clothModels.Remove (clothModel);
 		GameObject.Destroy (clothModel);
 		
 	}
 
-	public void CopyClothModel(GameObject clothModel, Vector3 position){
+	public void ActivateClothModel(GameObject clothModel){
+		
+		clothModels.Add (clothModel);
+
+		clothModel.transform.parent = transform;
+		clothModel.SetActive (true);
+
+	}
+
+	public void DeactivateClothModel(GameObject clothModel){
+		clothModels.Remove (clothModel);
+
+		clothModel.transform.parent = transform.parent;
+		clothModel.SetActive (false);
+	}
+
+	public GameObject CopyClothModel(GameObject clothModel, Vector3 position){
 
 		GameObject o = Instantiate (clothModel, transform);
 		o.GetComponent<BoundaryPointsHandler> ().InitCopy ();
 		o.transform.Translate (position);
 		clothModels.Add (o);
 
+		return o;
 	}
+
+	public void CopyModel(GameObject clothModel, Vector3 position){
+		CopyClothAction cca = new CopyClothAction (this, clothModel, position);
+		actionManager.RecordAction (cca);
+	}
+
+
 
 	public void TriangulateModels()
 	{
@@ -71,13 +120,6 @@ public class ClothModelHandler : MonoBehaviour {
         go.transform.localRotation = Quaternion.AngleAxis(90,new Vector3(1,0,0));
         
         Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
-
-       // for (int i = 0; i<mesh.GetIndices(0).Length; i++)
-        //{
-           // Debug.Log(mesh.GetIndices(0)[i]);
-
-//            Debug.Log(mesh.GetIndices(0)[i]+" " + mesh.GetIndices(0)[i+1] +" "+ mesh.GetIndices(0)[i+2]);
-//        }
 
         deformObject.SetMesh(mesh);
         deformObject.SetMaterial(garmentMaterial);
