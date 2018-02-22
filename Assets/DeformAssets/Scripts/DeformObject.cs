@@ -67,9 +67,7 @@ public class DeformObject : DeformBody {
     
     unsafe void RebuildMesh()
     {
-        Debug.Log("RebuildMesh");
         if (originalMesh == null) return;
-        Debug.Log("StillRebuildingMesh");
         mesh = new Mesh();
         mesh.MarkDynamic();
 
