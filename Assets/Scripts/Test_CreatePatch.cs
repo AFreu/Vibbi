@@ -13,15 +13,10 @@ public class Test_CreatePatch : MonoBehaviour {
     private const uint MIN_RESOLUTION = 10;
     private const uint MAX_RESOLUTION = 120;
 
-    [HideInInspector] [SerializeField] Vector3 originalPosition;
-    [HideInInspector] [SerializeField] Quaternion originalRotation;
-    [HideInInspector] [SerializeField] Vector3 originalScale;
-
     [SerializeField] private Vector2 oldSize;
     [SerializeField] private uint oldResolution;
 
-    bool transformReset;
-    // Use this for initialization
+     // Use this for initialization
     void Start () {
         
         transform.position = Vector3.zero;
@@ -34,20 +29,10 @@ public class Test_CreatePatch : MonoBehaviour {
         size.y = Mathf.Max(0.1f, size.y);
 
         resolution = Math.Max(Math.Min(resolution, MAX_RESOLUTION), MIN_RESOLUTION);
-
-        //#Malin: for simulating while modeling
-        //InitMeshComponents();
-
-
+        
         if (!size.Equals(oldSize) || resolution != oldResolution) //if we changed the size or resolution
         {
             RebuildMesh();
-
-            //#if UNITY_EDITOR
-            //SendClothToVivace();
-            //#endif
-
-            //shouldRegenerateParticles = true;
         }
 
         GetComponent<MeshRenderer>().material = material;
@@ -62,20 +47,13 @@ public class Test_CreatePatch : MonoBehaviour {
         }
 
         MeshUtils.CreateClothMesh(size, resolution, mesh);
-
-
-        //ResetColorBuffers();
-
-        // meshVertices = mesh.vertices;
-        //meshNormals = mesh.normals;
-
-        //oldSize = size;
-        //oldResolution = resolution;
+        
+        oldSize = size;
+        oldResolution = resolution;
 
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer>().material = material;
 
-        // UpdateMesh(mesh.vertices, mesh.normals);
     }
 
 
