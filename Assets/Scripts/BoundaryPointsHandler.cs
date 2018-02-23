@@ -60,9 +60,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 
 	public void TriangulateModel() {
-
-		//Debug.Log ("Triangulate Model");
-
+        
 		var coords = new List<Vector2>();
 		var holeCoords = new List<List<Vector2>> ();
 
@@ -70,8 +68,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			var t = o.transform.localPosition;
 			coords.Add (new Vector2 (t.x, t.y));
 		}
+        
 
-		//Debug.Log ("Number of coords: " + coords.Count);
+
+
 
 
 

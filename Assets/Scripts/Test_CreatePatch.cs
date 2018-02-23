@@ -56,6 +56,16 @@ public class Test_CreatePatch : MonoBehaviour {
 
     }
 
+    void SplitMesh()
+    {
+        GameObject go = new GameObject("splitmesh");
+        go.AddComponent<MeshFilter>();
+        go.AddComponent<MeshRenderer>();
+
+        Mesh splitMesh = GetComponent<MeshFilter>().sharedMesh;
+        
+
+    }
 
  
     // Update is called once per frame
