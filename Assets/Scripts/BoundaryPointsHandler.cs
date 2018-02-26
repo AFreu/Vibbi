@@ -48,7 +48,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
 
-		UpdateCollider ();
+//		UpdateCollider ();
 	}
 
 	void UpdateCollider(){
@@ -365,6 +365,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
     }
 
 	public void HandleInput(){
+        if (GetComponent<Selectable>() == null)
+        {
+            return;
+        }
 	
 		if (GetComponent<Selectable> ().isSelected ()) {
 			if (Input.GetKeyUp(KeyCode.D) && Input.GetKey(KeyCode.LeftControl)) {
@@ -417,7 +421,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var lineBehaviour = line.GetComponent<BoundaryLineBehaviour> ();
 		var lineOrigin = lineBehaviour.first.transform.position;
 		var end = lineBehaviour.second.transform.position;
-		var lineDirection = end - lineOrigin;s
+		var lineDirection = end - lineOrigin;
 
 		//Make a list containing position of all points except the ones the line is attached to (index && index + 1).
 		List<Vector3> positions = new List<Vector3> ();

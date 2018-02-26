@@ -47,7 +47,10 @@ public class Test_CreatePatch : MonoBehaviour {
         }
 
         MeshUtils.CreateClothMesh(size, resolution, mesh);
-        
+
+        Debug.Log(mesh.vertices[0]);
+        Debug.Log(mesh.vertices[1]);
+        Debug.Log(mesh.vertices[20]);
         oldSize = size;
         oldResolution = resolution;
 
