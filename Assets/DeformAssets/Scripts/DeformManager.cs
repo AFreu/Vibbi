@@ -151,6 +151,9 @@ public class DeformManager : MonoBehaviour {
     {
         UpdateColliders();
 
+		if (deformables == null)
+			return;
+
         if (deformables.Length > 0)
         {
             UpdateDeformPlugin();
