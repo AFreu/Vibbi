@@ -143,6 +143,8 @@ public class ClothModelHandler : MonoBehaviour {
 		MeshRenderer renderer = go.AddComponent<MeshRenderer> ();
 		filter.mesh = mesh;
 		renderer.material = garmentMaterial;
+
+		go.transform.localScale = new Vector3 (0.1f, 0.1f, 1.0f);
 	
 	}
 
