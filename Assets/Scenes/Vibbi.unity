@@ -442,6 +442,7 @@ Transform:
   - {fileID: 751220238}
   - {fileID: 417544641}
   - {fileID: 784108238}
+  - {fileID: 748909921}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -862,7 +863,7 @@ GameObject:
   - component: {fileID: 519203475}
   - component: {fileID: 519203474}
   - component: {fileID: 519203473}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,6 +1072,50 @@ MonoBehaviour:
   scaleX: 0.1
   scaleY: 0.1
   points: []
+--- !u!1 &748909920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 748909921}
+  - component: {fileID: 748909922}
+  m_Layer: 0
+  m_Name: AttachMentPointHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &748909921
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 748909920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 198901576}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &748909922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 748909920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e845f1643224406b23107baa60595e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachmentPointPrefab: {fileID: 1187945697857030, guid: 9d1aa88e770494851b126f732b3c21c5,
+    type: 2}
+  cam: {fileID: 417544643}
+  distance: 0.1
 --- !u!1 &751220237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,7 +1128,7 @@ GameObject:
   - component: {fileID: 751220241}
   - component: {fileID: 751220240}
   - component: {fileID: 751220239}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1168,7 +1213,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &751220242
 MeshFilter:
