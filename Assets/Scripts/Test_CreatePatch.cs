@@ -11,7 +11,7 @@ public class Test_CreatePatch : MonoBehaviour {
     public Material material;
 
     private const uint MIN_RESOLUTION = 10;
-    private const uint MAX_RESOLUTION = 120;
+    private const uint MAX_RESOLUTION = 720;
 
     [SerializeField] private Vector2 oldSize;
     [SerializeField] private uint oldResolution;
