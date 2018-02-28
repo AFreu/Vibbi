@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e4dede11cd46008b7af7cbdeeab3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapToGrid: 1
+  GRIDWIDTH: 0.3333333
 --- !u!114 &114408312139317694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfba0f5006acc4d98949154ac22db119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  line: {fileID: 0}
 --- !u!135 &135246554257214154
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -5,7 +5,8 @@ using GuiLabs.Undo;
 
 public class Movable : MonoBehaviour {
 
-	private const float GRIDWIDTH = 0.33333333f;
+	public bool snapToGrid;
+	public float GRIDWIDTH;
 
 	private Ray mousePositionRay;
 
@@ -77,8 +78,12 @@ public class Movable : MonoBehaviour {
 	}
 
 	public virtual void Move(Vector3 position){
-		
-		gameObject.transform.position = SnapToGrid(position);
+		if (snapToGrid) {
+			gameObject.transform.position = SnapToGrid (position);
+		} else {
+			gameObject.transform.position = position;
+		}
+
 
 	}
 
