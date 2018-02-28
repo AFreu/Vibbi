@@ -367,6 +367,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public void HandleInput(){
         if (GetComponent<Selectable>() == null)
         {
+			Debug.Log ("Has no Selectable");
             return;
         }
 	
@@ -389,7 +390,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	//Probably some nicer way to implement this
 	public void Duplicate(){
 		//gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.one);
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, Vector3.one);
+
+		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
 	}
 
 

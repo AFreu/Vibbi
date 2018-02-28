@@ -4,7 +4,9 @@ using UnityEngine;
 using GuiLabs.Undo;
 
 public class Movable : MonoBehaviour {
-	
+
+	private const float GRIDWIDTH = 0.33333333f;
+
 	private Ray mousePositionRay;
 
 	private static GameObject currentlyDragged;
@@ -75,7 +77,34 @@ public class Movable : MonoBehaviour {
 	}
 
 	public virtual void Move(Vector3 position){
-		gameObject.transform.position = position;
+		
+		gameObject.transform.position = SnapToGrid(position);
+
+	}
+
+	protected Vector3 SnapToGrid(Vector3 pt){
+
+		var X = pt.x;
+		var Y = pt.y;
+
+		if (pt.x % GRIDWIDTH < GRIDWIDTH / 2) {
+			X = pt.x - pt.x % GRIDWIDTH;
+		} else {
+			X = pt.x + (GRIDWIDTH - pt.x % GRIDWIDTH);
+		}
+
+
+		if (pt.y % GRIDWIDTH < GRIDWIDTH / 2) {
+			Y = pt.y - pt.y % GRIDWIDTH;
+		} else {
+			Y = pt.y + (GRIDWIDTH - pt.y % GRIDWIDTH);
+		}
+	
+		//This depends on uneven Gridwidth
+		X -= GRIDWIDTH/2;
+		Y -= GRIDWIDTH/2;
+
+		return new Vector3 (X, Y);
 	}
 
 
