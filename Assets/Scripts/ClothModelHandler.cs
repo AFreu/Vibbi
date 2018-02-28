@@ -128,6 +128,24 @@ public class ClothModelHandler : MonoBehaviour {
         deformManager.Reset();
     }
 
+	public void LoadCloth(Transform point){
+
+		GameObject go = new GameObject("A piece of cloth");
+
+		go.transform.parent = deformManager.transform.parent;
+		go.transform.position = point.position;
+		go.transform.forward = point.up;
+
+		Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
+
+
+		MeshFilter filter = go.AddComponent<MeshFilter> ();
+		MeshRenderer renderer = go.AddComponent<MeshRenderer> ();
+		filter.mesh = mesh;
+		renderer.material = garmentMaterial;
+	
+	}
+
 
 
 
