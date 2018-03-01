@@ -48,7 +48,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
 
-//		UpdateCollider ();
+		UpdateCollider ();
 	}
 
 	void UpdateCollider(){
@@ -460,4 +460,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		point.transform.position += 2 * translationToLineFromPoint;
 
 	}
+
+    public List<GameObject> GetBoundaryPoints()
+    {
+        return boundaryPoints;
+    }
 }

@@ -48,8 +48,6 @@ public class ConditionedTriangulator {
 				for (int k = 0; k < outVertices.Count; k++) 
 				{
 
-                    //double absA = Math.Abs(outVertices[k].x);
-                    //double absB = Math.Abs((float)t.GetVertex(j).X);
                     float diffX = Math.Abs(outVertices[k].x - (float)t.GetVertex(j).X);
                     float diffY = Math.Abs(outVertices[k].y - (float)t.GetVertex(j).Y);
 
@@ -65,9 +63,6 @@ public class ConditionedTriangulator {
 				}
 
 				if(!found){
-                    //Debug.Log("Not found:");
-                    //Debug.Log("Triangle vertex " + t.GetVertex(j).X);
-                    //Debug.Log("Triangle FLOAT vertex " + (float)t.GetVertex(j).X);
                     
                     outVertices.Add (new Vector3 ((float)t.GetVertex (j).X, (float)t.GetVertex (j).Y, 0));
 					outIndices.Add (outVertices.Count - 1);
