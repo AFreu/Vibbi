@@ -48,39 +48,79 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
 
-//		UpdateCollider ();
+		UpdateMiddle ();
+		UpdateCollider ();
+	}
+
+	void UpdateMiddle(){
+
+		if (boundaryPoints.Count <= 0) {
+			return;
+		}
+		float largestX = boundaryPoints [0].transform.position.x;
+		float smallestX = boundaryPoints [0].transform.position.x;
+		float largestY = boundaryPoints [0].transform.position.y;
+		float smallestY = boundaryPoints [0].transform.position.y;
+
+		for (int i = 1; i < boundaryPoints.Count; i++) {
+			var X = boundaryPoints [i].transform.position.x;
+			var Y = boundaryPoints [i].transform.position.y;
+
+
+			if (X > largestX)
+				largestX = X;
+			
+			if (X < smallestX)
+				smallestX = X;
+			
+			if (Y > largestY)
+				largestY = Y;
+			
+			if (Y < smallestY)
+				smallestY = Y;
+
+
+		}
+
+		Vector2 topCorner = new Vector3 (largestX, largestY);
+		Vector2 botCorner = new Vector3 (smallestX, smallestY);
+		Vector2 diagonal = topCorner - botCorner;
+
+		Vector2 mid = botCorner + diagonal/2; 
+
+		Debug.DrawLine (transform.position, mid, Color.blue, 100);
+
+		UpdatePosition (new Vector3(mid.x, mid.y, 0.0f));
 	}
 
 	void UpdateCollider(){
 		var array = new Vector2[boundaryPoints.Count];
 
-		//collider.points = boundaryPoints;
-		float largestX = 0.0f;
-		float smallestX = 0.0f;
-		float largestY = 0.0f;
-		float smallestY = 0.0f;
-
 		for (int i = 0; i < boundaryPoints.Count; i++) {
 			var X = boundaryPoints [i].transform.localPosition.x;
 			var Y = boundaryPoints [i].transform.localPosition.y;
 
-
-			if (X > largestX)
-				largestX = X;
-			if (X < smallestX)
-				smallestX = X;
-			if (Y > largestY)
-				largestY = Y;
-			if (Y < smallestY)
-				smallestY = Y;
-
 			array [i] = new Vector2 (X, Y);
 
-			//collider.points [0] = boundaryPoints [0].transform.localPosition;
 		}
-		Vector2 mid = new Vector2 (smallestX, smallestY) + new Vector2 (largestX, largestY) / 2; 
 
 		polygonCollider.points = array;
+	}
+
+	void UpdatePosition(Vector3 position){
+
+		Vector3 translation = position - transform.position;
+
+		transform.Translate (translation);
+
+
+		foreach (GameObject o in boundaryPoints) {
+			o.transform.Translate (-translation);
+		}
+
+		/*foreach (Transform t in transform) {
+			t.Translate (-translation);
+		}*/
 	}
 
 	public void TriangulateModel() {
