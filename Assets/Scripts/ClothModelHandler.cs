@@ -178,10 +178,13 @@ public class ClothModelHandler : MonoBehaviour {
 
         float stepSize = 0.33f;
         int startRow =(int)((ymin + 10) / stepSize) -1;
-
         int endRow = (int)((ymax + 10) / stepSize) +1;
-        Debug.Log(startRow);
-        Debug.Log(endRow);
+        int startCol = (int)((xmin + 20) / stepSize) - 1;
+        int endCol = (int)((xmax + 20) / stepSize) + 1;
+
+        
+
+
 
         for (int i = startRow * 120; i < endRow * 120; i++)
         {
@@ -198,39 +201,114 @@ public class ClothModelHandler : MonoBehaviour {
 
         }
 
-        Debug.Log(subMeshVertices[0]);
-
 
         //#########################
         //       TRIANGLES       //
         //#########################
 
         //figure out which triangles we need to look for : should be around the bounding box
+       
 
-        
+        //nu kör vi
+        int startElement = (subMeshIndices[0] - 240) * 3 * 2; //lowest index, *3 for three element per triangle, *2 for avg. 2 triangles per vertex/index
+        int endElement = (subMeshIndices[subMeshIndices.Count - 1] + 240) * 3 * 2;
 
+        Debug.Log("start "+ startElement);
+        Debug.Log("end " +endElement);
+        Debug.Log("yo "+ (endElement - startElement));
+
+        float startTime = Time.realtimeSinceStartup;
+        int numberOfTriangles = 0;
+        int loopSteps = 0;
         List<Triangle> triangles = new List<Triangle>();
-        Debug.Log("Number of indices " + subMeshIndices.Count);
+        //        Debug.Log("Number of indices " + subMeshIndices.Count);
 
+
+        for (int i = startElement; i < endElement; i=i+3)
+        {
+            bool found = false;
+            int triangleIndex = backgroundPatchMesh.triangles[i];
+            
+
+            for (int j = 0; j < subMeshIndices.Count; j++)
+            {
+                loopSteps++;
+                if (triangleIndex == subMeshIndices[j])
+                {
+                    numberOfTriangles++;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+            {
+                continue;
+            }
+
+            triangleIndex = backgroundPatchMesh.triangles[i+1];
+
+            for (int j = 0; j < subMeshIndices.Count; j++)
+            {
+                loopSteps++;
+                if (triangleIndex == subMeshIndices[j])
+                {
+                    numberOfTriangles++;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+            {
+                continue;
+            }
+
+            triangleIndex = backgroundPatchMesh.triangles[i+2];
+
+
+            for (int j = 0; j < subMeshIndices.Count; j++)
+            {
+                loopSteps++;
+                if (triangleIndex == subMeshIndices[j])
+                {
+                    numberOfTriangles++;
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+
+        float totalTime = Time.realtimeSinceStartup - startTime;
+        Debug.Log("NUM TRIANGLES: " + numberOfTriangles);
+        Debug.Log("Time: " + totalTime);
+        Debug.Log("Loopidoopi: " + loopSteps);
+
+        /*
         for (int i = 0; i < subMeshIndices.Count; i++) //loop through all the indices in our submesh
         {
+            indexLoops++;
             int currentTriangles = 0;
-
-            if (currentTriangles * subMeshIndices.Count >= 8 * subMeshIndices.Count)
-            {
-                break;
-            }
+            int SMI = subMeshIndices[i];
+            
             //for (int j = 0; j < backgroundPatchMesh.triangles.Length; j++)
-            for (int j = 0; j < 3; j++)
+            //for (int j = 120*2*startRow; j < 120*2*endRow; j++)
+            for (int j = startElement; j < endElement; j++)
+                //for (int j = 0; j < 3; j++)
+                
             {
+                loopSteps++;
+
                 if (currentTriangles == 8) //can only be a maximum of eight triangles per index
                 {
                     break;
                 }
                 
-                if (subMeshIndices[i] == backgroundPatchMesh.triangles[j]) // found a triangle
+                if (SMI == backgroundPatchMesh.triangles[j]) // found a triangle
                 {
-                    Debug.Log("triangle found");
+                    currentTriangles++;
+                    numberOfTriangles++;
                     /*
                     currentTriangles++;
                     Triangle triangle = new Triangle();
@@ -261,11 +339,12 @@ public class ClothModelHandler : MonoBehaviour {
                             triangles.Add(triangle);
                         }
                     }*/
-                }
-            }
-        }
+        /*       }
+           }
+       }*/
 
-        Debug.Log("hejhej");
+
+
         /*
         //now we have a list with triangles, but not all of them belong to the polygon since at least one of their vertices are not part of our submesh
         foreach (Triangle t in triangles)
