@@ -8,25 +8,23 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	private int MINIMUM_AMOUNT_BOUNDARYPOINTS = 3; 
 
 	//The lists are order dependent
-	private List<GameObject> boundaryPoints = new List<GameObject> ();
-	private List<GameObject> boundaryLines = new List<GameObject> ();
+	public List<GameObject> boundaryPoints = new List<GameObject> ();
+	public List<GameObject> boundaryLines = new List<GameObject> ();
+
+	public List<Dart> darts = new List<Dart> ();
+
 
 	private PolygonCollider2D polygonCollider;
 	private ActionManager actionManager;
 
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
-
-	public Triangulator triangulator;
-
-
-	public bool autoTriangulate = false;
     
 	private static bool save;
 
 	// Use this for initialization
 	void Start () {
-
+		
 		polygonCollider = GetComponent<PolygonCollider2D> ();
 		actionManager = GetComponentInParent<ActionManager> ();
         save = false;
@@ -36,10 +34,6 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		HandleInput ();
-
-		if (autoTriangulate) {
-			TriangulateModel ();
-		}
 
 		if (save)
 		{
@@ -117,32 +111,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		foreach (GameObject o in boundaryPoints) {
 			o.transform.Translate (-translation);
 		}
-
-		/*foreach (Transform t in transform) {
-			t.Translate (-translation);
-		}*/
+			
 	}
-
-	public void TriangulateModel() {
-
-		var coords = new List<Vector2>();
-		var holeCoords = new List<List<Vector2>> ();
-
-		foreach(GameObject o in boundaryPoints){
-			var t = o.transform.localPosition;
-			coords.Add (new Vector2 (t.x, t.y));
-		}
-
-		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
-
-		if (mesh == null)
-			Debug.Log ("Mesh is null");
-
-		triangulator.Triangulate(mesh, coords, holeCoords);
-
-		GetComponent<MeshFilter>().sharedMesh = GetComponent<MeshFilter> ().mesh;
-       
-    }
 
 	public void AddPoint(GameObject line, Vector3 position){
 		AddPointAction apa = new AddPointAction (this, line, position);
@@ -362,6 +332,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryLines.Add (l3);
 		boundaryLines.Add (l4);
 
+		//AddDart (new Vector3 (0.3f, 0.4f, 0.0f), new Vector3 (0.3f, 0.1f, 0.0f));
+
 	}
 
 	public void InitPolygon(Points points){
@@ -417,6 +389,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			} else if (Input.GetKeyUp (KeyCode.D)) {
 				Remove ();
 			}
+
+
+
 		}
 
 
@@ -498,6 +473,32 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 		//Move point twice in magnitude and direction of the translation to the line from the point
 		point.transform.position += 2 * translationToLineFromPoint;
+
+	}
+
+	public void AddDart(Vector3 start, Vector3 end, bool bothInside){
+		Debug.Log ("AddDart");
+
+		RaycastHit hit;
+
+		if (!bothInside) {
+			if (Physics.Linecast (start, end, out hit, LayerMask.GetMask ("BoundaryLine"))) {
+				var bl = hit.transform.gameObject.GetComponent<BoundaryLineBehaviour> ();
+
+				Dart dart = new Dart(transform.InverseTransformPoint(start), transform.InverseTransformPoint(hit.point), bl);
+				darts.Add (dart);
+
+			} else {
+				Debug.Log ("Did not find boundary line between dart start and end");
+				return;
+			}
+
+
+		} else {
+			Dart dart = new Dart(transform.InverseTransformPoint(start), transform.InverseTransformPoint(end));
+			darts.Add (dart);
+		}
+
 
 	}
 }

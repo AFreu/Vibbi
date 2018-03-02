@@ -25,7 +25,8 @@ GameObject:
   - component: {fileID: 23484687413130904}
   - component: {fileID: 114983107856260482}
   - component: {fileID: 114725319676228154}
-  m_Layer: 0
+  - component: {fileID: 114438049207857416}
+  m_Layer: 10
   m_Name: EditableModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +114,20 @@ PolygonCollider2D:
       - {x: -0.5877852, y: -0.80901706}
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.9510565, y: 0.30901712}
+--- !u!114 &114438049207857416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670655632340280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb0879889a994df7a7bad0b7127bab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triangulator: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
+    type: 2}
+  autoTriangulate: 0
 --- !u!114 &114615442074442714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,13 +139,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5259ba1abacee45fc82fe14ac022e601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boundaryPoints: []
+  boundaryLines: []
   boundaryPointPrefab: {fileID: 1931533834868222, guid: c1597e944d11d47a9b6e101b7c1d21b8,
     type: 2}
   boundaryLinePrefab: {fileID: 1186314178957548, guid: 2716a4389d75b452b86f4a2cb691e1e5,
     type: 2}
-  triangulator: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
-    type: 2}
-  autoTriangulate: 0
 --- !u!114 &114725319676228154
 MonoBehaviour:
   m_ObjectHideFlags: 1

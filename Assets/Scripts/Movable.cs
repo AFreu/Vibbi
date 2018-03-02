@@ -33,6 +33,9 @@ public class Movable : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
+		if (Input.GetKey (KeyCode.G))
+			return;
+
 		if (currentlyDragged == null) {
 			currentlyDragged = gameObject;
 			SaveCurrentState ();
