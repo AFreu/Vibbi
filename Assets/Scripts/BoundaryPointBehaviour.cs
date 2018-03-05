@@ -14,7 +14,6 @@ public class BoundaryPointBehaviour : MonoBehaviour{
 	// Update is called once per frame
 	void Update () {
 		
-		//mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 	}
 
 	void OnMouseOver(){

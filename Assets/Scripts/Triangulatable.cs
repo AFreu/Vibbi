@@ -50,8 +50,19 @@ public class Triangulatable : MonoBehaviour {
 			coords.Add (new Vector2 (t.x, t.y));
 		}
 
-		foreach (Dart d in bph.darts) {
-			holeCoords.Add (d.getPoints());
+		Vector2 clothPosition = transform.position;
+
+
+		foreach (GameObject d in bph.darts) {
+			Vector2 dartPosition = d.transform.position;
+
+			List<Vector2> temp = new List<Vector2> ();
+
+			foreach(Vector2 v in d.GetComponent<BoundaryPointsHandler> ().GetPointPositions ()){
+				temp.Add (v - clothPosition + dartPosition);
+			}
+
+			holeCoords.Add (temp);
 		}
 	}
 

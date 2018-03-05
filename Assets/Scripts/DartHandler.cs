@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class DartHandler : MonoBehaviour {
 
+	public GameObject dartPrefab;
+
+	public GameObject dartPointPrefab;
+	public GameObject simpleLinePrefab;
+
+	public List<GameObject> dartPoints = new List<GameObject> ();
+	public List<GameObject> dartLines = new List<GameObject> ();
+
 	private Vector3 start;
 	private Vector3 end;
 
@@ -69,9 +77,38 @@ public class DartHandler : MonoBehaviour {
 
 			endOnCloth = TryFindCloth ();
 
+			var bothInside = endOnCloth && startOnCloth;
 
 			if (startOnCloth || endOnCloth) {
-				cloth.GetComponent<BoundaryPointsHandler> ().AddDart (start, end, startOnCloth && endOnCloth);
+
+				Debug.Log ("AddDart");
+
+				if (!bothInside) {
+					if (Physics.Linecast (start, end, out hit, LayerMask.GetMask ("BoundaryLine"))) {
+						var bl = hit.transform.gameObject.GetComponent<SimpleLineBehaviour> ();
+
+
+						//TODO: what happens when dart is made over boundary line
+						GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (end));
+						cloth.GetComponent<BoundaryPointsHandler> ().AddDart (d);
+
+					} else {
+						Debug.Log ("Did not find boundary line between dart start and end");
+						return;
+					}
+
+
+				} else {
+					GameObject d = CreateDart (start, end);
+					//GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (end));
+					cloth.GetComponent<BoundaryPointsHandler> ().AddDart (d);
+				}
+			} else {
+				//Create dart model
+				GameObject d = CreateDart(start, end);
+				//TODO: what happens when dart is made outside a cloth
+				//No Cloth to add it to :(
+
 			}
 		}
 	}
@@ -107,5 +144,44 @@ public class DartHandler : MonoBehaviour {
 		lr.SetPosition(0, start);
 		lr.SetPosition(1, end);
 		GameObject.Destroy(myLine, duration);
+	}
+
+	public GameObject CreateDart(Vector3 start, Vector3 end){
+	
+		GameObject d = Instantiate (dartPrefab, cloth.transform) as GameObject;
+
+		var position = start + (end - start) / 2;
+		Debug.Log ("Dart position: " + position);
+		d.transform.Translate (position);
+
+		Vector2 p1 = start;
+		Vector2 p2 = end;
+
+		var v = p2 - p1;
+		var dv = v.normalized;
+		var m = v.magnitude;
+
+		var p = p1 + v / 2; 
+
+		var n = new Vector2 (v.y, -v.x);
+
+		Vector2 p3 = p + n/3;
+		Vector2 p4 = p - n/3;
+
+		BoundaryPointsHandler bph = d.GetComponent<BoundaryPointsHandler> ();
+		bph.boundaryPointPrefab = dartPointPrefab;
+		bph.boundaryLinePrefab = simpleLinePrefab;
+		bph.InitQuad ();
+
+		bph.boundaryPoints [0].transform.position = p1;
+		bph.boundaryPoints [1].transform.position = p3;
+		bph.boundaryPoints [2].transform.position = p2;
+		bph.boundaryPoints [3].transform.position = p4;
+
+		foreach (GameObject o in bph.boundaryPoints) {
+			o.GetComponent<Movable1D> ().origin = position;
+		}
+
+		return d;
 	}
 }

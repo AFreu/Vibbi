@@ -26,7 +26,7 @@ public class Dart {
 
 	}
 
-	public Dart(Vector2 start, Vector2 hit, BoundaryLineBehaviour bl){
+	public Dart(Vector2 start, Vector2 hit, SimpleLineBehaviour bl){
 		p1 = start;
 		p2 = hit;
 
