@@ -411,12 +411,19 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 
 	public void Remove(){
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
+		//GetComponentInParent starts looking in "this" object before looking into parents. 
+		transform.parent.GetComponentInParent<BoundaryPointsHandler> ().RemoveDart (gameObject);
+		GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
+	}
+
+	public void RemoveDart(GameObject dart){
+		Debug.Log ("Removing dart: " + dart);
+		darts.Remove (dart);
 	}
 
 	//Probably some nicer way to implement this
 	public void Duplicate(){
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
+		GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
 	}
 
 

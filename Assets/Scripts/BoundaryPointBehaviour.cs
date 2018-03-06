@@ -19,7 +19,7 @@ public class BoundaryPointBehaviour : MonoBehaviour{
 	void OnMouseOver(){
 		
 		if (Input.GetKeyUp (KeyCode.D)) {
-			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().RemovePoint(gameObject);
+			GetComponentInParent<BoundaryPointsHandler> ().RemovePoint(gameObject);
 		}
 
 	}

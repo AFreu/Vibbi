@@ -10,11 +10,11 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 			RaycastHit hit;
 
 			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 30f, layerMask)) {
-				gameObject.transform.parent.GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit.point);
+				GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit.point);
 			}
 
 		}else if(Input.GetKeyUp(KeyCode.U)){
-			gameObject.transform.parent.GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
+			GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
 		}
 	}
 }
