@@ -35,7 +35,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		HandleInput ();
+		//HandleInput ();
 
 		if (autoTriangulate) {
 			TriangulateModel ();
@@ -48,7 +48,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
 
-		UpdateCollider ();
+		//UpdateCollider ();
 	}
 
 	void UpdateCollider(){

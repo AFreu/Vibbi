@@ -21,7 +21,7 @@ public class Test_DeformManager : MonoBehaviour
         GameObject go = new GameObject("A piece of cloth");
 
         dc = go.AddComponent<DeformCloth>();
-        dc.SetSize(2, 2);
+        dc.SetSize(5, 5);
         dc.SetMaterial(garmentMaterial);
 
         deformManager.Reset();

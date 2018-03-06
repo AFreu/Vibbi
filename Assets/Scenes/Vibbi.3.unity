@@ -782,7 +782,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: c003b1adf5913c74f95afd7fb56d9de3, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 80db910c5350c5643bcb27a841731ef5, type: 3}
 --- !u!23 &737737468
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -823,7 +823,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 737737466}
-  m_Mesh: {fileID: 4300000, guid: c003b1adf5913c74f95afd7fb56d9de3, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 80db910c5350c5643bcb27a841731ef5, type: 3}
 --- !u!4 &737737470
 Transform:
   m_ObjectHideFlags: 0
@@ -856,7 +856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &819120275
 Transform:
   m_ObjectHideFlags: 0
@@ -884,7 +884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderType: 0
-  size: {x: 0, y: 0, z: 0}
+  size: {x: 1.5, y: 1.5, z: 1.5}
   capsulePointType: 0
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 0, y: 0, z: 0}
@@ -893,7 +893,7 @@ MonoBehaviour:
   radius: 0
   otherRadius: 0
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
   collisionBounds: {fileID: 0}
 --- !u!23 &819120277
 MeshRenderer:
@@ -969,7 +969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &834605947
 Transform:
   m_ObjectHideFlags: 0
@@ -978,7 +978,7 @@ Transform:
   m_GameObject: {fileID: 834605946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1030674277}
   m_RootOrder: 2
@@ -994,14 +994,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52af8f2d31a18cb4e97679999da666f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderType: 0
+  colliderType: 1
   size: {x: 0, y: 0, z: 0}
   capsulePointType: 0
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 0}
   transformB: {fileID: 0}
-  radius: 0
+  radius: 1.1
   otherRadius: 0
   showColliderInEditor: 1
   showColliderInGame: 0
@@ -1393,7 +1393,7 @@ MonoBehaviour:
     type: 2}
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 1854657994}
-  backgroundPatchMesh: {fileID: 4300000, guid: c003b1adf5913c74f95afd7fb56d9de3, type: 3}
+  backgroundPatchMesh: {fileID: 4300002, guid: 80db910c5350c5643bcb27a841731ef5, type: 3}
 --- !u!4 &1063764337
 Transform:
   m_ObjectHideFlags: 0
