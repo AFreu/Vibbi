@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65979071527366644}
   - component: {fileID: 114832227598093230}
   - component: {fileID: 114650834226671136}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BoundaryLine
   m_TagString: BoundaryLine
   m_Icon: {fileID: 0}
@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db8d43098dc74f49abc3e58c01159da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapToGrid: 0
+  GRIDWIDTH: 0
 --- !u!114 &114777281880196686
 MonoBehaviour:
   m_ObjectHideFlags: 1

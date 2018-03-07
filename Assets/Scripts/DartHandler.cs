@@ -81,15 +81,14 @@ public class DartHandler : MonoBehaviour {
 
 			if (startOnCloth || endOnCloth) {
 
-				Debug.Log ("AddDart");
-
 				if (!bothInside) {
+
+					Debug.Log ("Over boundary");
 					if (Physics.Linecast (start, end, out hit, LayerMask.GetMask ("BoundaryLine"))) {
-						var bl = hit.transform.gameObject.GetComponent<SimpleLineBehaviour> ();
+						var bl = hit.transform.GetComponent<SimpleLineBehaviour> ();
 
-
-						//TODO: what happens when dart is made over boundary line
-						GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (end));
+						Debug.Log ("Found boundary");
+						GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (hit.point), bl);
 						cloth.GetComponent<BoundaryPointsHandler> ().AddDart (d);
 
 					} else {
@@ -105,7 +104,7 @@ public class DartHandler : MonoBehaviour {
 				}
 			} else {
 				//Create dart model
-				GameObject d = CreateDart(start, end);
+				CreateDart(start, end);
 				//TODO: what happens when dart is made outside a cloth
 				//No Cloth to add it to :(
 
@@ -139,49 +138,84 @@ public class DartHandler : MonoBehaviour {
 		myLine.AddComponent<LineRenderer>();
 		LineRenderer lr = myLine.GetComponent<LineRenderer>();
 		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-		lr.SetColors(color, color);
-		lr.SetWidth(0.1f, 0.1f);
+		lr.startWidth = 0.1f;
+		lr.endWidth = 0.1f;
+		lr.startColor = color;
+		lr.endColor = color;
 		lr.SetPosition(0, start);
 		lr.SetPosition(1, end);
 		GameObject.Destroy(myLine, duration);
 	}
 
 	public GameObject CreateDart(Vector3 start, Vector3 end){
-	
-		GameObject d = Instantiate (dartPrefab, cloth.transform) as GameObject;
 
-		var position = start + (end - start) / 2;
-		Debug.Log ("Dart position: " + position);
+
+		Vector2 position = start + (end - start) / 2;
+
+		GameObject d = Instantiate (dartPrefab, cloth.transform) as GameObject;
 		d.transform.Translate (position);
 
-		Vector2 p1 = start;
-		Vector2 p2 = end;
-
-		var v = p2 - p1;
-		var dv = v.normalized;
-		var m = v.magnitude;
-
-		var p = p1 + v / 2; 
-
-		var n = new Vector2 (v.y, -v.x);
-
-		Vector2 p3 = p + n/3;
-		Vector2 p4 = p - n/3;
+		var positions = InitPositions (position);
 
 		BoundaryPointsHandler bph = d.GetComponent<BoundaryPointsHandler> ();
+		InitBoundaryPointsHandler (bph, positions);
+
+		return d;
+	}
+
+	public GameObject CreateDart(Vector3 start, Vector3 end, SimpleLineBehaviour simpleLine){
+
+		Vector2 position = end;
+
+		GameObject o = new GameObject ();
+		o.transform.parent = simpleLine.transform;
+		o.transform.localPosition = Vector3.zero;
+
+		GameObject d = Instantiate (dartPrefab, o.transform) as GameObject;
+		d.transform.Translate (position);
+
+		var positions = InitPositions (position);
+
+		BoundaryPointsHandler bph = d.GetComponent<BoundaryPointsHandler> ();
+
+		InitBoundaryPointsHandler (bph, positions);
+
+		bph.DeactivateBoundaryPoint (bph.boundaryPoints[2]);
+
+		Destroy (d.GetComponent<Movable>());
+		var movable = d.AddComponent<Movable1D> ();
+		movable.Init (simpleLine.first, simpleLine.second);
+
+		return d;
+	}
+
+	void InitBoundaryPointsHandler(BoundaryPointsHandler bph, Vector2[] positions){
+		
 		bph.boundaryPointPrefab = dartPointPrefab;
 		bph.boundaryLinePrefab = simpleLinePrefab;
 		bph.InitQuad ();
 
-		bph.boundaryPoints [0].transform.position = p1;
-		bph.boundaryPoints [1].transform.position = p3;
-		bph.boundaryPoints [2].transform.position = p2;
-		bph.boundaryPoints [3].transform.position = p4;
+		bph.boundaryPoints [0].transform.position = positions[0];
+		bph.boundaryPoints [1].transform.position = positions[2];
+		bph.boundaryPoints [2].transform.position = positions[1];
+		bph.boundaryPoints [3].transform.position = positions[3];
 
-		foreach (GameObject o in bph.boundaryPoints) {
-			o.GetComponent<Movable1D> ().origin = position;
-		}
+		bph.boundaryPoints [0].GetComponent<Movable1D> ().Init (bph.boundaryPoints [2].transform, bph.boundaryPoints [0].transform); 
+		bph.boundaryPoints [1].GetComponent<Movable1D> ().Init (bph.boundaryPoints [3].transform, bph.boundaryPoints [1].transform); 
+		bph.boundaryPoints [2].GetComponent<Movable1D> ().Init (bph.boundaryPoints [0].transform, bph.boundaryPoints [2].transform); 
+		bph.boundaryPoints [3].GetComponent<Movable1D> ().Init (bph.boundaryPoints [1].transform, bph.boundaryPoints [3].transform); 
+	}
+		
 
-		return d;
+	Vector2[] InitPositions(Vector2 position){
+
+		Vector2[] positions = new Vector2 [4];
+		positions[0] = start;
+		positions[1] = end;
+		var v = positions[1] - positions[0];
+		var n = new Vector2 (v.y, -v.x);
+		positions[2] = position + n/3;
+		positions[3] = position - n/3;
+		return positions;
 	}
 }

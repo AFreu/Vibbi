@@ -25,7 +25,6 @@ GameObject:
   - component: {fileID: 23087973855308808}
   - component: {fileID: 114917534555622818}
   - component: {fileID: 114216618482138074}
-  - component: {fileID: 114154413053935260}
   m_Layer: 10
   m_Name: Dart
   m_TagString: Dart
@@ -114,17 +113,6 @@ PolygonCollider2D:
       - {x: -0.5877852, y: -0.80901706}
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.9510565, y: 0.30901712}
---- !u!114 &114154413053935260
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1286375490061970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c36bf379df294b01941013ab6fba505, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114216618482138074
 MonoBehaviour:
   m_ObjectHideFlags: 1

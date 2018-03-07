@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class Movable1D : Movable {
 
-	public Vector3 origin;
+	public Transform start;
+	public Transform end;
 
 	public override void Move(Vector3 position){
 
-		var start = transform.parent.position;
-		var end = transform.position;
+		var input = position - transform.position;
 
-		var a = position - end;
+		var direction = (end.position - start.position).normalized;
 
-		var unitVector = (end - start).normalized;
+		Vector3 translation = Vector3.Dot(input , direction) * direction;
 
-		Vector3 a2 = Vector3.Dot(a , unitVector) * unitVector;
-
-		transform.position += a2;
+		transform.position += translation;
 
 		//Love linear algebra! 
+	}
+
+	public void Init(Transform start, Transform end){
+		this.start = start;
+		this.end = end;
 	}
 
 }
