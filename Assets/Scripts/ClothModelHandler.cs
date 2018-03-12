@@ -7,11 +7,14 @@ using System;
 public class ClothModelHandler : MonoBehaviour {
 
 	public GameObject clothModelPrefab;
+	public GameObject seamModelPrefab;
     public Material garmentMaterial;
     public DeformManager deformManager;
     public GarmentHandler garmentHandler;
     
     private List<GameObject> clothModels = new List<GameObject> ();
+	private List<GameObject> seamModels = new List<GameObject> ();
+
 	private ActionManager actionManager;
 
 
@@ -25,6 +28,11 @@ public class ClothModelHandler : MonoBehaviour {
 		if(Input.GetKeyUp (KeyCode.C)){
 			AddCloth (new Vector3 (1.0f, 1.0f, 0.0f));
 
+		}
+
+		if(Input.GetButtonUp("Sew")){
+			Debug.Log ("Sew");
+			Sew ();
 		}
 
 		if (Input.GetKeyUp (KeyCode.Q)) {
@@ -134,5 +142,58 @@ public class ClothModelHandler : MonoBehaviour {
         deformManager.Reset();
         
     }
+
+	public void Sew(){
+		List<GameObject> selectedLines = new List<GameObject> ();
+		List<GameObject> selectedModels = new List<GameObject> ();
+		foreach (GameObject c in clothModels) {
+			var bph = c.GetComponent<BoundaryPointsHandler> ();
+			List<GameObject> temp = bph.GetSelectedLines ();
+			if (temp.Count != 0) {
+				selectedModels.Add (c);
+				selectedLines.AddRange(temp);
+			}
+
+			if (selectedLines.Count > 2) {
+				break;
+			}
+
+		}
+
+		Debug.Log ("#selectedLines: " + selectedLines.Count);
+
+		if (selectedLines.Count == 2) {
+			var firstLine = selectedLines [0];
+			var secondLine = selectedLines [1];
+			var firstModel = selectedModels [0];
+			var secondModel = selectedModels [0];
+
+			if (selectedModels.Count == 2) {
+				secondModel = selectedModels [1];
+			}
+
+
+			CreateSeam (firstLine, secondLine);
+
+
+
+			//TODO: sew first and second line together.
+
+
+		} else if (selectedLines.Count < 2) {
+			Debug.Log ("Too few edges selected for sewing, select two");
+		}else if (selectedLines.Count > 2) {
+			Debug.Log ("Too many edges selected for sewing, select only two");
+		}
+	}
+
+	public GameObject CreateSeam(GameObject firstLine, GameObject secondLine){
+		GameObject s = new GameObject ("Seam");
+		s.transform.parent = transform;
+		var seam = s.AddComponent<SeamBehaviour> ();
+		seam.Init (firstLine, secondLine);
+		seamModels.Add (s);
+		return s;
+	}
 
 }
