@@ -20,12 +20,6 @@ public class VibbiMeshUtils : MonoBehaviour
         //find vertices on the lines
         List<Vector3> verticesLine1 = verticesFromLine(line1);
         List<Vector3> verticesLine2 = verticesFromLine(line2);
-
-        Debug.Log(verticesLine1.Count);
-        Debug.Log(verticesLine1[0]);
-    
-        Debug.Log(verticesLine2.Count);
-        Debug.Log(verticesLine2[0]);
     }
 
     private static List<Vector3> verticesFromLine(GameObject line)
@@ -36,9 +30,7 @@ public class VibbiMeshUtils : MonoBehaviour
         //get the two points of the line
         Vector3 firstPointPos = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
         Vector3 secondPointPos = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
-        //Debug.Log("First point: "+ firstPointPos.x + " "+ firstPointPos.y);
-        //Debug.Log("Second point: " + secondPointPos.x + " " + secondPointPos.y);
-        
+       
         //find the function of these two points
         float deltaX = (secondPointPos.x - firstPointPos.x); //if =0 point goes straight up
         float deltaY = (secondPointPos.y - firstPointPos.y);
@@ -54,8 +46,6 @@ public class VibbiMeshUtils : MonoBehaviour
             m = firstPointPos.y - (k * firstPointPos.x);
         }
 
-
-
         //get all the vertices of the mesh that the line belongs to
         Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
         List<Vector3> lineVertices = new List<Vector3>(); //fill this list with the vertices on the line
@@ -65,21 +55,17 @@ public class VibbiMeshUtils : MonoBehaviour
         {
             if (straightUpLine)
             {
-                Debug.Log("bipp");
                 if (meshVertices[i].x > (straightUpX - epsilon) &&
                     meshVertices[i].x < (straightUpX + epsilon))
                 {
-                    Debug.Log("BLIPP!");
                     lineVertices.Add(meshVertices[i]);
                 }
             }
             else
             {
-                Debug.Log("bopp");
                 if (LineFunction(meshVertices[i].x) > (meshVertices[i].y - epsilon)
                     && LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon))
                 {
-                    Debug.Log("BLOPP!");
                     lineVertices.Add(meshVertices[i]);
                 }
             }
