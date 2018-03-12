@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GuiLabs.Undo;
+using System;
 
 public class ClothModelHandler : MonoBehaviour {
 
 	public GameObject clothModelPrefab;
     public Material garmentMaterial;
     public DeformManager deformManager;
+<<<<<<< HEAD
     public GarmentHandler garmentHandler;
 
+=======
+    
+>>>>>>> feature/create_submesh
     private List<GameObject> clothModels = new List<GameObject> ();
 
 	private ActionManager actionManager;
 
+  
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		actionManager = GetComponentInParent<ActionManager> ();
 	}
 
@@ -118,21 +124,27 @@ public class ClothModelHandler : MonoBehaviour {
 
     public void Simulate()
     {
+
         GameObject go = new GameObject("A piece of cloth");
         DeformObject deformObject = go.AddComponent<DeformObject>();
 
         go.transform.parent = deformManager.transform.parent;
-        go.transform.localPosition = new Vector3(0,5,0);
+        go.transform.localPosition = new Vector3(0,1,0);
         go.transform.localRotation = Quaternion.AngleAxis(90,new Vector3(1,0,0));
-        
+
+        //clothModels[0].transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+
         Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
+        //Mesh mesh = CreateSubMesh();
+        //Mesh mesh = CreateSubMeshFromSmallPatch();
 
         deformObject.SetMesh(mesh);
         deformObject.SetMaterial(garmentMaterial);
-
-
+        
         deformManager.Reset();
+        
     }
+<<<<<<< HEAD
 
 	
 
@@ -143,4 +155,7 @@ public class ClothModelHandler : MonoBehaviour {
 
 
 
+=======
+    
+>>>>>>> feature/create_submesh
 }

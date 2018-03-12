@@ -17,8 +17,13 @@ TagManager:
   - 
   - 
   - ModelPlane
+<<<<<<< HEAD
   - Body
   - 
+=======
+  - 
+  - BoundaryLine
+>>>>>>> feature/create_submesh
   - 
   - 
   - 

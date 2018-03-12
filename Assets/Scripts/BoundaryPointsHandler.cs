@@ -47,9 +47,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			Debug.Log("hej");
 			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
-
+        
 		UpdateMiddle ();
 		UpdateCollider ();
+
 	}
 
 	void UpdateMiddle(){
@@ -500,4 +501,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		point.transform.position += 2 * translationToLineFromPoint;
 
 	}
+
+    public List<GameObject> GetBoundaryPoints()
+    {
+        return boundaryPoints;
+    }
 }
