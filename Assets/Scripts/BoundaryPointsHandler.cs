@@ -506,4 +506,14 @@ public class BoundaryPointsHandler : MonoBehaviour {
     {
         return boundaryPoints;
     }
+
+	public List<GameObject> GetSelectedLines(){
+		List<GameObject> temp = new List<GameObject> ();
+		foreach (GameObject l in boundaryLines) {
+			if (l.GetComponent<Selectable> ().isSelected()) {
+				temp.Add (l);
+			}
+		}
+		return temp;
+	}
 }
