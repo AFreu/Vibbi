@@ -256,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clothModelPrefab: {fileID: 1670655632340280, guid: 82ab7af96e5df864faf753ca8fbacf2c,
     type: 2}
+  seamModelPrefab: {fileID: 0}
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 784108237}
   garmentHandler: {fileID: 575847416}
@@ -906,34 +907,6 @@ MonoBehaviour:
   yMaxLimit: 80
   distanceMin: 0.5
   distanceMax: 15
---- !u!1 &441930876
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 441930877}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &441930877
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 441930876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -49, y: 1.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &474160864
 GameObject:
   m_ObjectHideFlags: 0
