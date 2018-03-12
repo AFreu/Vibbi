@@ -53,11 +53,8 @@ public class Movable : MonoBehaviour {
 		if (currentlyDragged != gameObject)
 			return;
 
-
-		int layerMask = 1 << 8;
-
 		RaycastHit hit;
-		if (Physics.Raycast (mousePositionRay, out hit, 30f, layerMask)) {
+		if (Physics.Raycast (mousePositionRay, out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
 			Move (hit.point);
 		}else {
 			Debug.Log ("RAY missed modelplane");

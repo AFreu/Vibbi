@@ -9,14 +9,11 @@ public class ClothModelHandler : MonoBehaviour {
 	public GameObject clothModelPrefab;
     public Material garmentMaterial;
     public DeformManager deformManager;
-
     public GarmentHandler garmentHandler;
     
     private List<GameObject> clothModels = new List<GameObject> ();
-
 	private ActionManager actionManager;
 
-  
 
     // Use this for initialization
     void Start () {
@@ -129,11 +126,7 @@ public class ClothModelHandler : MonoBehaviour {
         go.transform.localPosition = new Vector3(0,1,0);
         go.transform.localRotation = Quaternion.AngleAxis(90,new Vector3(1,0,0));
 
-        //clothModels[0].transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
-
         Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
-        //Mesh mesh = CreateSubMesh();
-        //Mesh mesh = CreateSubMeshFromSmallPatch();
 
         deformObject.SetMesh(mesh);
         deformObject.SetMaterial(garmentMaterial);
