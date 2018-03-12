@@ -8,6 +8,92 @@ public class VibbiMeshUtils : MonoBehaviour
     private IDictionary<int, List<int>> indexToTrianglesDictionary = new Dictionary<int, List<int>>();
     public Mesh backgroundPatchMesh;
 
+    //function variables
+    private static float k;
+    private static float m;
+    private static bool straightUpLine = false;
+    private static float straightUpX;
+
+    //take two lines and find their vertices and make an array with all the pairs
+    public static void DefineSeamFromLines(GameObject line1, GameObject line2)
+    {
+        //find vertices on the lines
+        List<Vector3> verticesLine1 = verticesFromLine(line1);
+        List<Vector3> verticesLine2 = verticesFromLine(line2);
+
+        Debug.Log(verticesLine1.Count);
+        Debug.Log(verticesLine1[0]);
+    
+        Debug.Log(verticesLine2.Count);
+        Debug.Log(verticesLine2[0]);
+    }
+
+    private static List<Vector3> verticesFromLine(GameObject line)
+    {
+        straightUpLine = false;
+
+        float epsilon = 0.001f;
+        //get the two points of the line
+        Vector3 firstPointPos = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
+        Vector3 secondPointPos = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
+        //Debug.Log("First point: "+ firstPointPos.x + " "+ firstPointPos.y);
+        //Debug.Log("Second point: " + secondPointPos.x + " " + secondPointPos.y);
+        
+        //find the function of these two points
+        float deltaX = (secondPointPos.x - firstPointPos.x); //if =0 point goes straight up
+        float deltaY = (secondPointPos.y - firstPointPos.y);
+
+        if (deltaX == 0)
+        {
+            straightUpLine = true;
+            straightUpX = firstPointPos.x;
+        }
+        else
+        {
+            k = deltaY / deltaX;
+            m = firstPointPos.y - (k * firstPointPos.x);
+        }
+
+
+
+        //get all the vertices of the mesh that the line belongs to
+        Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
+        List<Vector3> lineVertices = new List<Vector3>(); //fill this list with the vertices on the line
+
+        //check if vertices are on the line
+        for (int i = 0; i < meshVertices.Length; i++)
+        {
+            if (straightUpLine)
+            {
+                Debug.Log("bipp");
+                if (meshVertices[i].x > (straightUpX - epsilon) &&
+                    meshVertices[i].x < (straightUpX + epsilon))
+                {
+                    Debug.Log("BLIPP!");
+                    lineVertices.Add(meshVertices[i]);
+                }
+            }
+            else
+            {
+                Debug.Log("bopp");
+                if (LineFunction(meshVertices[i].x) > (meshVertices[i].y - epsilon)
+                    && LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon))
+                {
+                    Debug.Log("BLOPP!");
+                    lineVertices.Add(meshVertices[i]);
+                }
+            }
+
+        }
+        
+        return lineVertices;
+    }
+
+
+    private static float LineFunction(float x)
+    {
+        return k*x+m;
+    } 
 
 
     public void FindTrianglesInBackgroundPatch()

@@ -9,7 +9,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	//The lists are order dependent
 	private List<GameObject> boundaryPoints = new List<GameObject> ();
-	private List<GameObject> boundaryLines = new List<GameObject> ();
+	public List<GameObject> boundaryLines = new List<GameObject> ();
 
 	private PolygonCollider2D polygonCollider;
 	private ActionManager actionManager;

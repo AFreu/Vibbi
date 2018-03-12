@@ -131,7 +131,13 @@ public class ClothModelHandler : MonoBehaviour {
         deformObject.SetMesh(mesh);
         deformObject.SetMaterial(garmentMaterial);
         
-        deformManager.Reset();
+        //deformManager.Reset();
+
+
+        //////////////
+        //yolo
+        /////////////
+        VibbiMeshUtils.DefineSeamFromLines(clothModels[0].GetComponent<BoundaryPointsHandler>().boundaryLines[0], clothModels[0].GetComponent<BoundaryPointsHandler>().boundaryLines[1]);
         
     }
 
