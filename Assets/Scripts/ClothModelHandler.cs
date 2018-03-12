@@ -9,12 +9,9 @@ public class ClothModelHandler : MonoBehaviour {
 	public GameObject clothModelPrefab;
     public Material garmentMaterial;
     public DeformManager deformManager;
-<<<<<<< HEAD
-    public GarmentHandler garmentHandler;
 
-=======
+    public GarmentHandler garmentHandler;
     
->>>>>>> feature/create_submesh
     private List<GameObject> clothModels = new List<GameObject> ();
 
 	private ActionManager actionManager;
@@ -144,18 +141,5 @@ public class ClothModelHandler : MonoBehaviour {
         deformManager.Reset();
         
     }
-<<<<<<< HEAD
 
-	
-
-
-
-
-
-
-
-
-=======
-    
->>>>>>> feature/create_submesh
 }
