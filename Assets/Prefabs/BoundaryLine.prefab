@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65979071527366644}
   - component: {fileID: 114832227598093230}
   - component: {fileID: 114650834226671136}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BoundaryLine
   m_TagString: BoundaryLine
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.1, z: 1}
+  m_Size: {x: 1, y: 0.001, z: 1}
   m_Center: {x: 0.5, y: 0, z: 0}
 --- !u!114 &114650834226671136
 MonoBehaviour:
@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db8d43098dc74f49abc3e58c01159da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapToGrid: 0
+  GRIDWIDTH: 0
 --- !u!114 &114777281880196686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,6 +106,7 @@ LineRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -119,6 +122,7 @@ LineRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
