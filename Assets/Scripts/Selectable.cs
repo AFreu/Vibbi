@@ -12,9 +12,11 @@ public class Selectable : MonoBehaviour {
 	private bool highlighted = false;
 	private bool selected = false;
 
+	private static List<Selectable> currentlyHighlighted;
+
 	// Use this for initialization
 	void Start () {
-		
+		currentlyHighlighted = new List<Selectable>();
 	}
 	
 	// Update is called once per frame
@@ -34,14 +36,33 @@ public class Selectable : MonoBehaviour {
 
 	void OnMouseEnter(){
 		Highlight (true);
-	
 	}
 
 	void OnMouseExit(){
 		Highlight (false);
 	}
 
-	void Highlight(bool on){
+	void OnDisable(){
+		Highlight (false);
+	}
+		
+
+	void Highlight(bool highlight){
+		if (highlight) {
+			currentlyHighlighted.Add (this);
+			currentlyHighlighted [0].SetHighlighted (true);
+		} else {
+			currentlyHighlighted.Remove (this);
+			SetHighlighted (false);
+
+			if (currentlyHighlighted.Count > 0) {
+				currentlyHighlighted [0].SetHighlighted (true);
+			}
+		}
+
+	}
+
+	public void SetHighlighted(bool on){
 		highlighted = on;
 		if (selected)
 			return;

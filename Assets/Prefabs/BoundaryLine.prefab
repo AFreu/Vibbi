@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 114777281880196686}
   - component: {fileID: 65979071527366644}
   - component: {fileID: 114832227598093230}
-  m_Layer: 0
+  - component: {fileID: 114650834226671136}
+  m_Layer: 10
   m_Name: BoundaryLine
   m_TagString: BoundaryLine
   m_Icon: {fileID: 0}
@@ -50,11 +51,24 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186314178957548}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.1, z: 1}
+  m_Size: {x: 1, y: 0.1, z: 0.1}
   m_Center: {x: 0.5, y: 0, z: 0}
+--- !u!114 &114650834226671136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186314178957548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db8d43098dc74f49abc3e58c01159da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapToGrid: 0
+  GRIDWIDTH: 0
 --- !u!114 &114777281880196686
 MonoBehaviour:
   m_ObjectHideFlags: 1

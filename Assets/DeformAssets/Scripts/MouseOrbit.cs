@@ -37,17 +37,29 @@ public class MouseOrbit : MonoBehaviour
         }
     }
 
+
+
     void LateUpdate()
     {
+
+		Camera camera = GetComponent<Camera> ();
+		Vector3 point = camera.ScreenToViewportPoint(Input.mousePosition);
+		bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
+
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SetActive(!active);
         }
 
-        if (target && active)
+		if (target && active )
         {
+		
+			if (Cursor.lockState != CursorLockMode.Locked && !cursorInViewPort)
+				return;
+
             // Rotate
-            if (Input.GetMouseButton(0))
+			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;

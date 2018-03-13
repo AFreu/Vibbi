@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cloth
-  - BoundaryPoint
   - BoundaryLine
+  - BoundaryPoint
   layers:
   - Default
   - TransparentFX
@@ -17,8 +17,8 @@ TagManager:
   - 
   - 
   - ModelPlane
-  - 
-  - 
+  - Body
+  - BoundaryLine
   - 
   - 
   - 

@@ -1,20 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GuiLabs.Undo;
 
 public class BoundaryLineBehaviour : MonoBehaviour{
 
 	public Transform first;
 	public Transform second;
 
-	private Ray mousePositionRay;
 	public Vector3 unitVector;
-
-
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 
 	// Update is called once per frame
@@ -23,17 +21,14 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 			return;
 		UpdateLine ();
 
-		mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-
 	}
 
 	void OnMouseOver(){
 		if (Input.GetKeyUp (KeyCode.A)) {
-			int layerMask = 1 << 8;
 			RaycastHit hit;
 
-			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 30f, layerMask)) {
-				gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().AddBoundaryPoint(gameObject, hit.point);
+			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
+				gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit.point);
 			}
 			
 
@@ -41,30 +36,6 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 		}else if(Input.GetKeyUp(KeyCode.U)){
 			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
 		}
-	}
-
-	void OnMouseDrag(){
-
-		int layerMask = 1 << 8;
-		RaycastHit hit;
-		if (Physics.Raycast (mousePositionRay, out hit, 30f, layerMask)) {
-
-			//Calculate vector rejection of vector 'a' going from line to raycast hit (mouse position on model plane).
-			Vector3 a = hit.point - first.transform.position;
-			Vector3 a2 = a - Vector3.Dot(a , unitVector) * unitVector;
-
-			//Add the rejection vector to both boundary points of this line
-			first.transform.position += a2;
-			second.transform.position += a2;
-
-			//Love linear algebra! 
-		}else {
-			Debug.Log ("RAY missed modelplane");
-		}
-	}
-
-	void OnMouseEnter(){
-		Debug.Log ("Enter Boundary");
 	}
 
 	void UpdateLine(){
@@ -83,17 +54,4 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 		transform.right = offset;
 		transform.localScale = scale;
 	}
-
-	public Ray getRayRepresentation(){
-		return new Ray (new Vector3(first.position.x, first.position.y, first.position.z), new Vector3(unitVector.x, unitVector.y, unitVector.z));
-	}
-
-	/*public GameObject Copy(Transform parent){
-		GameObject copy = Instantiate (gameObject, parent) as GameObject;
-		copy.transform.position = transform.position;
-		copy.transform.rotation = transform.rotation;
-		copy.transform.localScale = transform.localScale;
-
-		return copy;
-	}*/
 }
