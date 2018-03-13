@@ -25,9 +25,19 @@ public class ClothModelHandler : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
+		HandleInput ();
+
+	}
+
+	private void HandleInput(){
 		if(Input.GetKeyUp (KeyCode.C)){
 			AddCloth (new Vector3 (1.0f, 1.0f, 0.0f));
+		}
 
+		if(Input.GetButtonUp("Triangulate")){
+			Debug.Log ("Triangulate");
+			TriangulateModels ();
 		}
 
 		if(Input.GetButtonUp("Sew")){

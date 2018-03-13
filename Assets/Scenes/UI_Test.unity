@@ -370,7 +370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 1993175634}
-  attachMentPointsHandler: {fileID: 0}
+  attachMentPointsHandler: {fileID: 1043709859}
   clothPieces: []
 --- !u!1 &241103151
 GameObject:
