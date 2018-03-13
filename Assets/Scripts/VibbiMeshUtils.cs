@@ -20,7 +20,11 @@ public class VibbiMeshUtils : MonoBehaviour
         //find vertex indices on the lines
         List<int> indicesLine1 = indicesFromLine(line1);
         List<int> indicesLine2 = indicesFromLine(line2);
-        
+
+        Debug.Log(indicesLine1.Count);
+
+        Debug.Log(indicesLine2.Count);
+
         //pair them up
         //distribution : how many jumps to make from the last index
         List<int> smallestList = indicesLine1.Count <= indicesLine2.Count ? indicesLine1 : indicesLine2;
@@ -60,6 +64,8 @@ public class VibbiMeshUtils : MonoBehaviour
         DefineFunction( line.GetComponent<BoundaryLineBehaviour>().first.localPosition, 
                         line.GetComponent<BoundaryLineBehaviour>().second.localPosition);
 
+        
+
         //get all the vertices of the mesh that the line belongs to
         Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
         List<int> lineIndices = new List<int>(); //fill this list with the vertices on the line
@@ -83,12 +89,37 @@ public class VibbiMeshUtils : MonoBehaviour
                     lineIndices.Add(i); //add the index of the vertex
                 }
             }
-
         }
+        
+        lineIndices = SortIndexList(lineIndices, line.GetComponent<BoundaryLineBehaviour>().first.localPosition, meshVertices);
         
         return lineIndices;
     }
 		
+
+    private static List<int> SortIndexList(List<int> lineIndices, Vector3 startPoint, Vector3[] meshVertices)
+    {
+        //bubble sort
+        bool swapped = true;
+        while (swapped)
+        {
+            swapped = false;
+            for (int i = 1; i < lineIndices.Count; i++)
+            {
+                if ((meshVertices[lineIndices[i - 1]] - startPoint).magnitude > (meshVertices[lineIndices[i]] - startPoint).magnitude)
+                {
+                    //swap lineInd[i-1] with lineInd[i];
+                    int tmp = lineIndices[i - 1];
+                    lineIndices[i - 1] = lineIndices[i];
+                    lineIndices[i] = tmp;
+
+                    swapped = true;
+                }
+            }
+        }
+        return lineIndices;
+    }
+
     //param x => f(x) = kx + m 
     //with k & m defined by DefineFunction(Vector3, Vector3)
     private static float LineFunction(float x)
@@ -99,6 +130,7 @@ public class VibbiMeshUtils : MonoBehaviour
     //defines k & m in linear function f(x) = kx + m that goes from firstPointPos to secondPointPos
     private static void DefineFunction(Vector3 firstPointPos, Vector3 secondPointPos)
     {
+
         float deltaX = (secondPointPos.x - firstPointPos.x); //if = 0 line goes straight up
         float deltaY = (secondPointPos.y - firstPointPos.y);
 
