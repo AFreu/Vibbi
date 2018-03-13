@@ -123,6 +123,11 @@ public class ClothModelHandler : MonoBehaviour {
         garmentHandler.LoadCloth(gameObject);
     }
 
+	public void LoadSeam(GameObject gameObject)
+	{
+		garmentHandler.LoadSeam (gameObject);
+	}
+
 
     public void Simulate()
     {
@@ -156,40 +161,21 @@ public class ClothModelHandler : MonoBehaviour {
 
 	public void Sew(){
 		List<GameObject> selectedLines = new List<GameObject> ();
-		List<GameObject> selectedModels = new List<GameObject> ();
+
 		foreach (GameObject c in clothModels) {
 			var bph = c.GetComponent<BoundaryPointsHandler> ();
-			List<GameObject> temp = bph.GetSelectedLines ();
-			if (temp.Count != 0) {
-				selectedModels.Add (c);
-				selectedLines.AddRange(temp);
-			}
+			selectedLines.AddRange(bph.GetSelectedLines ());
 
 			if (selectedLines.Count > 2) {
 				break;
 			}
-
 		}
-
-		Debug.Log ("#selectedLines: " + selectedLines.Count);
 
 		if (selectedLines.Count == 2) {
 			var firstLine = selectedLines [0];
 			var secondLine = selectedLines [1];
-			var firstModel = selectedModels [0];
-			var secondModel = selectedModels [0];
-
-			if (selectedModels.Count == 2) {
-				secondModel = selectedModels [1];
-			}
-
 
 			CreateSeam (firstLine, secondLine);
-
-
-
-			//TODO: sew first and second line together.
-
 
 		} else if (selectedLines.Count < 2) {
 			Debug.Log ("Too few edges selected for sewing, select two");
@@ -205,6 +191,11 @@ public class ClothModelHandler : MonoBehaviour {
 		seam.Init (firstLine, secondLine);
 		seamModels.Add (s);
 		return s;
+	}
+
+	public void RemoveSeam(GameObject seam){
+		seamModels.Remove (seam);
+		GameObject.Destroy (seam);
 	}
 
 }

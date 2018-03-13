@@ -88,7 +88,7 @@ public class VibbiMeshUtils : MonoBehaviour
         
         return lineIndices;
     }
-
+		
     //param x => f(x) = kx + m 
     //with k & m defined by DefineFunction(Vector3, Vector3)
     private static float LineFunction(float x)

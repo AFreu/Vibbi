@@ -10,6 +10,7 @@ public class GarmentHandler : MonoBehaviour {
     public AttachmentPointsHandler attachMentPointsHandler;
 
     public List<GameObject> clothPieces = new List<GameObject>();
+	private List<GameObject> garmentSeams = new List<GameObject>();
     
 
 	// Use this for initialization
@@ -23,9 +24,8 @@ public class GarmentHandler : MonoBehaviour {
         {
             StartSimulation();
         }
+
 	}
-
-
 
     public void LoadCloth(GameObject cloth)
     {
@@ -59,7 +59,48 @@ public class GarmentHandler : MonoBehaviour {
         go.transform.forward = t.up;
     }
 
+	public void LoadSeam(GameObject seam){
+		Debug.Log ("Load Seam");
+		var sb = seam.GetComponent<SeamBehaviour> ();
+		int firstLineMeshIndex = -1;
+		int secondLineMeshIndex = -1;
+		bool firstMeshFound = false;
+		bool secondMeshFound = false;
+		for (int index = 0; index < clothPieces.Count; index++) {
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetFirstMesh ())) {
+				Debug.Log ("Mesh 1 is previously loaded");
+				firstLineMeshIndex = index;
+				firstMeshFound = true;
+			}
 
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetSecondMesh ())) {
+				Debug.Log ("Mesh 2 is previously loaded");
+				secondLineMeshIndex = index;
+				secondMeshFound = true;
+			}
+		
+		}
+
+		if (firstMeshFound && secondMeshFound) {
+			List<int> LineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (sb.GetFirstLine (), sb.GetSecondLine()); 
+			//List<int> secondLineVerticeIndices = VibbiMeshUtils.VerticesFromLine (sb.GetSecondLine());
+			if (LineVerticeIndices.Count <= 0 ) {
+				Debug.Log ("Seam edge contains 0 vertices, aborting!");
+				return;
+			}
+			CreateSeam (firstLineMeshIndex, secondLineMeshIndex, LineVerticeIndices);
+		}
+	}
+
+	private void CreateSeam(int firstClothPieceIndex, int secondClothPieceIndex, List<int> lineVerticeIndices){
+		GameObject garmentSeam = new GameObject ("GarmentSeam");
+		garmentSeam.transform.parent = transform;
+		var seam = garmentSeam.AddComponent<GarmentSeamBehaviour> ();
+		seam.Init (firstClothPieceIndex, secondClothPieceIndex, lineVerticeIndices, clothPieces[firstClothPieceIndex], clothPieces[secondClothPieceIndex]);
+	
+		garmentSeams.Add(garmentSeam);
+
+	}
 
 
     public void StartSimulation()
@@ -75,4 +116,5 @@ public class GarmentHandler : MonoBehaviour {
         deformManager.Reset();
 
     }
+		
 }
