@@ -55,7 +55,7 @@ public class GarmentHandler : MonoBehaviour {
 
     public void AttachCloth(GameObject go, Transform t)
     {
-        go.transform.localPosition = t.localPosition;
+        go.transform.position = t.position;
         go.transform.forward = t.up;
     }
 

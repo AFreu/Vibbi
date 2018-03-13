@@ -55,7 +55,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -71,7 +70,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -138,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5259ba1abacee45fc82fe14ac022e601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boundaryLines: []
   boundaryPointPrefab: {fileID: 1931533834868222, guid: c1597e944d11d47a9b6e101b7c1d21b8,
     type: 2}
   boundaryLinePrefab: {fileID: 1186314178957548, guid: 2716a4389d75b452b86f4a2cb691e1e5,
@@ -170,5 +169,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e4dede11cd46008b7af7cbdeeab3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapToGrid: 1
+  snapToGrid: 0
   GRIDWIDTH: 0.33333334
