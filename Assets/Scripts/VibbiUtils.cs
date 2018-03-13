@@ -25,6 +25,8 @@ public class VibbiUtils : MonoBehaviour {
 		lr.endColor = color;
 		lr.startWidth = 0.1f;
 		lr.endWidth = 0.1f;
+		lr.SetPosition(0, start);
+		lr.SetPosition(1, end);
 		GameObject.Destroy(myLine, duration);
 	}
 

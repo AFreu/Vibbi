@@ -10,6 +10,7 @@ public class GarmentHandler : MonoBehaviour {
     public AttachmentPointsHandler attachMentPointsHandler;
 
     public List<GameObject> clothPieces = new List<GameObject>();
+	private List<GarmentSeam> seams = new List<GarmentSeam>();
     
 
 	// Use this for initialization
@@ -23,6 +24,34 @@ public class GarmentHandler : MonoBehaviour {
         {
             StartSimulation();
         }
+
+
+		UpdateGarmentSeams ();
+
+	}
+
+	private void UpdateGarmentSeams(){
+		foreach (GarmentSeam s in seams) {
+			var firstClothPiece = clothPieces [s.firstMesh];
+			var secondClothPiece = clothPieces [s.secondMesh];
+			var firstMeshVertices = firstClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
+			var secondMeshVertices = secondClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
+
+
+
+			for (int i = 0; i < s.firstMeshVertices.Count; i++) {
+
+				int j = i;
+				if (j >= s.secondMeshVertices.Count) {
+					j = s.secondMeshVertices.Count - 1;
+				}
+
+				var start = firstClothPiece.transform.TransformPoint (firstMeshVertices [s.firstMeshVertices [i]]);
+				var end = secondClothPiece.transform.TransformPoint (secondMeshVertices [s.secondMeshVertices [j]]);
+
+				VibbiUtils.DrawLine (start, end, Color.red, 0.1f);
+			}
+		}
 	}
 
 
@@ -59,7 +88,51 @@ public class GarmentHandler : MonoBehaviour {
         go.transform.forward = t.up;
     }
 
+	public void LoadSeam(GameObject seam){
+		Debug.Log ("Load Seam");
+		var sb = seam.GetComponent<SeamBehaviour> ();
+		int firstLineMeshIndex = -1;
+		int secondLineMeshIndex = -1;
+		bool firstMeshFound = false;
+		bool secondMeshFound = false;
+		for (int index = 0; index < clothPieces.Count; index++) {
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetFirstMesh ())) {
+				Debug.Log ("Mesh 1 is previously loaded");
+				firstLineMeshIndex = index;
+				firstMeshFound = true;
+			}
 
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetSecondMesh ())) {
+				Debug.Log ("Mesh 2 is previously loaded");
+				secondLineMeshIndex = index;
+				secondMeshFound = true;
+			}
+		
+		}
+
+		if (firstMeshFound && secondMeshFound) {
+			List<int> firstLineVerticeIndices = VibbiMeshUtils.VerticesFromLine (sb.GetFirstLine ()); 
+			List<int> secondLineVerticeIndices = VibbiMeshUtils.VerticesFromLine (sb.GetSecondLine());
+			if (firstLineVerticeIndices.Count <= 0 || secondLineVerticeIndices.Count <= 0) {
+				Debug.Log ("Seam edge contains 0 vertices, aborting!");
+				return;
+			}
+			//CreateSeam (firstLineMeshIndex, secondLineMeshIndex, firstLineVerticeIndices, secondLineVerticeIndices);
+		}
+	}
+
+	/*private void CreateSeam(int firstClothPieceIndex, int secondClothPieceIndex, List<int> firstVerticeIndices, List<int> secondVerticeIndices){
+		GameObject s = new GameObject ("GarmentSeam");
+		s.transform.parent = transform;
+		var seam = s.AddComponent<GarmentSeamBehaviour> ();
+		seam.Init (firstLine, secondLine);
+		seamModels.Add (s);
+		return s;
+
+		//TODO Create seam lines
+
+		seams.Add (new GarmentSeam (firstClothPieceIndex, secondClothPieceIndex, firstVerticeIndices, secondVerticeIndices));
+	}*/
 
 
     public void StartSimulation()
@@ -75,4 +148,19 @@ public class GarmentHandler : MonoBehaviour {
         deformManager.Reset();
 
     }
+
+	 private struct GarmentSeam {
+		public int firstMesh { set; get;}
+		public int secondMesh{ set; get;}
+
+		public List<int> firstMeshVertices { set; get;}
+		public List<int> secondMeshVertices { set; get;}
+
+		public GarmentSeam(int firstMesh, int secondMesh, List<int> firstMeshVertices, List<int> secondMeshVertices){
+			this.firstMesh = firstMesh;
+			this.secondMesh = secondMesh;
+			this.firstMeshVertices = firstMeshVertices;
+			this.secondMeshVertices = secondMeshVertices;
+		}
+	}
 }

@@ -75,6 +75,59 @@ public class VibbiMeshUtils : MonoBehaviour
         return lineVertices;
     }
 
+	public static List<int> VerticesFromLine(GameObject line)
+	{
+		straightUpLine = false;
+
+		float epsilon = 0.001f;
+		//get the two points of the line
+		Vector3 firstPointPos = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
+		Vector3 secondPointPos = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
+
+		//find the function of these two points
+		float deltaX = (secondPointPos.x - firstPointPos.x); //if =0 point goes straight up
+		float deltaY = (secondPointPos.y - firstPointPos.y);
+
+		if (deltaX == 0)
+		{
+			straightUpLine = true;
+			straightUpX = firstPointPos.x;
+		}
+		else
+		{
+			k = deltaY / deltaX;
+			m = firstPointPos.y - (k * firstPointPos.x);
+		}
+
+		//get all the vertices of the mesh that the line belongs to
+		Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
+		List<int> lineVerticeIndices = new List<int>(); //fill this list with the vertices on the line
+
+		//check if vertices are on the line
+		for (int i = 0; i < meshVertices.Length; i++)
+		{
+			if (straightUpLine)
+			{
+				if (meshVertices[i].x > (straightUpX - epsilon) &&
+					meshVertices[i].x < (straightUpX + epsilon))
+				{
+					lineVerticeIndices.Add(i);
+				}
+			}
+			else
+			{
+				if (LineFunction(meshVertices[i].x) > (meshVertices[i].y - epsilon)
+					&& LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon))
+				{
+					lineVerticeIndices.Add(i);
+				}
+			}
+
+		}
+
+		return lineVerticeIndices;
+	}
+
 
     private static float LineFunction(float x)
     {

@@ -118,10 +118,6 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		foreach (GameObject o in boundaryPoints) {
 			o.transform.Translate (-translation);
 		}
-
-		/*foreach (Transform t in transform) {
-			t.Translate (-translation);
-		}*/
 	}
 
 	public void TriangulateModel() {
