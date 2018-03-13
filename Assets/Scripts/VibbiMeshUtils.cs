@@ -18,37 +18,25 @@ public class VibbiMeshUtils : MonoBehaviour
     public static void DefineSeamFromLines(GameObject line1, GameObject line2)
     {
         //find vertices on the lines
-        List<Vector3> verticesLine1 = verticesFromLine(line1);
-        List<Vector3> verticesLine2 = verticesFromLine(line2);
+        List<int> indicesLine1 = indicesFromLine(line1);
+        List<int> indicesLine2 = indicesFromLine(line2);
     }
 
-    private static List<Vector3> verticesFromLine(GameObject line)
+    private static List<int> indicesFromLine(GameObject line)
     {
         straightUpLine = false;
-
         float epsilon = 0.001f;
+
         //get the two points of the line
         Vector3 firstPointPos = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
         Vector3 secondPointPos = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
-       
-        //find the function of these two points
-        float deltaX = (secondPointPos.x - firstPointPos.x); //if =0 point goes straight up
-        float deltaY = (secondPointPos.y - firstPointPos.y);
 
-        if (deltaX == 0)
-        {
-            straightUpLine = true;
-            straightUpX = firstPointPos.x;
-        }
-        else
-        {
-            k = deltaY / deltaX;
-            m = firstPointPos.y - (k * firstPointPos.x);
-        }
+        //find the function of these two points
+        DefineFunction(firstPointPos, secondPointPos);
 
         //get all the vertices of the mesh that the line belongs to
         Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
-        List<Vector3> lineVertices = new List<Vector3>(); //fill this list with the vertices on the line
+        List<int> lineVertices = new List<int>(); //fill this list with the vertices on the line
 
         //check if vertices are on the line
         for (int i = 0; i < meshVertices.Length; i++)
@@ -58,7 +46,7 @@ public class VibbiMeshUtils : MonoBehaviour
                 if (meshVertices[i].x > (straightUpX - epsilon) &&
                     meshVertices[i].x < (straightUpX + epsilon))
                 {
-                    lineVertices.Add(meshVertices[i]);
+                    lineVertices.Add(i); //add the index of the vertex
                 }
             }
             else
@@ -66,7 +54,7 @@ public class VibbiMeshUtils : MonoBehaviour
                 if (LineFunction(meshVertices[i].x) > (meshVertices[i].y - epsilon)
                     && LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon))
                 {
-                    lineVertices.Add(meshVertices[i]);
+                    lineVertices.Add(i); //add the index of the vertex
                 }
             }
 
@@ -80,6 +68,23 @@ public class VibbiMeshUtils : MonoBehaviour
     {
         return k*x+m;
     } 
+
+    private static void DefineFunction(Vector3 firstPointPos, Vector3 secondPointPos)
+    {
+        float deltaX = (secondPointPos.x - firstPointPos.x); //if = 0 line goes straight up
+        float deltaY = (secondPointPos.y - firstPointPos.y);
+
+        if (deltaX == 0)
+        {
+            straightUpLine = true;
+            straightUpX = firstPointPos.x;
+        }
+        else
+        {
+            k = deltaY / deltaX;
+            m = firstPointPos.y - (k * firstPointPos.x);
+        }
+    }
 
 
     public void FindTrianglesInBackgroundPatch()
