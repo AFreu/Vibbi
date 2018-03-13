@@ -17,13 +17,14 @@ public class SeamBehaviour : MonoBehaviour {
 	}
 
 	void Update(){
-
-		if (Input.GetKeyUp (KeyCode.W)) {
-			Swap ();
-		}
-
 		if (lineOne == null || lineTwo == null)
 			return;
+
+		if (lineOne.GetComponent<Selectable> ().isSelected () || lineTwo.GetComponent<Selectable> ().isSelected ()) {
+			if (Input.GetKeyUp (KeyCode.W)) {
+				Swap ();
+			}
+		}
 
 		UpdateConnections ();
 
