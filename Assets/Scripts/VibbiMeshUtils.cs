@@ -15,28 +15,54 @@ public class VibbiMeshUtils : MonoBehaviour
     private static float straightUpX;
 
     //take two lines and find their vertices and make an array with all the pairs
-    public static void DefineSeamFromLines(GameObject line1, GameObject line2)
+    public static List<int> DefineSeamFromLines(GameObject line1, GameObject line2)
     {
-        //find vertices on the lines
+        //find vertex indices on the lines
         List<int> indicesLine1 = indicesFromLine(line1);
         List<int> indicesLine2 = indicesFromLine(line2);
+        
+        //pair them up
+        //distribution : how many jumps to make from the last index
+        List<int> smallestList = indicesLine1.Count <= indicesLine2.Count ? indicesLine1 : indicesLine2;
+        List<int> largestList = indicesLine1.Count >= indicesLine2.Count ? indicesLine1 : indicesLine2;
+        
+        int distribution = Mathf.FloorToInt(largestList.Count / smallestList.Count);
+       
+        int isLine1Smallest = indicesLine1.Count <= indicesLine2.Count ? 1: distribution;
+        int isLine2Smallest = indicesLine2.Count < indicesLine1.Count ? 1 : distribution;
+        
+        List<int> pairsOfIndices = new List<int>(); //index from line1 is first then index from line2
+        for (int i = 0; i < smallestList.Count; i ++)
+        {
+            if (i == smallestList.Count-1)
+            {
+                pairsOfIndices.Add(indicesLine1[indicesLine1.Count-1]);
+                pairsOfIndices.Add(indicesLine2[indicesLine2.Count-1]);
+            }
+            else
+            {
+                pairsOfIndices.Add(indicesLine1[i * (distribution / isLine1Smallest)]);
+                pairsOfIndices.Add(indicesLine2[i * (distribution / isLine2Smallest)]);
+            }
+
+        }
+        
+        return pairsOfIndices;
     }
 
     private static List<int> indicesFromLine(GameObject line)
     {
         straightUpLine = false;
-        float epsilon = 0.001f;
+        float epsilon = 0.01f;
 
-        //get the two points of the line
-        Vector3 firstPointPos = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
-        Vector3 secondPointPos = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
-
-        //find the function of these two points
-        DefineFunction(firstPointPos, secondPointPos);
+        /*get the two points of the line and
+        find the function of these two points*/
+        DefineFunction( line.GetComponent<BoundaryLineBehaviour>().first.localPosition, 
+                        line.GetComponent<BoundaryLineBehaviour>().second.localPosition);
 
         //get all the vertices of the mesh that the line belongs to
         Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
-        List<int> lineVertices = new List<int>(); //fill this list with the vertices on the line
+        List<int> lineIndices = new List<int>(); //fill this list with the vertices on the line
 
         //check if vertices are on the line
         for (int i = 0; i < meshVertices.Length; i++)
@@ -46,7 +72,7 @@ public class VibbiMeshUtils : MonoBehaviour
                 if (meshVertices[i].x > (straightUpX - epsilon) &&
                     meshVertices[i].x < (straightUpX + epsilon))
                 {
-                    lineVertices.Add(i); //add the index of the vertex
+                    lineIndices.Add(i); //add the index of the vertex
                 }
             }
             else
@@ -54,21 +80,23 @@ public class VibbiMeshUtils : MonoBehaviour
                 if (LineFunction(meshVertices[i].x) > (meshVertices[i].y - epsilon)
                     && LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon))
                 {
-                    lineVertices.Add(i); //add the index of the vertex
+                    lineIndices.Add(i); //add the index of the vertex
                 }
             }
 
         }
         
-        return lineVertices;
+        return lineIndices;
     }
 
-
+    //param x => f(x) = kx + m 
+    //with k & m defined by DefineFunction(Vector3, Vector3)
     private static float LineFunction(float x)
     {
         return k*x+m;
     } 
 
+    //defines k & m in linear function f(x) = kx + m that goes from firstPointPos to secondPointPos
     private static void DefineFunction(Vector3 firstPointPos, Vector3 secondPointPos)
     {
         float deltaX = (secondPointPos.x - firstPointPos.x); //if = 0 line goes straight up

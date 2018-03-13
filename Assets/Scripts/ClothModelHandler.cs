@@ -145,8 +145,13 @@ public class ClothModelHandler : MonoBehaviour {
         //////////////
         //yolo
         /////////////
-        VibbiMeshUtils.DefineSeamFromLines(clothModels[0].GetComponent<BoundaryPointsHandler>().boundaryLines[0], clothModels[0].GetComponent<BoundaryPointsHandler>().boundaryLines[1]);
-        
+        List<int> yobro = VibbiMeshUtils.DefineSeamFromLines(clothModels[0].GetComponent<BoundaryPointsHandler>().boundaryLines[0], clothModels[0].GetComponent<BoundaryPointsHandler>().boundaryLines[1]);
+
+        Debug.Log(yobro.Count);
+        for (int i = 0; i < yobro.Count; i+=2)
+        {
+            Debug.Log(yobro[i] + " " + yobro[i+1]);
+        }
     }
 
 	public void Sew(){
