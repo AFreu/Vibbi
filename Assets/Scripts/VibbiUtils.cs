@@ -23,8 +23,8 @@ public class VibbiUtils : MonoBehaviour {
 		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
 		lr.startColor = color;
 		lr.endColor = color;
-		lr.startWidth = 0.1f;
-		lr.endWidth = 0.1f;
+		lr.startWidth = 0.01f;
+		lr.endWidth = 0.01f;
 		lr.SetPosition(0, start);
 		lr.SetPosition(1, end);
 		GameObject.Destroy(myLine, duration);
@@ -39,8 +39,8 @@ public class VibbiUtils : MonoBehaviour {
 		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
 		lr.startColor = color;
 		lr.endColor = color;
-		lr.startWidth = 0.1f;
-		lr.endWidth = 0.1f;
+		lr.startWidth = 0.01f;
+		lr.endWidth = 0.01f;
 		lr.SetPosition(0, start);
 		lr.SetPosition(1, end);
 		return myLine;
