@@ -2,24 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryPointBehaviour : MonoBehaviour{
+public class BoundaryPointBehaviour : Behaviour{
 
 	public GameObject line;
 
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
+	void OnMouseUp(){
 		
-		//mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-	}
-
-	void OnMouseOver(){
-		
-		if (Input.GetKeyUp (KeyCode.D)) {
+		if (Input.GetKey (KeyCode.D) || interactionStateManager.currentState == InteractionStateManager.InteractionState.REMOVEPOINT) {
 			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().RemovePoint(gameObject);
 		}
 

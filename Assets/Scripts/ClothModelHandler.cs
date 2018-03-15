@@ -32,7 +32,7 @@ public class ClothModelHandler : MonoBehaviour {
 
 	private void HandleInput(){
 		if(Input.GetKeyUp (KeyCode.C)){
-			AddCloth (new Vector3 (1.0f, 1.0f, 0.0f));
+			AddCloth ();
 		}
 
 		if(Input.GetButtonUp("Triangulate")){
@@ -54,6 +54,10 @@ public class ClothModelHandler : MonoBehaviour {
 			Debug.Log ("Redo");
 			actionManager.Redo ();
 		}
+	}
+
+	public void AddCloth(){
+		AddCloth (new Vector3 (0.0f, 0.0f, 0.0f));
 	}
 
 	public void AddCloth(Vector3 position){

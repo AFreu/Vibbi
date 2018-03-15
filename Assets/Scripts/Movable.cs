@@ -5,19 +5,21 @@ using GuiLabs.Undo;
 
 public class Movable : MonoBehaviour {
 
-	public bool snapToGrid;
-	public float GRIDWIDTH;
 
-	private Ray mousePositionRay;
+	public bool snapToGrid = false;
+	public float gridWidth = 0.3f;
 
 	private static GameObject currentlyDragged;
 
+	private Ray mousePositionRay;
 	private Vector3 currentPosition;
 
 	protected ActionManager actionManager;
+	protected InteractionStateManager interactionStateManager;
 
 	void Awake() {
 		actionManager = Component.FindObjectOfType<ActionManager> ();
+		interactionStateManager = Component.FindObjectOfType<InteractionStateManager> ();
 	}
 
 	// Use this for initialization
@@ -33,14 +35,19 @@ public class Movable : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
+			return;
+		
 		if (currentlyDragged == null) {
 			currentlyDragged = gameObject;
 			SaveCurrentState ();
-
 		}
 	}
 
 	void OnMouseUp(){
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
+			return;
+
 		if (currentlyDragged == gameObject) {
 			currentlyDragged = null;
 
@@ -50,6 +57,9 @@ public class Movable : MonoBehaviour {
 	}
 
 	void OnMouseDrag() {
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
+			return;
+		
 		if (currentlyDragged != gameObject)
 			return;
 
@@ -89,22 +99,22 @@ public class Movable : MonoBehaviour {
 		var X = pt.x;
 		var Y = pt.y;
 
-		if (pt.x % GRIDWIDTH < GRIDWIDTH / 2) {
-			X = pt.x - pt.x % GRIDWIDTH;
+		if (pt.x % gridWidth < gridWidth / 2) {
+			X = pt.x - pt.x % gridWidth;
 		} else {
-			X = pt.x + (GRIDWIDTH - pt.x % GRIDWIDTH);
+			X = pt.x + (gridWidth - pt.x % gridWidth);
 		}
 
 
-		if (pt.y % GRIDWIDTH < GRIDWIDTH / 2) {
-			Y = pt.y - pt.y % GRIDWIDTH;
+		if (pt.y % gridWidth < gridWidth / 2) {
+			Y = pt.y - pt.y % gridWidth;
 		} else {
-			Y = pt.y + (GRIDWIDTH - pt.y % GRIDWIDTH);
+			Y = pt.y + (gridWidth - pt.y % gridWidth);
 		}
 	
 		//This depends on uneven Gridwidth
-		X -= GRIDWIDTH/2;
-		Y -= GRIDWIDTH/2;
+		X -= gridWidth/2;
+		Y -= gridWidth/2;
 
 		return new Vector3 (X, Y);
 	}

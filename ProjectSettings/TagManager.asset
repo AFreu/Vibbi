@@ -7,6 +7,11 @@ TagManager:
   - Cloth
   - BoundaryLine
   - BoundaryPoint
+  - Select
+  - AddPoint
+  - RemovePoint
+  - DuplicateCloth
+  - UnfoldCloth
   layers:
   - Default
   - TransparentFX

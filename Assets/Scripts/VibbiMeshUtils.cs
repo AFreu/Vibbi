@@ -499,7 +499,7 @@ public class VibbiMeshUtils : MonoBehaviour
     {
         //fix mesh
         List<GameObject> boundaryPoints = clothModel.GetComponent<BoundaryPointsHandler>().GetBoundaryPoints(); //get all points
-        float GRIDWIDTH = boundaryPoints[0].GetComponent<Movable>().GRIDWIDTH;
+		float GRIDWIDTH = boundaryPoints[0].GetComponent<Movable>().gridWidth;
         float epsilon = GRIDWIDTH / 2;
         //info about background mesh
         int resolution = 120;

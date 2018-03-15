@@ -35,7 +35,6 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		HandleInput ();
 
 		if (autoTriangulate) {
 			TriangulateModel ();
@@ -401,35 +400,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
         //ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
     }
 
-	public void HandleInput(){
-        if (GetComponent<Selectable>() == null)
-        {
-			Debug.Log ("Has no Selectable");
-            return;
-        }
-	
-		if (GetComponent<Selectable> ().isSelected ()) {
-			if (Input.GetKeyUp(KeyCode.D) && Input.GetKey(KeyCode.LeftControl)) {
-				Duplicate();
-			} else if (Input.GetKeyUp (KeyCode.D)) {
-				Remove ();
-			}
-		}
 
 
-	}
 
-	public void Remove(){
-		//gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveClothModel(gameObject);
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
-	}
-
-	//Probably some nicer way to implement this
-	public void Duplicate(){
-		//gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyClothModel(gameObject, Vector3.one);
-
-		gameObject.transform.GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
-	}
 
 
 	public void InitCopy(){

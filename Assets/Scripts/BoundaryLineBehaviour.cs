@@ -10,9 +10,10 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 
 	public Vector3 unitVector;
 
-	// Use this for initialization
-	void Start () {
+	protected InteractionStateManager interactionStateManager;
 
+	void Awake(){
+		interactionStateManager = Component.FindObjectOfType<InteractionStateManager> ();
 	}
 
 	// Update is called once per frame
@@ -23,17 +24,17 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 
 	}
 
-	void OnMouseOver(){
-		if (Input.GetKeyUp (KeyCode.A)) {
+	void OnMouseUp(){
+		if (Input.GetKey (KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
 			RaycastHit hit;
 
 			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
 				gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit.point);
 			}
-			
 
 
-		}else if(Input.GetKeyUp(KeyCode.U)){
+
+		}else if(Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH){
 			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
 		}
 	}
