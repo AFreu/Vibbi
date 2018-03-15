@@ -13,6 +13,7 @@ public class Movable : MonoBehaviour {
 
 	private Ray mousePositionRay;
 	private Vector3 currentPosition;
+	private Vector3 offset;
 
 	protected ActionManager actionManager;
 	protected InteractionStateManager interactionStateManager;
@@ -41,6 +42,11 @@ public class Movable : MonoBehaviour {
 		if (currentlyDragged == null) {
 			currentlyDragged = gameObject;
 			SaveCurrentState ();
+
+			RaycastHit hit;
+			if (Physics.Raycast (mousePositionRay, out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
+				offset = transform.position - hit.point ;
+			}
 		}
 	}
 
@@ -65,7 +71,8 @@ public class Movable : MonoBehaviour {
 
 		RaycastHit hit;
 		if (Physics.Raycast (mousePositionRay, out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
-			Move (hit.point);
+
+			Move (hit.point + offset);
 		}else {
 			Debug.Log ("RAY missed modelplane");
 		}
