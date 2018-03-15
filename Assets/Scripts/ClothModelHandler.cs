@@ -45,6 +45,11 @@ public class ClothModelHandler : MonoBehaviour {
 			Sew ();
 		}
 
+		if (Input.GetButtonUp ("Load")) {
+			Debug.Log ("LoadCloth");
+			Load ();
+		}
+
 		if (Input.GetKeyUp (KeyCode.Q)) {
 			Debug.Log ("Undo");
 			actionManager.Undo ();
@@ -130,6 +135,20 @@ public class ClothModelHandler : MonoBehaviour {
 		foreach(GameObject o in clothModels){
 			o.GetComponent<BoundaryPointsHandler> ().TriangulateModel ();
 		}	
+	}
+
+	public void Load(){
+		foreach (GameObject cloth in clothModels) {
+			if (cloth.GetComponent<Selectable> ().isSelected ()) {
+				LoadCloth (cloth);
+			}
+		}
+
+		foreach (GameObject seam in seamModels) {
+			if (seam.GetComponent<SeamBehaviour> ().isSelected ()) {
+				LoadSeam (seam);
+			}
+		}
 	}
 
     public void LoadCloth(GameObject gameObject)

@@ -11,22 +11,6 @@ public class ClothModelBehaviour : Behaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-        HandleInput();
-	}
-
-    void HandleInput()
-	{
-		if (GetComponent<Selectable> () == null) {
-			Debug.Log ("Has no Selectable");
-			return;
-		}
-
-		if (GetComponent<Selectable> ().isSelected ()) {
-			if (Input.GetKeyUp (KeyCode.L)) {
-				clothModelHandler.LoadCloth (gameObject);
-			}
-		}
-	
 	}
 
 	void OnMouseUp(){

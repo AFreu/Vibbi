@@ -74,6 +74,10 @@ public class SeamBehaviour : MonoBehaviour {
 		endPoints.Reverse ();
 	}
 
+	public bool isSelected(){
+		return lineOne.GetComponent<Selectable> ().isSelected () || lineTwo.GetComponent<Selectable> ().isSelected ();
+	}
+
 	public GameObject GetFirstLine(){
 		return lineOne;
 	}
