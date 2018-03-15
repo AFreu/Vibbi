@@ -11,6 +11,7 @@ public class InteractionStateManager : MonoBehaviour {
 		DUPLICATECLOTH,
 		UNFOLDCLOTH,
 		REMOVECLOTH,
+		SEW,
 		NONE
 	}
 
@@ -58,6 +59,9 @@ public class InteractionStateManager : MonoBehaviour {
 			break;
 		case "RemoveCloth":
 			temp = InteractionState.REMOVECLOTH;
+			break;
+		case "Sew":
+			temp = InteractionState.SEW;
 			break;
 		}
 		return temp;

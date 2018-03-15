@@ -13,10 +13,6 @@ public class GarmentHandler : MonoBehaviour {
 	private List<GameObject> garmentSeams = new List<GameObject>();
     
 
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

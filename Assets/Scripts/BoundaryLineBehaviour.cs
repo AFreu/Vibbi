@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using GuiLabs.Undo;
 
-public class BoundaryLineBehaviour : MonoBehaviour{
+public class BoundaryLineBehaviour : Behaviour{
 
 	public Transform first;
 	public Transform second;
 
 	public Vector3 unitVector;
 
-	protected InteractionStateManager interactionStateManager;
-
-	void Awake(){
-		interactionStateManager = Component.FindObjectOfType<InteractionStateManager> ();
-	}
 
 	// Update is called once per frame
 	void Update () {
@@ -29,13 +24,15 @@ public class BoundaryLineBehaviour : MonoBehaviour{
 			RaycastHit hit;
 
 			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
-				gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit.point);
+				GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit.point);
 			}
 
 
 
 		}else if(Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH){
-			gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
+			GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
+		}else if(interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW){
+			//GetComponentInParent<BoundaryPointsHandler> ().Sew(gameObject);
 		}
 	}
 
