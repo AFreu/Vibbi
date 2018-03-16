@@ -21,6 +21,8 @@ public class DeformManager : MonoBehaviour {
 
     public bool intercollision;
 
+    public Camera cam;
+
     //[Header("SDF collision")]
     //public string sdfPath;
     //public string objPath;
@@ -212,11 +214,13 @@ public class DeformManager : MonoBehaviour {
 
     void InitCameraComponents()
     {
-        mouseOrbit = Camera.main.GetComponent<MouseOrbit>();
+        if(cam == null) { cam = Camera.main; }
+
+        mouseOrbit = cam.GetComponent<MouseOrbit>();
 
         if (mouseOrbit == null)
         {
-            mouseOrbit = Camera.main.gameObject.AddComponent<MouseOrbit>();
+            mouseOrbit = cam.gameObject.AddComponent<MouseOrbit>();
         }
 
         mouseOrbit.SetActive(true);
@@ -273,6 +277,7 @@ public class DeformManager : MonoBehaviour {
                 }
                 else if (deformables[i].attachTo.GetComponent<MeshFilter>())
                 {
+                    Debug.Log("Found Meshfilter on attachTo");
                     attachmentPoints = deformables[i].attachTo.GetComponent<MeshFilter>().mesh.vertices;
                 }
             }
@@ -287,10 +292,16 @@ public class DeformManager : MonoBehaviour {
 
     void AttachVertices(DeformBody body, Vector3[] attachmentPoints)
     {
+        Debug.Log("Attaching vertices: " + attachmentPoints + " " + attachmentPoints[0]);
+        Debug.Log("Body ID: " + body.GetId());
+        Debug.Log("AttachVertices #vertices: " + body.attachedVertices.Length);
         for (int j = 0; j < body.attachedVertices.Length; j++)
         {
+            Debug.Log("j: " + body.attachedVertices[j]);
+            
             if (body.attachedVertices[j] && attachmentPoints.Length > 0)
             {
+                
                 FixParticle(body.GetId(), j);
 
                 float closest = Mathf.Infinity;
@@ -298,6 +309,7 @@ public class DeformManager : MonoBehaviour {
 
                 for (int k = 0; k < attachmentPoints.Length; k++)
                 {
+                    Debug.Log("loopilopp");
                     Vector3 clothPos = body.transform.TransformPoint(body.meshVertices[j]);
                     Vector3 attachPos = body.attachTo.transform.TransformPoint(attachmentPoints[k]);
 
@@ -308,7 +320,10 @@ public class DeformManager : MonoBehaviour {
                     }
                 }
 
-                if (closestIdx >= 0) body.attachmentMap.Add(j, closestIdx);
+                if (closestIdx >= 0) {
+                    Debug.Log("Found closest: " + closestIdx);
+                    body.attachmentMap.Add(j, closestIdx);
+                } 
             }
         }
     }
@@ -544,14 +559,17 @@ public class DeformManager : MonoBehaviour {
 
         if (mouseCursorInGUI) return;
 
+
         if (Input.GetMouseButtonDown(1))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.Log("Trying to grab cloth");
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             Vector3 rayBegin = ray.origin;
             Vector3 rayEnd = ray.origin + (4096 * ray.direction);
 
             if (PickParticle(rayBegin, rayEnd, 0.05f, out pickedObjectId, out pickedIndex, out pickedPos, out pickedDistance))
             {
+                Debug.Log("Grabbed cloth");
                 isDragging = true;
             }
         }
@@ -564,7 +582,7 @@ public class DeformManager : MonoBehaviour {
 
         if (isDragging)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             Vector3 dragPos = ray.origin + (ray.direction * pickedDistance);
             isDragging = MoveParticle(pickedObjectId, pickedIndex, dragPos);
         }
