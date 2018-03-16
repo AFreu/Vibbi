@@ -2601,14 +2601,13 @@ GameObject:
   - component: {fileID: 1110748402}
   - component: {fileID: 1110748401}
   - component: {fileID: 1110748400}
-  - component: {fileID: 1110748403}
   m_Layer: 8
   m_Name: Vibbi_Background_Patch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1110748399
 Transform:
   m_ObjectHideFlags: 0
@@ -2675,18 +2674,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1110748398}
   m_Mesh: {fileID: 4300000, guid: c003b1adf5913c74f95afd7fb56d9de3, type: 3}
---- !u!114 &1110748403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1110748398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: addf89ac390534ea8a1829ee9ecb0a96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 1000677200}
 --- !u!1 &1125133599
 GameObject:
   m_ObjectHideFlags: 0
