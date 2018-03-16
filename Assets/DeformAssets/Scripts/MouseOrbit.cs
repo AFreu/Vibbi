@@ -57,13 +57,13 @@ public class MouseOrbit : MonoBehaviour
 
 		if (target && active )
         {
-		
+
 			if (Cursor.lockState != CursorLockMode.Locked && !cursorInViewPort)
 				return;
 
 
             // Rotate
-			if (Input.GetMouseButton(0))
+			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
