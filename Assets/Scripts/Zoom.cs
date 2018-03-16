@@ -15,6 +15,12 @@ public class Zoom : MonoBehaviour {
 
 	void Update () {
 
+		Vector3 point = cam.ScreenToViewportPoint(Input.mousePosition);
+		bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
+
+		if (!cursorInViewPort)
+			return;
+
 		float scroll = Input.GetAxis ("Mouse ScrollWheel");
 		float value = cam.orthographicSize;
 

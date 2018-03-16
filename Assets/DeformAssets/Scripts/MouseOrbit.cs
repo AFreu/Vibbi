@@ -37,6 +37,9 @@ public class MouseOrbit : MonoBehaviour
         }
     }
 
+	void Update(){
+	
+	}
 
 
     void LateUpdate()
@@ -58,8 +61,9 @@ public class MouseOrbit : MonoBehaviour
 			if (Cursor.lockState != CursorLockMode.Locked && !cursorInViewPort)
 				return;
 
+
             // Rotate
-			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
+			if (Input.GetMouseButton(0))
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -97,6 +101,8 @@ public class MouseOrbit : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+
+
             }
 
             Quaternion rotation = Quaternion.Euler(y, x, 0);
