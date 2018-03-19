@@ -20,11 +20,7 @@ public class VibbiMeshUtils : MonoBehaviour
         //find vertex indices on the lines
         List<int> indicesLine1 = indicesFromLine(line1);
         List<int> indicesLine2 = indicesFromLine(line2);
-
-        Debug.Log(indicesLine1.Count);
-
-        Debug.Log(indicesLine2.Count);
-
+        
         //pair them up
         //distribution : how many jumps to make from the last index
         List<int> smallestList = indicesLine1.Count <= indicesLine2.Count ? indicesLine1 : indicesLine2;
@@ -32,8 +28,8 @@ public class VibbiMeshUtils : MonoBehaviour
         
         int distribution = Mathf.FloorToInt(largestList.Count / smallestList.Count);
        
-        int isLine1Smallest = indicesLine1.Count <= indicesLine2.Count ? 1: distribution;
-        int isLine2Smallest = indicesLine2.Count < indicesLine1.Count ? 1 : distribution;
+        int isLine1Smallest = indicesLine1.Count <= indicesLine2.Count ? distribution: 1;
+        int isLine2Smallest = indicesLine2.Count < indicesLine1.Count ? distribution : 1;
         
         List<int> pairsOfIndices = new List<int>(); //index from line1 is first then index from line2
         for (int i = 0; i < smallestList.Count; i ++)
@@ -90,8 +86,12 @@ public class VibbiMeshUtils : MonoBehaviour
                 }
             }
         }
-        
-        lineIndices = SortIndexList(lineIndices, line.GetComponent<BoundaryLineBehaviour>().first.localPosition, meshVertices);
+
+        //decide starting point : either first or second, why second????
+        Vector3 startPoint = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
+
+
+        lineIndices = SortIndexList(lineIndices, startPoint, meshVertices);
         
         return lineIndices;
     }
