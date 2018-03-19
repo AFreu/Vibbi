@@ -33,22 +33,18 @@ public class BoundaryLineBehaviour : Behaviour{
 			GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
 
 		}else if(interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW){
-            Debug.Log("heelllooo");
             //switch first and second depending on hitpoint
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 30f, LayerMask.GetMask("ModelPlane")))
             {
                 //shortest way to which point?
-                float length1 = (first.position - hit.point).magnitude;
-                float length2 = (second.position - hit.point).magnitude;
                 Transform tmp = first;
-                if (length1 > length2)
+                if ((first.position - hit.point).magnitude > (second.position - hit.point).magnitude) //if the length between first point and clicked point is larger than the second point and clicked point
                 {
                     first = second;
                     second = tmp;
                 }
             }
-
             //init sewing
             GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);
 
