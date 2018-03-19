@@ -23,6 +23,8 @@ public class DeformManager : MonoBehaviour {
 
     public Camera cam;
 
+	static bool noPlugin = false;
+
     //[Header("SDF collision")]
     //public string sdfPath;
     //public string objPath;
@@ -129,7 +131,13 @@ public class DeformManager : MonoBehaviour {
     {
         static PluginInitializer()
         {
-            SetLogCallback(CustomLogger);
+			try{
+				SetLogCallback(CustomLogger);
+			}catch(DllNotFoundException e){
+				noPlugin = true;
+				return;
+			}
+            
             InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
             Debug.Log("Initialized the Deform plugin");
         }
@@ -137,6 +145,10 @@ public class DeformManager : MonoBehaviour {
 #endif
 
     void Start () {
+		if (noPlugin) {
+			return;
+		}
+
         InitCameraComponents();
 
         originalGravity = gravity;
@@ -151,6 +163,9 @@ public class DeformManager : MonoBehaviour {
 
     unsafe void Update()
     {
+		if (noPlugin) {
+			return;
+		}
         UpdateColliders();
 
 		if (deformables == null)
