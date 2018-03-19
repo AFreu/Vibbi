@@ -12,6 +12,7 @@ TagManager:
   - RemovePoint
   - DuplicateCloth
   - UnfoldCloth
+  - Sew
   layers:
   - Default
   - TransparentFX

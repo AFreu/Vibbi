@@ -9,7 +9,7 @@ public class BoundaryLineBehaviour : Behaviour{
 	public Transform second;
 
 	public Vector3 unitVector;
-
+    
 
 	// Update is called once per frame
 	void Update () {
@@ -31,8 +31,28 @@ public class BoundaryLineBehaviour : Behaviour{
 
 		}else if(Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH){
 			GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
+
 		}else if(interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW){
-			//GetComponentInParent<BoundaryPointsHandler> ().Sew(gameObject);
+            Debug.Log("heelllooo");
+            //switch first and second depending on hitpoint
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 30f, LayerMask.GetMask("ModelPlane")))
+            {
+                //shortest way to which point?
+                float length1 = (first.position - hit.point).magnitude;
+                float length2 = (second.position - hit.point).magnitude;
+                Transform tmp = first;
+                if (length1 > length2)
+                {
+                    first = second;
+                    second = tmp;
+                }
+            }
+
+            //init sewing
+            GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);
+
+
 		}
 	}
 
