@@ -15,6 +15,8 @@ public class ClothModelHandler : MonoBehaviour {
     private List<GameObject> clothModels = new List<GameObject> ();
 	private List<GameObject> seamModels = new List<GameObject> ();
 
+    private List<GameObject> sewingList = new List<GameObject>();
+
 	private ActionManager actionManager;
 
 
@@ -190,6 +192,26 @@ public class ClothModelHandler : MonoBehaviour {
         {
             Debug.Log(yobro[i] + " " + yobro[i+1]);
         }
+    }
+
+
+
+    //takes a line and saves it in the sewing list, if two lines are present, SEW
+    public void InitSewing(GameObject line)
+    {
+        Debug.Log("mittbena");
+        sewingList.Add(line);
+        if (sewingList.Count == 2)
+        {
+            SewFromList();
+            sewingList.Clear();
+        }
+    }
+
+    public void SewFromList()
+    {
+        Debug.Log("tjena");
+        CreateSeam(sewingList[0], sewingList[1]);
     }
 
 	public void Sew(){
