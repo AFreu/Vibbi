@@ -6086,17 +6086,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1228019415}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12606c7c6177761409a83452b7ef3df0, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a26c73288bc04d6eaece22b72d3cdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1810775935}
-  distance: 12
+  distance: 10
   xSpeed: 120
   ySpeed: 120
   yMinLimit: -20
   yMaxLimit: 80
-  distanceMin: 1
-  distanceMax: 20
+  distanceMin: 0.5
+  distanceMax: 15
 --- !u!124 &1228019418
 Behaviour:
   m_ObjectHideFlags: 0
