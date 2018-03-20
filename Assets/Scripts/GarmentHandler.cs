@@ -105,10 +105,12 @@ public class GarmentHandler : MonoBehaviour {
          {
             Mesh mesh = o.GetComponent<MeshFilter>().sharedMesh;
             DeformObject deformObject = o.AddComponent<DeformObject>();
-            deformObject.SetMesh(mesh);
-            deformObject.SetMaterial(garmentMaterial);
+
+            deformObject.originalMesh = mesh;
+            deformObject.material = garmentMaterial;
+            deformObject.AddToSimulation();
+           
         }
-        
         deformManager.Reset();
 
     }

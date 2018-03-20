@@ -78,19 +78,17 @@ public class MeshUtils : MonoBehaviour {
         mesh.RecalculateBounds();
     }
 
-    public static void CreateParticles(DeformBody body, int layer, out Mesh[] meshes)
+    public static void CreateParticles(DeformBody body, int layer, out Mesh[] meshes, float size)
     {
         if (body.meshVertices == null) { 
             meshes = null;
             return;
         }
 
-        int numVertices = body.meshVertices.Length;
+        int numVertices = body.mesh.vertexCount;
         int numMeshes = ((numVertices * VERTICES_PER_CUBE) / MAX_VERTICES_PER_MESH) + 1;
 
         meshes = new Mesh[numMeshes];
-
-        float size = 0.005f;
 
         for(int i = 0; i < numMeshes; i++)
         {
@@ -109,7 +107,9 @@ public class MeshUtils : MonoBehaviour {
             for (int j = i * MAX_CUBES_PER_MESH; j < i * MAX_CUBES_PER_MESH + verticesLeft; j++)
             {
                 #region Vertices
-                Vector3 inputVertex = body.meshVertices[j];
+                Vector3 inputVertex = new Vector3(body.meshVertices[j].x * body.transform.lossyScale.x,
+                                                  body.meshVertices[j].y * body.transform.lossyScale.y,
+                                                  body.meshVertices[j].z * body.transform.lossyScale.z);
 
                 Vector3 p0 = inputVertex + new Vector3(-size * .5f, -size * .5f, size * .5f);
                 Vector3 p1 = inputVertex + new Vector3(size * .5f, -size * .5f, size * .5f);
@@ -210,17 +210,33 @@ public class MeshUtils : MonoBehaviour {
                 #region Colors
                 float paintedValue = 0;
 
-                bool[] paintedColors = layer == 0 ? body.fixedVertices : body.attachedVertices;
+                bool[] paintedColors;
 
+                switch (layer)
+                {
+                    case 0: paintedColors = body.fixedVertices; break;
+                    case 1: paintedColors = body.attachedVertices; break;
+                    case 2: paintedColors = body.friction; break;
+                    default: paintedColors = null; break;
+                }
+                
                 if (paintedColors != null) {
                     paintedValue = paintedColors[j] ? 1 : 0;
                 }
 
                 Color color = new Color(1, 1, 1, 1);
 
-                switch (layer) {
-                    case 0: color = new Color(0.75f, 1 - paintedValue, 1 - paintedValue, 1); break;
-                    case 1: color = new Color(1 - paintedValue, 0.75f, 1 - paintedValue, 1); break;
+                switch (layer)
+                {
+                    case 0:
+                        color = new Color(0.75f, 1 - paintedValue, 1 - paintedValue, 1);
+                        break;
+                    case 1:
+                        color = new Color(1 - paintedValue, 0.75f, 1 - paintedValue, 1);
+                        break;
+                    case 2:
+                        color = new Color(1 - paintedValue, 1 - paintedValue, 0.75f, 1);
+                        break;
                 }
 
                 Color[] c = { color, color, color, color, color, color, color, color,
@@ -297,16 +313,21 @@ public class MeshUtils : MonoBehaviour {
             {
                 float paintedValue = 0;
 
-                if (layer == 0)
+                switch(layer)
                 {
-                    paintedValue = body.fixedVertices[vertex] ? 1 : 0;
-                    colors[mesh][j] = new Color(1, 1 - paintedValue, 1 - paintedValue, 1);
+                    case 0:
+                        paintedValue = body.fixedVertices[vertex] ? 1 : 0;
+                        colors[mesh][j] = new Color(0.75f, 1 - paintedValue, 1 - paintedValue, 1);
+                        break;
+                    case 1:
+                        paintedValue = body.attachedVertices[vertex] ? 1 : 0;
+                        colors[mesh][j] = new Color(1 - paintedValue, 0.75f, 1 - paintedValue, 1);
+                        break;
+                    case 2:
+                        paintedValue = body.friction[vertex] ? 1 : 0;
+                        colors[mesh][j] = new Color(1 - paintedValue, 1 - paintedValue, 0.75f, 1);
+                        break;
                 }
-                else
-                {
-                    paintedValue = body.attachedVertices[vertex] ? 1 : 0;
-                    colors[mesh][j] = new Color(1 - paintedValue, 1, 1 - paintedValue, 1);
-                } 
             }
         }
 

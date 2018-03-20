@@ -5,10 +5,10 @@ public class MouseOrbit : MonoBehaviour
 {
     public Transform target;
     public float distance = 5.0f;
-    public float xSpeed = 120.0f;
+    public float xSpeed = 30.0f;
     public float ySpeed = 120.0f;
 
-    public float yMinLimit = -20f;
+    public float yMinLimit = -80f;
     public float yMaxLimit = 80f;
 
     public float distanceMin = .5f;
@@ -37,33 +37,17 @@ public class MouseOrbit : MonoBehaviour
         }
     }
 
-	void Update(){
-	
-	}
-
-
     void LateUpdate()
     {
-
-		Camera camera = GetComponent<Camera> ();
-		Vector3 point = camera.ScreenToViewportPoint(Input.mousePosition);
-		bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
-
-
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SetActive(!active);
         }
 
-		if (target && active )
+        if (target && active)
         {
-
-			if (Cursor.lockState != CursorLockMode.Locked && !cursorInViewPort)
-				return;
-
-
             // Rotate
-			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
+            if (Input.GetMouseButton(0))
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -101,8 +85,6 @@ public class MouseOrbit : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-
-
             }
 
             Quaternion rotation = Quaternion.Euler(y, x, 0);

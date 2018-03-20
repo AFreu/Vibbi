@@ -176,9 +176,12 @@ public class ClothModelHandler : MonoBehaviour {
 
         Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
 
-        deformObject.SetMesh(mesh);
-        deformObject.SetMaterial(garmentMaterial);
-        
+        //deformObject.SetMesh(mesh);
+        //deformObject.SetMaterial(garmentMaterial);
+        deformObject.mesh = mesh;
+        deformObject.material = garmentMaterial;
+
+
         //deformManager.Reset();
 
 

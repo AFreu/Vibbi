@@ -2,42 +2,95 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeformBody : MonoBehaviour {
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
+[DisallowMultipleComponent]
+public abstract class DeformBody : MonoBehaviour {
+    
+    /**
+     * The Unity material used for rendering.
+     **/ 
     public Material material;
 
     [Header("Behavior")]
-    [Range(0, 1)]
-    public float distanceStiffness = 1.0f;
 
+    /**
+     * Determines the stiffness of the distance constraints.
+     **/
+    [Range(0, 1)]
+    public float distanceStiffness = 1;
+
+    /**
+     * Determines the stiffness of the bending constraints.
+     **/
     [Range(0, 1)]
     public float bendingStiffness = 0.05f;
 
+    /**
+     * The GameObject which this DeformBody will attach to. 
+     **/
     public GameObject attachTo;
 
-    [HideInInspector] public int id;
+    /**
+     * Whether or not this DeformBody is simulated. 
+     **/
+    public bool includeInSimulation = true;
 
     [HideInInspector] public Mesh mesh;
-
     [HideInInspector] public Vector3[] meshVertices;
     [HideInInspector] public Vector3[] meshNormals;
 
+    /**
+     * Determines whether each vertex will be fixed (immobile) or not.
+     **/
     [HideInInspector] public bool[] fixedVertices;
+
+    /**
+     * Determines whether each vertex will be attached to an object or not. In order for vertices to be attached, the *attachTo* variable must be set.
+     **/
     [HideInInspector] public bool[] attachedVertices;
 
+    /**
+     * Determines whether each vertex will be attached to an object or not. In order for vertices to be attached, the *attachTo* variable must be set.
+     **/
+    [HideInInspector] public bool[] friction;
+
+    /**
+     * Map for attaching DeformBody objects to Unity meshes. Maps vertices of the DeformBody to vertices of a Unity mesh. 
+     **/
     [HideInInspector] public Dictionary<int, int> attachmentMap;
+    [HideInInspector] public Dictionary<int, BarycentricCoordinate> attachmentMap2;
 
     [HideInInspector] public bool shouldRegenerateParticles;
 
-    [HideInInspector][SerializeField] Vector3 originalPosition;
-    [HideInInspector][SerializeField] Quaternion originalRotation;
-    [HideInInspector][SerializeField] Vector3 originalScale;
+    [HideInInspector] public Transform originalTransform;
 
-    //private Texture2D vertexTexture;
-    //private Texture2D normalTexture;
+    [SerializeField] Vector3 originalPosition;
+    [SerializeField] Quaternion originalRotation;
+    [SerializeField] Vector3 originalScale;
 
-    bool transformReset;
+    /**
+     * The unique id of this DeformBody. This assigned by the physics engine.
+     **/
+    protected int id;
     
+    bool transformReset;
+
+    public struct BarycentricCoordinate
+    {
+        public Vector3 coordinate;
+        public int triangleIndex;
+
+        public BarycentricCoordinate(Vector3 coord, int tri_index)
+        {
+            this.coordinate = coord;
+            this.triangleIndex = tri_index;
+        }
+    }
+
     protected virtual void Start () {
+        originalTransform = transform;
+
         originalPosition = transform.position;
         originalRotation = transform.rotation;
         originalScale = transform.localScale;
@@ -47,32 +100,46 @@ public class DeformBody : MonoBehaviour {
         transform.localScale = new Vector3(1, 1, 1);
 
         transformReset = true;
-
-        // Set material to DeformMaterial in MeshRenderer
-        //MeshRenderer renderer = GetComponent<MeshRenderer>();
-
-        //Material m1 = renderer.material;
-        //Material m2 = Resources.Load<Material>("DeformMaterial");
-
-        //Color color = m1.GetColor("_Color");
-        //Texture main = m1.GetTexture("_MainTex");
-        //Texture bump = m1.GetTexture("_BumpMap");
-        //float metallic = m1.GetFloat("_Metallic");
-        //float glossy = m1.GetFloat("_Glossiness");
-        
-        //m2.SetColor("_Color", color);
-        //m2.SetTexture("_MainTex", main);
-        //m2.SetTexture("_BumpMap", bump);
-        //m2.SetFloat("_Metallic", metallic);
-        //m2.SetFloat("_Glossiness", glossy);
-
-        //m2.SetTexture("_VertexTex", vertexTexture);
-        //m2.SetTexture("_NormalTex", normalTexture);
-
-        //renderer.material = m2;
     }
 
     void OnDestroy()
+    {
+        ResetTransform();
+
+        // Reset material
+        //MeshRenderer renderer = GetComponent<MeshRenderer>();
+        //renderer.material = material;
+    }
+
+    protected virtual void Awake()
+    {
+        //HideMeshComponents();
+    }
+
+    protected virtual void Reset()
+    {
+        HideMeshComponents();
+        originalTransform = transform;
+    }
+
+    protected virtual void OnValidate()
+    {
+        if (originalTransform != transform)
+        {
+            shouldRegenerateParticles = true;
+            RebuildMesh();
+        }
+
+        if (!Application.isPlaying) originalTransform = transform;
+    }
+
+    public virtual void AddToSimulation()
+    { 
+        RebuildMesh();
+        includeInSimulation = true;
+    }
+
+    public void ResetTransform()
     {
         if (transformReset)
         {
@@ -81,65 +148,32 @@ public class DeformBody : MonoBehaviour {
             transform.localScale = originalScale;
             transformReset = false;
         }
-
-        // Reset material
-        //MeshRenderer renderer = GetComponent<MeshRenderer>();
-        //renderer.material = material;
     }
 
-    protected virtual void Reset()
+    public virtual void RemoveFromSimulation()
     {
-        InitMeshComponents();
+        includeInSimulation = false;
     }
 
-    public void SetDeformTextureUVs(Vector2[] uvs, Texture2D vertices, Texture2D normals)
+    public abstract void RebuildMesh();
+
+    protected void HideMeshComponents()
     {
-        mesh.uv2 = uvs;
-        //vertexTexture = vertices;
-        //normalTexture = normals;
+        //GetComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
+        //GetComponent<MeshRenderer>().hideFlags = HideFlags.HideInInspector;
     }
 
-    public void UpdateMesh(Vector3[] vertices, Vector3[] normals)
+    public void UpdateMesh(Vector3[] vertices, Vector3[] normals, int[] triangles)
     {
+        if (this is DeformObject)
+        {
+            mesh.triangles = triangles;
+        }
+
         mesh.vertices = vertices;
         mesh.normals = normals;
+
         mesh.RecalculateBounds();
-    }
-
-    void Update()
-    {
-        #if UNITY_EDITOR
-
-        //Vector3[] verts = new Vector3[mesh.vertexCount];
-        //Vector2[] uvs = mesh.uv2;
-
-        //int width = vertexTexture.width;
-        //Color c;
-
-        //for (int i = 0; i < mesh.vertexCount; i++)
-        //{
-        //    c = vertexTexture.GetPixel((int)(uvs[i].x * width), (int)(uvs[i].y * width));
-        //    verts[i] = new Vector3(c.r, c.g, c.b);
-        //}
-
-        //mesh.vertices = verts;
-        
-        #endif
-    }
-
-    public void InitMeshComponents()
-    {
-        if(!gameObject.GetComponent<MeshFilter>())
-        {
-            gameObject.AddComponent<MeshFilter>();
-//            gameObject.AddComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
-        }
-
-        if(!gameObject.GetComponent<MeshRenderer>())
-        {
-            gameObject.AddComponent<MeshRenderer>();
-//            gameObject.AddComponent<MeshRenderer>().hideFlags = HideFlags.HideInInspector;
-        }
     }
 
     public void ClearAttachedVertices()
@@ -151,6 +185,12 @@ public class DeformBody : MonoBehaviour {
     public void ClearFixedVertices()
     {
         fixedVertices = new bool[mesh.vertexCount];
+        shouldRegenerateParticles = true;
+    }
+
+    public void ClearFriction()
+    {
+        friction = new bool[mesh.vertexCount];
         shouldRegenerateParticles = true;
     }
 
