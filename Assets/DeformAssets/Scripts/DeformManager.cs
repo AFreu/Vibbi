@@ -210,6 +210,9 @@ public class DeformManager : MonoBehaviour {
         SetGlobalParameters();
         InitDeformObjects();
 
+        //malin seams
+        InitSeams();
+
        /* if (activeObjects == 0) return;
 
         uint[] vertices = new uint[256];
@@ -625,6 +628,11 @@ public class DeformManager : MonoBehaviour {
         Debug.Log("<color=#820b40>[C++]: " + msg + "</color>");
     }
 
+
+    private void InitSeams()
+    {
+        garmentHandler.InitSeams();
+    }
 
     public void Sew(int id1, int id2, uint[] indices, int numIndices)
     {

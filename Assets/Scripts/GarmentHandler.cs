@@ -112,18 +112,28 @@ public class GarmentHandler : MonoBehaviour {
             deformObject.material = garmentMaterial;
             deformObject.AddToSimulation();
         }
-        //seams
-        foreach (GameObject seam in garmentSeams)
-        {
-
-            int id1 = seam.GetComponent<GarmentSeamBehaviour>().firstClothPiece.GetComponent<DeformObject>().GetId();
-            int id2 = seam.GetComponent<GarmentSeamBehaviour>().secondClothPiece.GetComponent<DeformObject>().GetId();
-
-            Debug.Log(id1);
-            Debug.Log(id2);
-        }
+        
         deformManager.Reset();
 
+    }
+
+    public void InitSeams()
+    {
+        foreach (GameObject seam in garmentSeams)
+        {
+            GarmentSeamBehaviour gsb = seam.GetComponent<GarmentSeamBehaviour>();
+            int id1 = gsb.firstClothPiece.GetComponent<DeformObject>().GetId();
+            int id2 = gsb.secondClothPiece.GetComponent<DeformObject>().GetId();
+
+            uint[] vertices = new uint[gsb.lineVerticeIndices.Count];
+            for (int i = 0; i < gsb.lineVerticeIndices.Count; i = i + 2)
+            {
+                vertices[i] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id1]);
+                vertices[i + 1] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id2]);
+            }
+
+            deformManager.Sew(id1, id2, vertices, vertices.Length);
+        }
     }
 
     public void setIDs()
