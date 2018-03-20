@@ -1,72 +1,85 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [ExecuteInEditMode]
 public class DeformCollider : MonoBehaviour {
     public enum ColliderType { Box, Sphere, Capsule, Plane };
-    public enum CapsulePointType { Transform, Vector };
+    public enum CapsulePointType { Vector, Transform };
 
     public ColliderType colliderType;
 
     //Box
-    public Vector3 size;
+    public Vector3 size = new Vector3(1, 1, 1);
 
     //Capsule
     public CapsulePointType capsulePointType;
-    public Vector3 pointA;
-    public Vector3 pointB;
+
+    public Vector3 pointA = new Vector3(-0.5f, 0, 0);
+    public Vector3 pointB = new Vector3(0.5f, 0, 0);
+
     public Transform transformA;
     public Transform transformB;
 
     //Sphere/capsule
-    public float radius;
-    public float otherRadius;
+    public float radius = 0.5f;
+    public float otherRadius = 0.5f;
 
     //All
     public bool showColliderInEditor = true;
     public bool showColliderInGame = false;
     
     int id;
+    
+    private GameObject bounds;
 
-    [SerializeField] GameObject collisionBounds;
-
-    Mesh mesh;
-    MeshRenderer meshRenderer;
-    MeshFilter meshFilter;
-
-    void Awake()
+    private Mesh mesh;
+    private MeshRenderer meshRenderer;
+    private MeshFilter meshFilter;
+    
+    void Update()
     {
-        if (!Application.isPlaying || showColliderInGame)
+        if (Selection.activeGameObject == bounds)
         {
-            collisionBounds = new GameObject();
-            collisionBounds.hideFlags = HideFlags.HideAndDontSave;
-            collisionBounds.transform.position = transform.position;
-            collisionBounds.transform.rotation = transform.rotation;
-            collisionBounds.transform.parent = transform;
+            Selection.activeGameObject = gameObject;
+        }    
 
-            InitMeshComponents();
-            meshFilter.mesh = null;
+        if (!Application.isPlaying && showColliderInEditor) UpdateBounds(); // Do more checks to hide collider when unchecking showColliderInEditor
+        if (Application.isPlaying && showColliderInGame) UpdateBounds();
+    }
 
-            mesh = new Mesh();
-            DrawColliderBounds();
+    public void UpdateBounds()
+    {
+        if (bounds == null)
+        {
+            bounds = new GameObject();
+            bounds.hideFlags = HideFlags.HideAndDontSave;
+            bounds.transform.parent = transform;
         }
+
+        InitMeshComponents();
+        meshFilter.sharedMesh = null;
+
+        mesh = new Mesh();
+        DrawColliderBounds();
     }
 
     void InitMeshComponents()
     {
-        meshRenderer = collisionBounds.GetComponent<MeshRenderer>();
-        meshFilter = collisionBounds.GetComponent<MeshFilter>();
+        meshRenderer = bounds.GetComponent<MeshRenderer>();
+        meshFilter = bounds.GetComponent<MeshFilter>();
 
-        if (meshRenderer == null) meshRenderer = collisionBounds.AddComponent<MeshRenderer>();
-        if (meshFilter == null) meshFilter = collisionBounds.AddComponent<MeshFilter>();
-    }
-
-    private void Update()
-    {
-        if (!Application.isPlaying || showColliderInGame)
+        if (meshRenderer == null)
         {
-            DrawColliderBounds();
+            meshRenderer = bounds.AddComponent<MeshRenderer>();
+            meshRenderer.hideFlags = HideFlags.HideInInspector;
+        }
+
+        if (meshFilter == null)
+        {
+            meshFilter = bounds.AddComponent<MeshFilter>();
+            meshFilter.hideFlags = HideFlags.HideInInspector;
         }
     }
 
@@ -83,6 +96,9 @@ public class DeformCollider : MonoBehaviour {
     void DrawColliderBounds()
     {
         mesh.Clear();
+        bounds.transform.localPosition = Vector3.zero;
+        bounds.transform.localRotation = Quaternion.identity;
+        bounds.transform.localScale = new Vector3(1, 1, 1);
 
         if (showColliderInEditor)
         {
@@ -96,7 +112,7 @@ public class DeformCollider : MonoBehaviour {
         }
 
         meshFilter.sharedMesh = mesh;
-        meshRenderer.material = Resources.Load<Material>("Wireframe/Examples/Materials/Wireframe-TransparentCulled");
+        meshRenderer.sharedMaterial = Resources.Load<Material>("Wireframe/Examples/Materials/Wireframe-TransparentCulled");
     }
 
     void DrawBoxColliderBounds()
@@ -116,7 +132,7 @@ public class DeformCollider : MonoBehaviour {
         Vector3 aToB;
         Vector3 middle;
 
-        if (capsulePointType == CapsulePointType.Transform)
+        if (capsulePointType == CapsulePointType.Transform && transformA && transformB)
         {
             aToB = transformA.position - transformB.position;
             middle = transformB.position + aToB / 2;
@@ -130,8 +146,8 @@ public class DeformCollider : MonoBehaviour {
         Primitives.CreateCapsuleMesh(radius, otherRadius, aToB.magnitude + (radius * 2), mesh);
         mesh.RecalculateBounds();
 
-        collisionBounds.transform.up = aToB;
-        collisionBounds.transform.position = middle;
+        bounds.transform.up = aToB;
+        bounds.transform.position = middle;
     }
 
     void DrawPlaneColliderBounds()

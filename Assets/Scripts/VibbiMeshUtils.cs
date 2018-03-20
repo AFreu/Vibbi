@@ -526,7 +526,7 @@ public class VibbiMeshUtils : MonoBehaviour
         return mesh;
     }
 
-
+#pragma warning disable 0219
     public Mesh CreateSubMesh(GameObject clothModel)
     {
         //fix mesh

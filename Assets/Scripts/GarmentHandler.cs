@@ -102,6 +102,8 @@ public class GarmentHandler : MonoBehaviour {
 
 	}
 
+    private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
+    private int totalNumberOfVertices = 0;
 
     public void StartSimulation()
     {
@@ -109,12 +111,43 @@ public class GarmentHandler : MonoBehaviour {
          {
             Mesh mesh = o.GetComponent<MeshFilter>().sharedMesh;
             DeformObject deformObject = o.AddComponent<DeformObject>();
-            deformObject.SetMesh(mesh);
-            deformObject.SetMaterial(garmentMaterial);
+
+            deformObject.originalMesh = mesh;
+            deformObject.material = garmentMaterial;
+            deformObject.AddToSimulation();
         }
         
         deformManager.Reset();
 
+    }
+
+    public void InitSeams()
+    {
+        foreach (GameObject seam in garmentSeams)
+        {
+            GarmentSeamBehaviour gsb = seam.GetComponent<GarmentSeamBehaviour>();
+            int id1 = gsb.firstClothPiece.GetComponent<DeformObject>().GetId();
+            int id2 = gsb.secondClothPiece.GetComponent<DeformObject>().GetId();
+
+            uint[] vertices = new uint[gsb.lineVerticeIndices.Count];
+            for (int i = 0; i < gsb.lineVerticeIndices.Count; i = i + 2)
+            {
+                vertices[i] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id1]);
+                vertices[i + 1] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id2]);
+            }
+
+            deformManager.Sew(id1, id2, vertices, vertices.Length);
+        }
+    }
+
+    public void setIDs()
+    {
+        //gå baklänges
+        for (int i = clothPieces.Count-1; i > -1; i--)
+        {
+            idToPositonInList.Add(clothPieces[i].GetComponent<DeformObject>().GetId(), totalNumberOfVertices); //so that we can get global index when sewing
+            totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;  
+        }
     }
 		
 }

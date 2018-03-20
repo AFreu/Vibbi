@@ -27,7 +27,7 @@ public class SeamBehaviour : MonoBehaviour {
 
 			if (Input.GetKeyUp(KeyCode.L))
 			{
-				GetComponentInParent<ClothModelHandler>().LoadSeam(gameObject);
+				//GetComponentInParent<ClothModelHandler>().LoadSeam(gameObject);
 			}
 		}
 

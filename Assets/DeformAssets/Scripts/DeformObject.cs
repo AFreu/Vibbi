@@ -13,33 +13,23 @@ public class DeformObject : DeformBody {
 
     [HideInInspector][SerializeField] Mesh oldMesh;
 
-    [DllImport("deform_plugin")] private static extern int CreateDeformableObjectFromFile(string path, Vector3 location, Vector4 rotation,
-                                                                                          float distanceStiffness, float bendingStiffness);
-
     [DllImport("deform_plugin")] private static extern int CreateDeformableObject(Vector3[] vertices, Vector2[] uvs, uint numVertices,
                                                                                   int[] indices, uint numIndices,
-                                                                                  Vector3 location, Vector4 rotation,
+                                                                                  Vector3 location, Vector4 rotation, Vector3 scale,
                                                                                   float distanceStiffness, float bendingStiffness);
-
-    [DllImport("deform_plugin")] private static extern void GetMeshData(string path, IntPtr verts, IntPtr nor, IntPtr uvs, IntPtr tris);
-    [DllImport("deform_plugin")] private static extern void GetMeshBufferSizes(string path, out uint numVertices, out uint numTriangles);
 
     [DllImport("deform_plugin")] private static extern bool InitDeformPlugin(string path);
     [DllImport("deform_plugin")] private static extern void ShutdownDeformPlugin();
-
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     void OnDestroy()
     {
         RebuildMesh();
     }
 
-    void OnValidate()
+    protected override void OnValidate()
     {
-        InitMeshComponents();
+        base.OnValidate();
+        
 
         if(!originalMesh.Equals(oldMesh))
         {
@@ -50,24 +40,11 @@ public class DeformObject : DeformBody {
 
         GetComponent<MeshRenderer>().material = material;
     }
-
-    protected override void Reset()
-    {
-        base.Reset();
-
-        RebuildMesh();
-        shouldRegenerateParticles = true;
-    }
-
-    public void Build()
-    {
-        base.Reset();
-        //RebuildMesh();
-    }
     
-    unsafe void RebuildMesh()
+    public override void RebuildMesh()
     {
         if (originalMesh == null) return;
+        
         mesh = new Mesh();
         mesh.MarkDynamic();
 
@@ -81,46 +58,24 @@ public class DeformObject : DeformBody {
 
         meshVertices = mesh.vertices;
         meshNormals = mesh.normals;
+        meshUVs = mesh.uv;
+        meshTriangles = mesh.triangles;
 
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer>().material = material;
 
-        fixedVertices = new bool[mesh.vertices.Length];
-        attachedVertices = new bool[mesh.vertices.Length];
+        fixedVertices = new bool[mesh.vertexCount];
+        attachedVertices = new bool[mesh.vertexCount];
+        friction = new bool[mesh.vertexCount];
             
         oldMesh = mesh;
 
-        ShutdownDeformPlugin();
         InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
-        id = CreateDeformableObject(mesh.vertices, mesh.uv, (uint)mesh.vertices.Length, mesh.triangles, (uint)mesh.triangles.Length / 3,
-                                    transform.position, GetRotation(), distanceStiffness, bendingStiffness);
-    }
+        id = CreateDeformableObject(meshVertices, mesh.uv, (uint)mesh.vertices.Length, mesh.triangles, (uint)mesh.triangles.Length / 3,
+                                    transform.position, GetRotation(), transform.lossyScale, distanceStiffness, bendingStiffness);
 
-    public override Vector4 GetRotation()
-    {
-        return base.GetRotation();
+        Debug.Log("rebuild:: "+id);
     }
 
 
-    //#Malin:: functions to allow simulation of a model created during runtime
-    public void SetMesh(Mesh mesh)
-    {
-        if(!(originalMesh == null))
-        {
-            oldMesh = originalMesh;
-        }
-        originalMesh = mesh;
-        this.OnValidate();
-    }
-
-    public void SetMaterial(Material material)
-    {
-        this.material = material;
-        this.OnValidate();
-    }
-
-    public void SetRotation(float degrees)
-    {
-
-    }
 }

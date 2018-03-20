@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+#pragma warning disable 0219
 public class Test_DeformManager : MonoBehaviour
 {
 
@@ -21,8 +23,8 @@ public class Test_DeformManager : MonoBehaviour
         GameObject go = new GameObject("A piece of cloth");
 
         dc = go.AddComponent<DeformCloth>();
-        dc.SetSize(5, 5);
-        dc.SetMaterial(garmentMaterial);
+        //dc.SetSize(5, 5);
+        //dc.SetMaterial(garmentMaterial);
 
         deformManager.Reset();
     }
@@ -33,8 +35,8 @@ public class Test_DeformManager : MonoBehaviour
 
         DeformObject deformObject = go2.AddComponent<DeformObject>();
 
-        deformObject.SetMesh(meshForDeformObject);
-        deformObject.SetMaterial(garmentMaterial);
+       // deformObject.SetMesh(meshForDeformObject);
+        //deformObject.SetMaterial(garmentMaterial);
 
 
         deformManager.Reset();
@@ -44,7 +46,7 @@ public class Test_DeformManager : MonoBehaviour
     //for now, changing the size
     public void UpdateClothMesh()
     {
-        dc.SetSize(2, 3);
+        //dc.SetSize(2, 3);
         //dc.UseReset();
 
         //figure out location:: location of cube?
@@ -56,6 +58,6 @@ public class Test_DeformManager : MonoBehaviour
         locationDC.y = locationDC.y + 0.5f;
         
 
-        deformManager.CreateNewDeformableObject(dc, locationDC); //doesnt work very well
+        //deformManager.CreateNewDeformableObject(dc, locationDC); //doesnt work very well
     }
 }

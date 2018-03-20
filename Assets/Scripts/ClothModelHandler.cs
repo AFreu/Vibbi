@@ -176,9 +176,12 @@ public class ClothModelHandler : MonoBehaviour {
 
         Mesh mesh = clothModels[0].GetComponent<BoundaryPointsHandler>().GetComponent<MeshFilter>().sharedMesh;
 
-        deformObject.SetMesh(mesh);
-        deformObject.SetMaterial(garmentMaterial);
-        
+        //deformObject.SetMesh(mesh);
+        //deformObject.SetMaterial(garmentMaterial);
+        deformObject.mesh = mesh;
+        deformObject.material = garmentMaterial;
+
+
         //deformManager.Reset();
 
 
@@ -199,7 +202,6 @@ public class ClothModelHandler : MonoBehaviour {
     //takes a line and saves it in the sewing list, if two lines are present, SEW
     public void InitSewing(GameObject line)
     {
-        Debug.Log("mittbena");
         sewingList.Add(line);
         if (sewingList.Count == 2)
         {
@@ -210,7 +212,6 @@ public class ClothModelHandler : MonoBehaviour {
 
     public void SewFromList()
     {
-        Debug.Log("tjena");
         CreateSeam(sewingList[0], sewingList[1]);
     }
 
