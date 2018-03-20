@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class GarmentHandler : MonoBehaviour {
 
+	public GameObject clothPiecePrefab;
+
     public Material garmentMaterial;
     public DeformManager deformManager;
 
     public AttachmentPointsHandler attachMentPointsHandler;
 
     public List<GameObject> clothPieces = new List<GameObject>();
-	private List<GameObject> garmentSeams = new List<GameObject>();
+	public List<GameObject> garmentSeams = new List<GameObject>();
     
 
 	
@@ -26,25 +28,27 @@ public class GarmentHandler : MonoBehaviour {
     public void LoadCloth(GameObject cloth)
     {
 
-        GameObject go = new GameObject("A piece of cloth");
-        
-        go.transform.parent = deformManager.transform.parent;
+		GameObject go = Instantiate (clothPiecePrefab, deformManager.transform.parent);
+
+		go.GetComponent<Rotatable> ().cam = deformManager.cam; //should be done in some other way
+
 
         Transform t = attachMentPointsHandler.getSelectedAttachmentPoint();
         if(t != null)
         {
             AttachCloth(go, t);
+			go.GetComponent<Rotatable> ().rotationAxis = t.up;
         }
         else
         {
-            go.transform.localPosition = new Vector3(0, 5, 0);
+            go.transform.localPosition = new Vector3(0, 11, 0);
             go.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
+			go.GetComponent<Rotatable> ().rotationAxis = Vector3.up;
         }
         
-        MeshFilter filter = go.AddComponent<MeshFilter>();
-        filter.sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;
-        MeshRenderer renderer = go.AddComponent<MeshRenderer>();
-        renderer.material = garmentMaterial;
+		go.GetComponent<MeshFilter>().sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;
+		go.GetComponent<MeshCollider>().sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;
+		go.GetComponent<MeshRenderer> ().material = garmentMaterial;
 
         clothPieces.Add(go);
     }

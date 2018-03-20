@@ -4,62 +4,67 @@ using UnityEngine;
 
 public class Rotatable : MonoBehaviour {
 
+	//Camera for input
 	public Camera cam;
 
-	private float angle;
+	//The axis which this object should rotate around
+	public Vector3 rotationAxis;
 
-	void Update(){
-
-
-	}
+	//Used to determine the input angle
+	Vector3 currentRotationDirection;
 
 	void OnMouseDown(){
-		Vector3 directionToMouse =  MouseWorldPosition () - transform.position;
-
-		Vector3 projection = Vector3.ProjectOnPlane (directionToMouse, transform.forward);
-
-
-		angle = Vector3.SignedAngle (transform.right, projection, transform.forward);
-
-		Debug.DrawLine (transform.position, transform.position + projection, Color.blue, 100);
-		Debug.DrawLine (transform.position, transform.position + transform.right, Color.red, 100);
-		Debug.Log ("angle: " + angle);
-
-
-
+		
+		//Save current rotation direction
+		currentRotationDirection = GetRotationDirection();
 
 	}
 
 	void OnMouseDrag(){
+		
 		Rotate ();
+
 	}
 
-	Vector3 MouseWorldPosition(){
-		//Get mouse position on screen
-		Vector3 mousePos = Input.mousePosition;
 
-		//Adjust mouse position
-		mousePos.z =  transform.position.z - cam.transform.position.z;  
 
-		//Get a world position for the mouse
-		return cam.ScreenToWorldPoint(mousePos);  
+	Vector3 GetRotationDirection(){
+
+		//Calculate direction to mouse from position of object
+		Vector3 directionToMouse =  MouseWorldPosition () - transform.position;
+
+		return Vector3.ProjectOnPlane (directionToMouse, rotationAxis);
+
 	}
 
 
 	void Rotate(){
-		
-		Vector3 directionToMouse =  MouseWorldPosition () - transform.position;
 
-		Vector3 projection = Vector3.ProjectOnPlane (directionToMouse, transform.forward);
+		//Get new rotation direction according to mouse
+		var newRotationDirection = GetRotationDirection ();
 
-		//transform.right = Vector3.Slerp (transform.right, projection, 0.1f); 
-		Debug.Log ("oldproj: " +  projection); 
-		Debug.Log ("newproj: " + Quaternion.AngleAxis (-angle, transform.forward) * projection); 
-		Debug.Log ("right: " + transform.right);
+		//Calculate angle between old and new rotation direction
+		var rotationAngle = Vector3.SignedAngle (currentRotationDirection, newRotationDirection, rotationAxis);
 
+		//Rotate object according to angle
+		transform.RotateAround (transform.position, rotationAxis, rotationAngle);
 
-		transform.right = Quaternion.AngleAxis (-angle, transform.forward) * projection;
+		//Update current rotation direction
+		currentRotationDirection = newRotationDirection;
+
 	}
 
+	Vector3 MouseWorldPosition(){
+		
+		//Get mouse position on screen
+		Vector3 mousePos = Input.mousePosition;
+
+		//Adjust mouse position
+		mousePos.z =  (transform.position - cam.transform.position).magnitude;  
+
+		//Get a world position for the mouse
+		return cam.ScreenToWorldPoint(mousePos);
+
+	}
 
 }
