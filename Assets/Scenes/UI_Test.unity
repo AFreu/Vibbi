@@ -371,10 +371,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5efe46ff60e506e49b099b335267e809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clothPiecePrefab: {fileID: 1592297285166562, guid: d47f6f4d950bb48d9982187f917a4b4f,
+    type: 2}
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 1993175634}
   attachMentPointsHandler: {fileID: 1043709859}
   clothPieces: []
+  garmentSeams: []
 --- !u!1 &241103151
 GameObject:
   m_ObjectHideFlags: 0

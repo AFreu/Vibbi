@@ -30,7 +30,7 @@ public class GarmentHandler : MonoBehaviour {
 
 		GameObject go = Instantiate (clothPiecePrefab, deformManager.transform.parent);
 
-		go.GetComponent<Rotatable> ().cam = deformManager.cam; //should be done in some other way
+		go.GetComponent<Rotatable> ().cam = Camera.allCameras[1]; //should be done in some other way
 
 
         Transform t = attachMentPointsHandler.getSelectedAttachmentPoint();
