@@ -43,7 +43,14 @@ public class DeformManager : MonoBehaviour {
     bool isDragging;
 
     MouseOrbit mouseOrbit;
-    
+
+    public GarmentHandler garmentHandler;
+
+    //remove ??
+    private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
+    private int totalNumberOfVertices = 0;
+
+
     delegate void LogCallback(string msg);
 
     [DllImport("deform_plugin")] private static extern bool InitDeformPlugin(string path);
@@ -155,7 +162,7 @@ public class DeformManager : MonoBehaviour {
 
             vertices = new Vector3[numVertices];
             normals =  new Vector3[numVertices];
-            triangles = new int[numIndices];
+            triangles = new int[numIndices]; 
 
             fixed (Vector3* v = vertices, n = normals)
             {
@@ -163,14 +170,13 @@ public class DeformManager : MonoBehaviour {
                 GetObjectNormals(id, (IntPtr)n);
             }
 
-            if (body is DeformObject)
+            if (body is DeformObject) 
             {
                 fixed (int* t = triangles)
                 {
-                    GetObjectIndices(id, (IntPtr)t);
+                    GetObjectIndices(id, (IntPtr)t );
                 }
             }
-
             body.UpdateMesh(vertices, normals, triangles);
         }
     }
@@ -209,9 +215,11 @@ public class DeformManager : MonoBehaviour {
         uint[] vertices = new uint[256];
         for (uint i = 0; i < 64; i++)
         {
+            //söm 1
             vertices[i * 2] = i;
             vertices[i * 2 + 1] = i + (64 * 64);
-            vertices[i * 2 + 128] = i + 63 * 64;
+            //söm 2
+            vertices[i * 2 + 128] = i + 63  * 64;
             vertices[i * 2 + 1 + 128] = i + 63 * 64 + (64 * 64);
         }*/
 
@@ -399,9 +407,11 @@ public class DeformManager : MonoBehaviour {
                                             body.transform.position, body.GetRotation(), body.transform.lossyScale,
                                             body.distanceStiffness, body.bendingStiffness);
 
+            
             body.SetId(id);
             activeObjects++;
         }
+        garmentHandler.setIDs();
 
         colliders = FindObjectsOfType<DeformCollider>();
 
@@ -613,5 +623,11 @@ public class DeformManager : MonoBehaviour {
     private static void CustomLogger(string msg)
     {
         Debug.Log("<color=#820b40>[C++]: " + msg + "</color>");
+    }
+
+
+    public void Sew(int id1, int id2, uint[] indices, int numIndices)
+    {
+        SewObjects(id1, id2, indices, numIndices);
     }
 }

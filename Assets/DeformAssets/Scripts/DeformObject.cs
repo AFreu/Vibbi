@@ -29,12 +29,10 @@ public class DeformObject : DeformBody {
     protected override void OnValidate()
     {
         base.OnValidate();
-
-        Debug.Log("on validate körs");
+        
 
         if(!originalMesh.Equals(oldMesh))
         {
-            Debug.Log("rebuilding mesh");
             RebuildMesh();
             shouldRegenerateParticles = true;
             oldMesh = originalMesh;
@@ -46,8 +44,7 @@ public class DeformObject : DeformBody {
     public override void RebuildMesh()
     {
         if (originalMesh == null) return;
-
-        Debug.Log("rebuilding mesh for reals");
+        
         mesh = new Mesh();
         mesh.MarkDynamic();
 
@@ -76,5 +73,9 @@ public class DeformObject : DeformBody {
         InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
         id = CreateDeformableObject(meshVertices, mesh.uv, (uint)mesh.vertices.Length, mesh.triangles, (uint)mesh.triangles.Length / 3,
                                     transform.position, GetRotation(), transform.lossyScale, distanceStiffness, bendingStiffness);
+
+        Debug.Log("rebuild:: "+id);
     }
+
+
 }

@@ -47,8 +47,6 @@ public class BoundaryLineBehaviour : Behaviour{
             }
             //init sewing
             GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);
-
-
 		}
 	}
 

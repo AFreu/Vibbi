@@ -167,7 +167,7 @@ public abstract class DeformBody : MonoBehaviour {
     {
         if (this is DeformObject)
         {
-            mesh.triangles = triangles;
+           // mesh.triangles = triangles;
         }
 
         mesh.vertices = vertices;
