@@ -503,8 +503,7 @@ MonoBehaviour:
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 842208067}
   attachMentPointsHandler: {fileID: 967106657}
-  clothPieces:
-  - {fileID: 0}
+  clothPieces: []
   garmentSeams: []
 --- !u!4 &189792676
 Transform:
