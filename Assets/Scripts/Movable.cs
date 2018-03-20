@@ -11,7 +11,6 @@ public class Movable : MonoBehaviour {
 
 	private static GameObject currentlyDragged;
 
-	private Ray mousePositionRay;
 	private Vector3 currentPosition;
 	private Vector3 offset;
 
@@ -27,13 +26,6 @@ public class Movable : MonoBehaviour {
 	void Start () {
 		currentPosition = transform.position;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-		
-	}
 
 	void OnMouseDown() {
 		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
@@ -43,10 +35,7 @@ public class Movable : MonoBehaviour {
 			currentlyDragged = gameObject;
 			SaveCurrentState ();
 
-			RaycastHit hit;
-			if (Physics.Raycast (mousePositionRay, out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
-				offset = transform.position - hit.point ;
-			}
+			offset = transform.position - MouseWorldPosition ();
 		}
 	}
 
@@ -69,13 +58,21 @@ public class Movable : MonoBehaviour {
 		if (currentlyDragged != gameObject)
 			return;
 
-		RaycastHit hit;
-		if (Physics.Raycast (mousePositionRay, out hit, 30f, LayerMask.GetMask("ModelPlane"))) {
+		Move (MouseWorldPosition() + offset);
 
-			Move (hit.point + offset);
-		}else {
-			Debug.Log ("RAY missed modelplane");
-		}
+	}
+
+	Vector3 MouseWorldPosition(){
+
+		//Get mouse position on screen
+		Vector3 mousePos = Input.mousePosition;
+
+		//Adjust mouse position 
+		mousePos.z = transform.position.z - Camera.main.transform.position.z;
+			
+		//Get a world position for the mouse
+		return Camera.main.ScreenToWorldPoint(mousePos);
+
 	}
 
 	public virtual void SaveCurrentState(){
@@ -93,11 +90,10 @@ public class Movable : MonoBehaviour {
 
 	public virtual void Move(Vector3 position){
 		if (snapToGrid) {
-			gameObject.transform.position = SnapToGrid (position);
+			transform.position = SnapToGrid (position);
 		} else {
-			gameObject.transform.position = position;
+			transform.position = position;
 		}
-
 
 	}
 
