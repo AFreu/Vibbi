@@ -307,12 +307,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5efe46ff60e506e49b099b335267e809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothPiecePrefab: {fileID: 0}
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 0}
   attachMentPointsHandler: {fileID: 0}
   clothPieces: []
-  garmentSeams: []
 --- !u!114 &114738996091809866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,6 +326,7 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   airFriction: 0.9995
   intercollision: 1
+  garmentHandler: {fileID: 0}
 --- !u!114 &114778623298030324
 MonoBehaviour:
   m_ObjectHideFlags: 1

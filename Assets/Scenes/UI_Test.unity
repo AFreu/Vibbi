@@ -4275,6 +4275,7 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   airFriction: 0.9995
   intercollision: 0
+  garmentHandler: {fileID: 133448031}
 --- !u!1 &2050403592
 GameObject:
   m_ObjectHideFlags: 0
