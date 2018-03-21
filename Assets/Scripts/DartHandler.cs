@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DartHandler : MonoBehaviour {
+public class DartHandler : Behaviour {
 
 	public GameObject dartPrefab;
 
@@ -22,7 +22,8 @@ public class DartHandler : MonoBehaviour {
 
 
 	private GameObject cloth;
-	
+
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -36,7 +37,7 @@ public class DartHandler : MonoBehaviour {
 
 	void HandleInput(){
 
-		if (!Input.GetKey (KeyCode.G)) {
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.DART) {
 			makingDart = false;
 			return;
 		}
@@ -74,6 +75,13 @@ public class DartHandler : MonoBehaviour {
 				cloth.GetComponent<BoundaryPointsHandler> ().AddDart (dart);
 
 			}else if (oneEndInside) {
+
+				//Make sure start is the point on the cloth
+				if (endOnCloth) {
+					var temp = end;
+					end = start;
+					start = temp;
+				}
 
 				//Create dart on boundary line
 				GameObject dart = CreateDartOnBoundaryLine ();
