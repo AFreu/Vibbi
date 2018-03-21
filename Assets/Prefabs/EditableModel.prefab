@@ -56,6 +56,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -71,6 +72,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -156,6 +158,8 @@ MonoBehaviour:
   boundaryPointPrefab: {fileID: 1931533834868222, guid: c1597e944d11d47a9b6e101b7c1d21b8,
     type: 2}
   boundaryLinePrefab: {fileID: 1186314178957548, guid: 2716a4389d75b452b86f4a2cb691e1e5,
+    type: 2}
+  notchPrefab: {fileID: 1583172564579452, guid: d47a7aab2230f124eaeb895b87d7e8a6,
     type: 2}
   boundaryCollection: {fileID: 0}
   boundaries: {fileID: 0}
