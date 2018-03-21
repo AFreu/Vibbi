@@ -159,5 +159,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e4dede11cd46008b7af7cbdeeab3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapToGrid: 1
-  GRIDWIDTH: 0.33333334
+  snapToGrid: 0
+  gridWidth: 0.3
