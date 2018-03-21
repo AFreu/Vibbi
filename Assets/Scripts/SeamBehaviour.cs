@@ -12,6 +12,15 @@ public class SeamBehaviour : MonoBehaviour {
 
 	private List<GameObject> connections = new List<GameObject>();
 
+    private List<GameObject> notches = new List<GameObject>();
+
+    private GameObject notch1;
+    private GameObject notch2;
+    private Vector3 notchPos1;
+    private Vector3 notchPos2;
+
+    private Color color;
+
 
 	void Start(){
 	}
@@ -31,6 +40,8 @@ public class SeamBehaviour : MonoBehaviour {
 			}
 		}
 
+        UpdateColorCoding();
+        UpdateNotches();
 		UpdateConnections ();
 
 	}
@@ -42,6 +53,25 @@ public class SeamBehaviour : MonoBehaviour {
 			lineRenderer.SetPosition (1, endPoints[i].position);
 		}
 	}
+
+    void UpdateColorCoding()
+    {
+        lineOne.GetComponent<Renderer>().material.SetColor("_Color", this.color);
+        lineTwo.GetComponent<Renderer>().material.SetColor("_Color", this.color);
+    }
+
+    void UpdateNotches()
+    {
+        SetNotchPositions();
+        notch1.transform.position = notchPos1;
+        //notch1.transform.position = lineOne.GetComponent<BoundaryLineBehaviour>().transform.position;
+        notch1.transform.up = lineOne.GetComponent<BoundaryLineBehaviour>().unitVector;
+
+        notch2.transform.position = notchPos2;
+        //notch2.transform.position = lineTwo.GetComponent<BoundaryLineBehaviour>().transform.position;
+        notch2.transform.up = lineTwo.GetComponent<BoundaryLineBehaviour>().unitVector;
+    }
+    
 
 	void AddConnection(Transform start, Transform end){
 
@@ -57,7 +87,7 @@ public class SeamBehaviour : MonoBehaviour {
 		}
 	}
 
-	public void Init(GameObject line1, GameObject line2){
+	public void Init(GameObject line1, GameObject line2){ //remove hitpointline1 & 2
 		lineOne = line1;
 		lineTwo = line2;
 
@@ -65,12 +95,43 @@ public class SeamBehaviour : MonoBehaviour {
 		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().first;
 		var p3 = lineOne.GetComponent<BoundaryLineBehaviour> ().second;
 		var p4 = lineTwo.GetComponent<BoundaryLineBehaviour> ().second;
+        
 
-		AddConnection (p1, p2);
+        color = VibbiUtils.RandomColor();
+
+
+        InstantiateNotches();
+       
+        AddConnection(p1, p2);
 		AddConnection (p3, p4);
 	}
 
-	public void Swap(){
+    private void SetNotchPositions()
+    {
+        Vector3 positionFirstLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().first.position;
+        Vector3 positionSecondLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().second.position;
+
+        Vector3 positionFirstLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().first.position;
+        Vector3 positionSecondLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().second.position;
+
+        //directions
+        Vector3 direction1 = positionSecondLineOne - positionFirstLineOne;
+        Vector3 direction2 = positionSecondLineTwo - positionFirstLineTwo;
+
+        notchPos1 = positionFirstLineOne + direction1 / 4;
+        notchPos2 = positionFirstLineTwo + direction2 / 4;
+    }
+
+    private void InstantiateNotches()
+    {
+        SetNotchPositions();
+        notch1 = VibbiUtils.AddNotch(this.gameObject, lineOne, notchPos1, color);
+        notch2 = VibbiUtils.AddNotch(this.gameObject, lineTwo, notchPos2, color);
+
+    }
+
+
+    public void Swap(){
 		endPoints.Reverse ();
 	}
 

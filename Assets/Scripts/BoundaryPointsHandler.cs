@@ -20,6 +20,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
+    public GameObject notchPrefab;
+
     
 	private static bool save;
 

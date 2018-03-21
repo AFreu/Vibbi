@@ -46,4 +46,20 @@ public class VibbiUtils : MonoBehaviour {
 		return myLine;
 	}
 
+    public static Color RandomColor()
+    {
+        return new Color(Random.value, Random.value, Random.value, 1);
+    }
+
+    public static GameObject AddNotch(GameObject seam, GameObject line, Vector3 notchPos, Color color)
+    {
+
+        GameObject notch = Instantiate(line.GetComponentInParent<BoundaryPointsHandler>().notchPrefab, notchPos, Quaternion.identity, seam.transform) as GameObject;
+        notch.transform.up = line.GetComponent<BoundaryLineBehaviour>().unitVector;
+
+        notch.GetComponent<Renderer>().material.SetColor("_Color", color);
+
+        return notch;
+
+    }
 }

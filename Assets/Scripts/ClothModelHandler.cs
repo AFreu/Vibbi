@@ -15,6 +15,7 @@ public class ClothModelHandler : MonoBehaviour {
     private List<GameObject> clothModels = new List<GameObject> ();
 	private List<GameObject> seamModels = new List<GameObject> ();
 
+    //sewing
     private List<GameObject> sewingList = new List<GameObject>();
 
 	private ActionManager actionManager;
@@ -205,6 +206,7 @@ public class ClothModelHandler : MonoBehaviour {
     public void InitSewing(GameObject line)
     {
         sewingList.Add(line);
+        
         if (sewingList.Count == 2)
         {
             SewFromList();
@@ -214,7 +216,21 @@ public class ClothModelHandler : MonoBehaviour {
 
     public void SewFromList()
     {
-        CreateSeam(sewingList[0], sewingList[1]);
+        //write over the 'old' seam
+        foreach (GameObject s in seamModels)
+        {
+            var seamBehaviour = s.GetComponent<SeamBehaviour>();
+            if (seamBehaviour.GetFirstLine().Equals(sewingList[0]) 
+                || seamBehaviour.GetFirstLine().Equals(sewingList[1])
+                || seamBehaviour.GetSecondLine().Equals(sewingList[0])
+                || seamBehaviour.GetSecondLine().Equals(sewingList[1]))
+            {
+                RemoveSeam(s);
+                break; //only one seam possible to find
+            }
+        }
+        GameObject seam = CreateSeam(sewingList[0], sewingList[1]);
+
     }
 
 	public void Sew(){
