@@ -13,6 +13,8 @@ TagManager:
   - DuplicateCloth
   - UnfoldCloth
   - Sew
+  - Dart
+  - Rotate
   layers:
   - Default
   - TransparentFX

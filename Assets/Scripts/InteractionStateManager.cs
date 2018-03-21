@@ -13,20 +13,18 @@ public class InteractionStateManager : MonoBehaviour {
 		REMOVECLOTH,
 		SEW,
 		ROTATE,
+		DART,
 		NONE
 	}
 
-	public InteractionState currentState;
+	public enum SimulationState {
+		SIMULATING,
+		PAUSED,
+		STOPPED
+	}
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public InteractionState currentState;
+	public SimulationState simulationState;
 
 
 	public void OnToggleChange(GameObject toggle){
@@ -37,6 +35,17 @@ public class InteractionStateManager : MonoBehaviour {
 			currentState = newState;
 		} else {
 			currentState = InteractionState.NONE;
+		}
+	}
+
+	public void OnSimulationChange(GameObject toggle){
+		Debug.Log ("Simulation: " + toggle.tag);
+		var newState = GetSimulationState (toggle.tag);
+
+		if (newState != simulationState) {
+			simulationState = newState;
+		} else {
+			simulationState = SimulationState.STOPPED;
 		}
 	}
 
@@ -67,6 +76,26 @@ public class InteractionStateManager : MonoBehaviour {
 		case "Rotate":
 			temp = InteractionState.ROTATE;
 			break;
+		case "Dart":
+			temp = InteractionState.DART;
+			break;
+		}
+		return temp;
+	}
+
+	private SimulationState GetSimulationState(string tag){
+		SimulationState temp = SimulationState.STOPPED;
+		switch (tag) {
+		case "Simulating":
+			temp = SimulationState.SIMULATING;
+			break;
+		case "Paused":
+			temp = SimulationState.PAUSED;
+			break;
+		case "Stopped":
+			temp = SimulationState.STOPPED;
+			break;
+		
 		}
 		return temp;
 	}

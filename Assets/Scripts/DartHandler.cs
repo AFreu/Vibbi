@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DartHandler : MonoBehaviour {
+public class DartHandler : Behaviour {
 
 	public GameObject dartPrefab;
 
@@ -20,96 +20,78 @@ public class DartHandler : MonoBehaviour {
 
 	private bool makingDart = false;
 
-	Ray mousePositionRay;
 
 	private GameObject cloth;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		mousePositionRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+		
 		HandleInput ();
 
 		if (makingDart) {
-			Debug.DrawLine (start, end, Color.red);
-			DrawLine (start, end, Color.red);
+			VibbiUtils.DrawLine (start, end, Color.red);
 		}
 
 	}
 
 	void HandleInput(){
 
-		if (!Input.GetKey (KeyCode.G)) {
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.DART) {
 			makingDart = false;
 			return;
 		}
 
-		RaycastHit hit;
+
 
 		var position = MouseWorldPosition ();
 
 		if (Input.GetMouseButtonDown(0)) {
-			
-			/*int layerMask = LayerMask.GetMask("ModelPlane");
-
-
-			if (Physics.Raycast (mousePositionRay, out hit, 30f, layerMask)) {
-				makingDart = true;
-				start = hit.point;
-			}*/
 
 			makingDart = true;
 			start = position;
 
 			startOnCloth = TryFindCloth ();
 		}
-
+			
 		if (Input.GetMouseButton (0)) {
 
-			/*int layerMask = LayerMask.GetMask("ModelPlane");
-			if (Physics.Raycast (mousePositionRay, out hit, 30f, layerMask)) {
-				end = hit.point;
-			}*/
 			end = position;
 		}
 
 		if (Input.GetMouseButtonUp (0)) {
 			makingDart = false;
-			Debug.Log ("Dart making");
+			Debug.Log ("Dart in the making");
 
 			endOnCloth = TryFindCloth ();
 
-			var bothInside = endOnCloth && startOnCloth;
+			var bothEndsInside = endOnCloth && startOnCloth;
+			var oneEndInside = endOnCloth || startOnCloth;
 
-			if (startOnCloth || endOnCloth) {
+			if (bothEndsInside) {
 
-				if (!bothInside) {
+				//Create dart on cloth
+				GameObject dart = CreateDart (start, end);
+				cloth.GetComponent<BoundaryPointsHandler> ().AddDart (dart);
 
-					Debug.Log ("Over boundary");
-					if (Physics.Linecast (start, end, out hit, LayerMask.GetMask ("BoundaryLine"))) {
-						var bl = hit.transform.GetComponent<SimpleLineBehaviour> ();
+			}else if (oneEndInside) {
 
-						Debug.Log ("Found boundary");
-						GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (hit.point), bl);
-						cloth.GetComponent<BoundaryPointsHandler> ().AddDart (d);
-
-					} else {
-						Debug.Log ("Did not find boundary line between dart start and end");
-						return;
-					}
-
-
-				} else {
-					GameObject d = CreateDart (start, end);
-					//GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (end));
-					cloth.GetComponent<BoundaryPointsHandler> ().AddDart (d);
+				//Make sure start is the point on the cloth
+				if (endOnCloth) {
+					var temp = end;
+					end = start;
+					start = temp;
 				}
+
+				//Create dart on boundary line
+				GameObject dart = CreateDartOnBoundaryLine ();
+				if (dart != null) {
+					cloth.GetComponent<BoundaryPointsHandler> ().AddDart (dart);
+				} 
+
+
 			} else {
-				//Create dart model
+				//Create dart on nothing
 				CreateDart(start, end);
 				//TODO: what happens when dart is made outside a cloth
 				//No Cloth to add it to :(
@@ -118,10 +100,28 @@ public class DartHandler : MonoBehaviour {
 		}
 	}
 
+	GameObject CreateDartOnBoundaryLine(){
+		RaycastHit hit;
+		Debug.Log ("Over boundary");
+		if (Physics.Linecast (start, end, out hit, LayerMask.GetMask ("BoundaryLine"))) {
+			var bl = hit.transform.GetComponent<SimpleLineBehaviour> ();
+
+			Debug.Log ("Found boundary");
+			//GameObject d = CreateDart (transform.InverseTransformPoint (start), transform.InverseTransformPoint (hit.point), bl);
+			GameObject dart = CreateDart (transform.InverseTransformPoint (start), hit.point, bl);
+			return dart;
+
+
+		} else {
+			Debug.Log ("Did not find boundary line between dart start and end");
+			return null;
+		}
+	}
+
 	bool TryFindCloth(){
 
 		Vector3 mousePos = Input.mousePosition;
-		mousePos.z = 5; //Distance to camera
+		//mousePos.z = 0; //Distance to camera
 
 		Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
 
@@ -136,22 +136,6 @@ public class DartHandler : MonoBehaviour {
 		}
 
 		return false;
-	}
-
-	void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 0.1f)
-	{
-		GameObject myLine = new GameObject();
-		myLine.transform.position = start;
-		myLine.AddComponent<LineRenderer>();
-		LineRenderer lr = myLine.GetComponent<LineRenderer>();
-		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-		lr.startWidth = 0.1f;
-		lr.endWidth = 0.1f;
-		lr.startColor = color;
-		lr.endColor = color;
-		lr.SetPosition(0, start);
-		lr.SetPosition(1, end);
-		GameObject.Destroy(myLine, duration);
 	}
 
 	public GameObject CreateDart(Vector3 start, Vector3 end){
