@@ -62,6 +62,8 @@ public class ClothModelHandler : MonoBehaviour {
 			Debug.Log ("Redo");
 			actionManager.Redo ();
 		}
+
+
 	}
 
 	public void AddCloth(){
@@ -135,8 +137,8 @@ public class ClothModelHandler : MonoBehaviour {
 
 	public void TriangulateModels()
 	{
-		foreach(GameObject o in clothModels){
-			o.GetComponent<BoundaryPointsHandler> ().TriangulateModel ();
+		foreach(GameObject cloth in clothModels){
+			cloth.GetComponent<Triangulatable> ().Triangulate ();
 		}	
 	}
 
