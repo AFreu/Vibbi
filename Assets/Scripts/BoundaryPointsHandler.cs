@@ -7,28 +7,32 @@ using GuiLabs.Undo;
 public class BoundaryPointsHandler : MonoBehaviour {
 	private int MINIMUM_AMOUNT_BOUNDARYPOINTS = 3; 
 
+	public DartHandler dartHandler;
+
 	//The lists are order dependent
-	private List<GameObject> boundaryPoints = new List<GameObject> ();
-	public List<GameObject> boundaryLines = new List<GameObject> ();
+	public List<GameObject> boundaryPoints = new List<GameObject> ();
+	public List<GameObject> boundaryLines = new List<GameObject> (); 
+
+	public List<GameObject> darts = new List<GameObject> ();
 
 	private PolygonCollider2D polygonCollider;
 	private ActionManager actionManager;
 
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
-
-	public Triangulator triangulator;
-
-
-	public bool autoTriangulate = false;
     
 	private static bool save;
 
+
+	public GameObject boundaryCollection;
+	public Transform boundaries;
+
+
 	// Use this for initialization
 	void Start () {
-
 		polygonCollider = GetComponent<PolygonCollider2D> ();
 		actionManager = GetComponentInParent<ActionManager> ();
+		dartHandler = GetComponentInParent<DartHandler> ();
         save = false;
 
 	}
@@ -36,19 +40,16 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (autoTriangulate) {
-			TriangulateModel ();
-		}
-
 		if (save)
 		{
 			save = false;
-			Debug.Log("hej");
 			ObjExporter.MeshToFile(GetComponent<MeshFilter>(), "meshyoyo.obj");
 		}
         
 		UpdateMiddle ();
 		UpdateCollider ();
+
+		UpdateDarts ();
 
 	}
 
@@ -107,38 +108,19 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		polygonCollider.points = array;
 	}
 
+	void UpdateDarts(){
+		
+	}
+
 	void UpdatePosition(Vector3 position){
 
 		Vector3 translation = position - transform.position;
-
 		transform.Translate (translation);
-
 
 		foreach (GameObject o in boundaryPoints) {
 			o.transform.Translate (-translation);
 		}
 	}
-
-	public void TriangulateModel() {
-
-		var coords = new List<Vector2>();
-		var holeCoords = new List<List<Vector2>> ();
-
-		foreach(GameObject o in boundaryPoints){
-			var t = o.transform.localPosition;
-			coords.Add (new Vector2 (t.x, t.y));
-		}
-
-		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
-
-		if (mesh == null)
-			Debug.Log ("Mesh is null");
-
-		triangulator.Triangulate(mesh, coords, holeCoords);
-
-		GetComponent<MeshFilter>().sharedMesh = GetComponent<MeshFilter> ().mesh;
-       
-    }
 
 	public void AddPoint(GameObject line, Vector3 position){
 		AddPointAction apa = new AddPointAction (this, line, position);
@@ -153,15 +135,15 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		int index = boundaryLines.IndexOf (line);
 
 		//Get line behaviour of line at index
-		var lineBehaviour = boundaryLines[index].GetComponent<BoundaryLineBehaviour> ();
+		var lineBehaviour = boundaryLines[index].GetComponent<SimpleLineBehaviour> ();
 
 		var newLine = newPoint.GetComponent<BoundaryPointBehaviour> ().line;
 
 		newPoint.SetActive (true);
 		newLine.SetActive (true);
 
-		newPoint.transform.parent = transform;
-		newLine.transform.parent = transform;
+		newPoint.transform.parent = boundaries;
+		newLine.transform.parent = boundaries;
 
 		//Set current line's second point to the new point
 		lineBehaviour.second = newPoint.transform;
@@ -185,11 +167,11 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		int index = boundaryLines.IndexOf (line);
 
 		//Get line behaviour of line at index
-		var lineBehaviour = boundaryLines[index].GetComponent<BoundaryLineBehaviour> ();
+		var lineBehaviour = boundaryLines[index].GetComponent<SimpleLineBehaviour> ();
 
 		//Create new point and line
-		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, transform) as GameObject;
-		GameObject newLine = Instantiate (boundaryLinePrefab, transform) as GameObject;
+		GameObject newPoint = Instantiate (boundaryPointPrefab, position, Quaternion.identity, boundaries) as GameObject;
+		GameObject newLine = Instantiate (boundaryLinePrefab, boundaries) as GameObject;
 
 		//Store reference to line in point
 		newPoint.GetComponent<BoundaryPointBehaviour> ().line = newLine;
@@ -200,7 +182,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		lineBehaviour.second = newPoint.transform;
 
 		//Get new line behaviour
-		var newLineBehaviour = newLine.GetComponent<BoundaryLineBehaviour> ();
+		var newLineBehaviour = newLine.GetComponent<SimpleLineBehaviour> ();
 
 		//Set new line's first point to the new point
 		newLineBehaviour.first = newPoint.transform;
@@ -241,7 +223,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		//var bL = boundaryLines [index];
 		var bL = bP.GetComponent<BoundaryPointBehaviour>().line;
 
-		var second = bL.GetComponent<BoundaryLineBehaviour> ().second;
+		var second = bL.GetComponent<SimpleLineBehaviour> ().second;
 
 		//Remove and destroy object and references
 		boundaryPoints.Remove (bP);
@@ -273,7 +255,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		var bL = boundaryLines [index];
 
 		//Store second boundary point transform
-		var second = bL.GetComponent<BoundaryLineBehaviour> ().second;
+		var second = bL.GetComponent<SimpleLineBehaviour> ().second;
 
 		//Remove and destroy object and references
 		boundaryPoints.Remove (bP);
@@ -297,8 +279,16 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			index = boundaryLines.Count - 1;
 		}
 		var bL = boundaryLines [index];
-		bL.GetComponent<BoundaryLineBehaviour> ().second = newSecond;
+		bL.GetComponent<SimpleLineBehaviour> ().second = newSecond;
 		return bL;
+
+	}
+
+	private void InitBoundaryCollection(){
+		boundaryCollection = new GameObject ("Boundaries");
+		boundaryCollection.transform.parent = transform;
+		boundaryCollection.transform.localPosition = Vector3.zero;
+		boundaries = boundaryCollection.transform;
 
 	}
 
@@ -306,11 +296,13 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 		Debug.Log ("InitQuad!");
 
+		InitBoundaryCollection ();
+
 		//Instantiate boundary
-		GameObject o1 = Instantiate (boundaryPointPrefab, transform) as GameObject;
-		GameObject o2 = Instantiate (boundaryPointPrefab, transform) as GameObject;
-		GameObject o3 = Instantiate (boundaryPointPrefab, transform) as GameObject;
-		GameObject o4 = Instantiate (boundaryPointPrefab, transform) as GameObject;
+		GameObject o1 = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
+		GameObject o2 = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
+		GameObject o3 = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
+		GameObject o4 = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
 
         o1.transform.Translate (new Vector3 (0.6f, 0.6f, 0.0f));
 		o2.transform.Translate (new Vector3 (-0.6f, 0.6f, 0.0f));
@@ -327,29 +319,29 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryPoints.Add (o4);
         //4
 
-        GameObject l1 = Instantiate (boundaryLinePrefab, transform) as GameObject;
-		GameObject l2 = Instantiate (boundaryLinePrefab, transform) as GameObject;
-		GameObject l3 = Instantiate (boundaryLinePrefab, transform) as GameObject;
-		GameObject l4 = Instantiate (boundaryLinePrefab, transform) as GameObject;
+		GameObject l1 = Instantiate (boundaryLinePrefab, boundaries) as GameObject;
+		GameObject l2 = Instantiate (boundaryLinePrefab, boundaries) as GameObject;
+		GameObject l3 = Instantiate (boundaryLinePrefab, boundaries) as GameObject;
+		GameObject l4 = Instantiate (boundaryLinePrefab, boundaries) as GameObject;
 
 		o1.GetComponent<BoundaryPointBehaviour> ().line = l1;
 		o2.GetComponent<BoundaryPointBehaviour> ().line = l2;
 		o3.GetComponent<BoundaryPointBehaviour> ().line = l3;
 		o4.GetComponent<BoundaryPointBehaviour> ().line = l4;
 
-		var lb1 = l1.GetComponent<BoundaryLineBehaviour> ();
+		var lb1 = l1.GetComponent<SimpleLineBehaviour> ();
 		lb1.first = o1.transform;
 		lb1.second = o2.transform;
 
-		var lb2 = l2.GetComponent<BoundaryLineBehaviour> ();
+		var lb2 = l2.GetComponent<SimpleLineBehaviour> ();
 		lb2.first = o2.transform;
 		lb2.second = o3.transform;
 
-		var lb3 = l3.GetComponent<BoundaryLineBehaviour> ();
+		var lb3 = l3.GetComponent<SimpleLineBehaviour> ();
 		lb3.first = o3.transform;
 		lb3.second = o4.transform;
 
-		var lb4 = l4.GetComponent<BoundaryLineBehaviour> ();
+		var lb4 = l4.GetComponent<SimpleLineBehaviour> ();
 		lb4.first = o4.transform;
 		lb4.second = o1.transform;
 
@@ -358,20 +350,22 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryLines.Add (l3);
 		boundaryLines.Add (l4);
 
+		//AddDart (new Vector3 (0.3f, 0.4f, 0.0f), new Vector3 (0.3f, 0.1f, 0.0f));
+
 	}
 
 	public void InitPolygon(Points points){
 
-		BoundaryLineBehaviour lb = null;
+		SimpleLineBehaviour lb = null;
 
 		foreach (Vector2 p in points.points) {
 			//Make a new boundary point
-			GameObject o = Instantiate (boundaryPointPrefab, transform) as GameObject;
+			GameObject o = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
 			o.transform.Translate (new Vector3 (p.x, p.y, 0.0f));
 			boundaryPoints.Add (o);
 
 			//Make a new line
-			GameObject l = Instantiate (boundaryLinePrefab, transform) as GameObject;
+			GameObject l = Instantiate (boundaryLinePrefab, boundaries) as GameObject;
 			boundaryLines.Add (l);
 			o.GetComponent<BoundaryPointBehaviour> ().line = l;
 			//Add this point as second to the previous line
@@ -379,7 +373,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 				lb.second = o.transform;
 			}
 			//Get the new line behaviour
-			lb = l.GetComponent<BoundaryLineBehaviour> ();
+			lb = l.GetComponent<SimpleLineBehaviour> ();
 
 			//Add this point as first to the new line
 			lb.first = o.transform;
@@ -401,7 +395,37 @@ public class BoundaryPointsHandler : MonoBehaviour {
     }
 
 
+	public void HandleInput(){
+        if (GetComponent<Selectable>() == null)
+        {
+			Debug.Log ("Has no Selectable");
+            return;
+        }
+	
+		if (GetComponent<Selectable> ().isSelected ()) {
+			if (Input.GetKeyUp(KeyCode.D) && Input.GetKey(KeyCode.LeftControl)) {
+				Duplicate();
+			} else if (Input.GetKeyUp (KeyCode.D)) {
+				Remove ();
+			}
+		}
+	}
 
+	public void Remove(){
+		//GetComponentInParent starts looking in "this" object before looking into parents. 
+		transform.parent.GetComponentInParent<BoundaryPointsHandler> ().RemoveDart (gameObject);
+		GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
+	}
+
+	public void RemoveDart(GameObject dart){
+		Debug.Log ("Removing dart: " + dart);
+		darts.Remove (dart);
+	}
+
+	//Probably some nicer way to implement this
+	public void Duplicate(){
+		GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
+	}
 
 
 
@@ -409,17 +433,25 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		Debug.Log ("InitCopy");
 		boundaryPoints.Clear ();
 		boundaryLines.Clear ();
+		darts.Clear ();
 
-		foreach (Transform t in transform) {
+		foreach (Transform t in boundaries) {
 			switch (t.tag) {
 			case "BoundaryLine":
-				Debug.Log ("Adding BoundaryLine");
+				Debug.Log ("Adding BoundaryLine to copy");
 				boundaryLines.Add (t.gameObject);
 				break;
 			case "BoundaryPoint":
-				Debug.Log ("Adding BoundaryPoint");
+				Debug.Log ("Adding BoundaryPoint to copy");
 				boundaryPoints.Add (t.gameObject);
 				break;
+			}
+		}
+
+		foreach (Transform d in transform) {
+			if (d.tag == "Dart") {
+				Debug.Log ("Adding Dart to copy");
+				darts.Add (d.gameObject);
 			}
 		}
 
@@ -430,7 +462,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			return;
 
 		//Store position and direction of line since it is changing when we add a new point to it
-		var lineBehaviour = line.GetComponent<BoundaryLineBehaviour> ();
+		var lineBehaviour = line.GetComponent<SimpleLineBehaviour> ();
 		var lineOrigin = lineBehaviour.first.transform.position;
 		var end = lineBehaviour.second.transform.position;
 		var lineDirection = end - lineOrigin;
@@ -485,4 +517,17 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		}
 		return temp;
 	}
+		
+	public void AddDart(GameObject dart){
+		darts.Add (dart);
+	}
+
+	public List<Vector2> GetPointPositions() {
+		List<Vector2> temp = new List<Vector2> ();
+		foreach (GameObject o in boundaryPoints) {
+			temp.Add (o.transform.localPosition);
+		}
+		return temp;
+	}
+		
 }

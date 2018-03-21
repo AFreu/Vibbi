@@ -12,6 +12,8 @@ public class Triangulator : MonoBehaviour {
 	public bool conformingDelaunay;
 	public bool naive;
 
+	public bool autoTriangulate = false;
+
 	public Material material;
 	public float y;
 
@@ -39,42 +41,22 @@ public class Triangulator : MonoBehaviour {
 		
 	}
 
+	public bool AutoTriangulate(){
+		return autoTriangulate;
+	}
+
 	public void Triangulate(Points ps)
 	{
 		
 		List<Vector2> points = ps.points;
 		List<List<Vector2>> holes = new List<List<Vector2>>();
-		List<int> indices = null;
-		List<Vector3> vertices = null;
+
 
 		foreach (List<Vector2> hole in ps.holes) {
 			holes.Add (hole);
 		}
-		var options = new ConstraintOptions() { ConformingDelaunay = conformingDelaunay };
-		var quality = new QualityOptions() { MinimumAngle = minimumAngle, MaximumArea = maximumArea};
 
-		ConditionedTriangulator.triangulate(points, holes, out indices, out vertices, options, quality);
-
-
-		mesh.Clear();
-		mesh.vertices = vertices.ToArray();
-        
-        mesh.triangles = indices.ToArray();
-		//MeshUtility.Optimize(mesh);
-
-		//mesh.Optimize ();
-		mesh.RecalculateNormals ();
-
-		go.GetComponent<MeshCollider> ().sharedMesh = mesh; 
-
-		Vector2[] uvs = new Vector2[mesh.vertices.Length];
-		for (int i = 0; i < uvs.Length; i++) {
-			uvs [i] = new Vector2 (mesh.vertices[i].x, mesh.vertices[i].y);
-		}
-		mesh.uv = uvs;
-
-
-		//mr.enabled = false;
+		Triangulate (mesh, points, holes);
 	}
 
 	public void Init(GameObject o){
@@ -93,42 +75,12 @@ public class Triangulator : MonoBehaviour {
 
 	public void Triangulate(List<Vector2> ps, List<List<Vector2>> hs)
 	{
-
-		List<Vector2> points = ps;
-		List<List<Vector2>> holes = hs;
-
-		List<int> indices = null;
-		List<Vector3> vertices = null;
-
-		var options = new ConstraintOptions() { ConformingDelaunay = conformingDelaunay };
-		var quality = new QualityOptions() { MinimumAngle = minimumAngle, MaximumArea = maximumArea};
-
-		ConditionedTriangulator.triangulate(points, holes, out indices, out vertices, options, quality);
-
-		mesh.Clear();
-		mesh.vertices = vertices.ToArray();
-
-        
-        mesh.triangles = indices.ToArray();
-		//MeshUtility.Optimize(mesh);
-
-		//mesh.Optimize ();
-		mesh.RecalculateNormals ();
-
-		go.GetComponent<MeshCollider> ().sharedMesh = mesh; 
-
-		Vector2[] uvs = new Vector2[mesh.vertices.Length];
-		for (int i = 0; i < uvs.Length; i++) {
-			uvs [i] = new Vector2 (mesh.vertices[i].x, mesh.vertices[i].y);
-		}
-		mesh.uv = uvs;
+		Triangulate (mesh, ps, hs);
 	}
 
 	public void Triangulate(Mesh m, List<Vector2> points, List<List<Vector2>> holes)
 	{
 
-		//List<Vector2> points = ps;
-		//List<List<Vector2>> holes = hs;
 
 		List<int> indices = null;
 		List<Vector3> vertices = null;
