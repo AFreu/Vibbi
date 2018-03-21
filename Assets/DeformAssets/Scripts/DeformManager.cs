@@ -211,7 +211,7 @@ public class DeformManager : MonoBehaviour {
         InitDeformObjects();
 
         //malin seams
-        InitSeams();
+       InitSeams();
 
        /* if (activeObjects == 0) return;
 
@@ -224,9 +224,9 @@ public class DeformManager : MonoBehaviour {
             //söm 2
             vertices[i * 2 + 128] = i + 63  * 64;
             vertices[i * 2 + 1 + 128] = i + 63 * 64 + (64 * 64);
-        }*/
+        }
 
-       /* if (deformables.Length >= 2)
+        if (deformables.Length >= 2)
         {
             SewObjects(deformables[0].GetId(), deformables[1].GetId(), vertices, vertices.Length);
         }*/

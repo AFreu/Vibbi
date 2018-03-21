@@ -212,7 +212,21 @@ public class ClothModelHandler : MonoBehaviour {
 
     public void SewFromList()
     {
-        CreateSeam(sewingList[0], sewingList[1]);
+        //write over the 'old' seam
+        foreach (GameObject s in seamModels)
+        {
+            var seamBehaviour = s.GetComponent<SeamBehaviour>();
+            if (seamBehaviour.GetFirstLine().Equals(sewingList[0]) 
+                || seamBehaviour.GetFirstLine().Equals(sewingList[1])
+                || seamBehaviour.GetSecondLine().Equals(sewingList[0])
+                || seamBehaviour.GetSecondLine().Equals(sewingList[1]))
+            {
+                RemoveSeam(s);
+                break; //only one seam possible to find
+            }
+        }
+        GameObject seam = CreateSeam(sewingList[0], sewingList[1]);
+
     }
 
 	public void Sew(){
