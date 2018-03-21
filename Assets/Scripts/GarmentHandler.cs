@@ -56,7 +56,7 @@ public class GarmentHandler : MonoBehaviour {
     public void AttachCloth(GameObject go, Transform t)
     {
         go.transform.position = t.position;
-        go.transform.forward = t.up;
+        go.transform.forward = -t.up;
     }
 
 	public void LoadSeam(GameObject seam){
