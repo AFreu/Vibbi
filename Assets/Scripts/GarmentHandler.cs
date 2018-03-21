@@ -30,20 +30,16 @@ public class GarmentHandler : MonoBehaviour {
 
 		GameObject go = Instantiate (clothPiecePrefab, deformManager.transform.parent);
 
-		go.GetComponent<Rotatable> ().cam = Camera.allCameras[1]; //should be done in some other way
-
 
         Transform t = attachMentPointsHandler.getSelectedAttachmentPoint();
         if(t != null)
         {
             AttachCloth(go, t);
-			go.GetComponent<Rotatable> ().rotationAxis = t.up;
         }
         else
         {
             go.transform.localPosition = new Vector3(0, 11, 0);
             go.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
-			go.GetComponent<Rotatable> ().rotationAxis = Vector3.up;
         }
         
 		go.GetComponent<MeshFilter>().sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;

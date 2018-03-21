@@ -8,10 +8,21 @@ public class Rotatable : MonoBehaviour {
 	public Camera cam;
 
 	//The axis which this object should rotate around
-	public Vector3 rotationAxis;
+	private Vector3 rotationAxis;
 
 	//Used to determine the input angle
 	Vector3 currentRotationDirection;
+
+	protected InteractionStateManager interactionStateManager;
+
+	void Awake() {
+		cam = Camera.allCameras[1];
+		interactionStateManager = Component.FindObjectOfType<InteractionStateManager> ();
+	}
+
+	void Start(){
+		rotationAxis = transform.InverseTransformDirection(Vector3.forward);
+	}
 
 	void OnMouseDown(){
 		
@@ -21,12 +32,11 @@ public class Rotatable : MonoBehaviour {
 	}
 
 	void OnMouseDrag(){
-		
-		Rotate ();
 
+		if (Input.GetKey(KeyCode.R) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ROTATE) {
+			Rotate ();
+		} 
 	}
-
-
 
 	Vector3 GetRotationDirection(){
 
