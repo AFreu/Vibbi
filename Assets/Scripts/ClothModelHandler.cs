@@ -15,6 +15,7 @@ public class ClothModelHandler : MonoBehaviour {
     private List<GameObject> clothModels = new List<GameObject> ();
 	private List<GameObject> seamModels = new List<GameObject> ();
 
+    //sewing
     private List<GameObject> sewingList = new List<GameObject>();
 
 	private ActionManager actionManager;
@@ -203,6 +204,7 @@ public class ClothModelHandler : MonoBehaviour {
     public void InitSewing(GameObject line)
     {
         sewingList.Add(line);
+        
         if (sewingList.Count == 2)
         {
             SewFromList();

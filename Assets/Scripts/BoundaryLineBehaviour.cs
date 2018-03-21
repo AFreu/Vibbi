@@ -72,4 +72,5 @@ public class BoundaryLineBehaviour : Behaviour{
 		transform.right = offset;
 		transform.localScale = scale;
 	}
+    
 }

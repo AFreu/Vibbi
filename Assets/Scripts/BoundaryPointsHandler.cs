@@ -16,6 +16,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	public GameObject boundaryPointPrefab;
 	public GameObject boundaryLinePrefab;
+    public GameObject notchPrefab;
 
 	public Triangulator triangulator;
 
