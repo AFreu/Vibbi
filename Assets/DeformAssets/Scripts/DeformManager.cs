@@ -47,9 +47,10 @@ public class DeformManager : MonoBehaviour {
     public GarmentHandler garmentHandler;
 
     //remove ??
-    private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
-    private int totalNumberOfVertices = 0;
+    //private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
+    //private int totalNumberOfVertices = 0;
 
+	static bool yoMOM = false;
 
     delegate void LogCallback(string msg);
 
@@ -128,14 +129,21 @@ public class DeformManager : MonoBehaviour {
     {
         static PluginInitializer()
         {
-            SetLogCallback(CustomLogger);
-            InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
+			try{SetLogCallback(CustomLogger);
+				InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");}
+			catch(DllNotFoundException e){
+				yoMOM = true;
+			}
+            
+
         }
     }
 #endif
 
     void Start()
     {
+		if (yoMOM)
+			return;
         //Time.timeScale = 0.66f;
         
         originalGravity = gravity;
@@ -146,6 +154,8 @@ public class DeformManager : MonoBehaviour {
 
     unsafe void Update()
     {
+		if (yoMOM)
+			return;
         HandleInput();
         UpdateColliders();
 
@@ -194,7 +204,9 @@ public class DeformManager : MonoBehaviour {
     }
 
     void OnValidate()
-    {
+	{
+		if (yoMOM)
+			return;
         SetGravity(gravity);
     }
 
@@ -608,6 +620,8 @@ public class DeformManager : MonoBehaviour {
 
     void OnDestroy()
     {
+		if (yoMOM)
+			return;
         ShutdownDeformPlugin();
     }
     
