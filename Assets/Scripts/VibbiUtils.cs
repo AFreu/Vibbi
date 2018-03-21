@@ -46,4 +46,9 @@ public class VibbiUtils : MonoBehaviour {
 		return myLine;
 	}
 
+    public static Color RandomColor()
+    {
+        return new Color(Random.value, Random.value, Random.value, 1);
+    }
+
 }

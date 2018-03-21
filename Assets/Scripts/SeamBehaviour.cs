@@ -12,6 +12,8 @@ public class SeamBehaviour : MonoBehaviour {
 
 	private List<GameObject> connections = new List<GameObject>();
 
+    private Color color;
+
 
 	void Start(){
 	}
@@ -31,6 +33,7 @@ public class SeamBehaviour : MonoBehaviour {
 			}
 		}
 
+        UpdateColorCoding();
 		UpdateConnections ();
 
 	}
@@ -42,6 +45,12 @@ public class SeamBehaviour : MonoBehaviour {
 			lineRenderer.SetPosition (1, endPoints[i].position);
 		}
 	}
+
+    void UpdateColorCoding()
+    {
+        lineOne.GetComponent<Renderer>().material.SetColor("_Color", this.color);
+        lineTwo.GetComponent<Renderer>().material.SetColor("_Color", this.color);
+    }
 
 	void AddConnection(Transform start, Transform end){
 
@@ -65,6 +74,9 @@ public class SeamBehaviour : MonoBehaviour {
 		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().first;
 		var p3 = lineOne.GetComponent<BoundaryLineBehaviour> ().second;
 		var p4 = lineTwo.GetComponent<BoundaryLineBehaviour> ().second;
+        
+
+        color = VibbiUtils.RandomColor();
 
 		AddConnection (p1, p2);
 		AddConnection (p3, p4);
