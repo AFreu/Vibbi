@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapToGrid: 0
-  GRIDWIDTH: 0.041666668
+  gridWidth: 0.3
 --- !u!114 &114408312139317694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   line: {fileID: 0}
+  revertScaling: 1
 --- !u!135 &135246554257214154
 SphereCollider:
   m_ObjectHideFlags: 1
