@@ -15,6 +15,7 @@ TagManager:
   - Sew
   - Dart
   - Rotate
+  - Scale
   layers:
   - Default
   - TransparentFX
