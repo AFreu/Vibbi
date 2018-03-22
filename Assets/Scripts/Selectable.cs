@@ -20,7 +20,8 @@ public class Selectable : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        previousColor = selectedMaterial.color;
+        //previousColor = selectedMaterial.color;
+        previousColor = Color.red;
 		currentlyHighlighted = new List<Selectable>();
 	}
 	
