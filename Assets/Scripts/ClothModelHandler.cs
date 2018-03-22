@@ -205,6 +205,12 @@ public class ClothModelHandler : MonoBehaviour {
     //takes a line and saves it in the sewing list, if two lines are present, SEW
     public void InitSewing(GameObject line)
     {
+        if (sewingList.Contains(line))
+        {
+            return;
+        }
+
+
         sewingList.Add(line);
         if (sewingList.Count == 1)
         {

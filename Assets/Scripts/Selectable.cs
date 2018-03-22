@@ -101,7 +101,6 @@ public class Selectable : MonoBehaviour {
     {
         switchedColor = true;
         sewingColor = color;
-        //previousColor = selectedMaterial.color;
         selectedMaterial.color = sewingColor;
     }
 		
