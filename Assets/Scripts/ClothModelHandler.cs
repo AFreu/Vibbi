@@ -206,7 +206,12 @@ public class ClothModelHandler : MonoBehaviour {
     public void InitSewing(GameObject line)
     {
         sewingList.Add(line);
-        
+        if (sewingList.Count == 1)
+        {
+            //set selected material color
+            Color color = VibbiUtils.RandomColor();
+            line.GetComponent<Selectable>().SetSewingColor(color);
+        }
         if (sewingList.Count == 2)
         {
             SewFromList();

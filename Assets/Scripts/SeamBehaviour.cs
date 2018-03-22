@@ -95,9 +95,11 @@ public class SeamBehaviour : MonoBehaviour {
 		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().first;
 		var p3 = lineOne.GetComponent<BoundaryLineBehaviour> ().second;
 		var p4 = lineTwo.GetComponent<BoundaryLineBehaviour> ().second;
-        
 
-        color = VibbiUtils.RandomColor();
+
+        //color = VibbiUtils.RandomColor();
+        Debug.Log("Setting seam color");
+        color = lineOne.GetComponent<Selectable>().sewingColor;
 
 
         InstantiateNotches();
@@ -106,11 +108,14 @@ public class SeamBehaviour : MonoBehaviour {
 		AddConnection (p3, p4);
 	}
 
+    //sets the position of the notches depending on where the start and endpoints of the line are
     private void SetNotchPositions()
     {
+        //positions line one
         Vector3 positionFirstLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().first.position;
         Vector3 positionSecondLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().second.position;
 
+        //positions line two
         Vector3 positionFirstLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().first.position;
         Vector3 positionSecondLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().second.position;
 
@@ -118,6 +123,7 @@ public class SeamBehaviour : MonoBehaviour {
         Vector3 direction1 = positionSecondLineOne - positionFirstLineOne;
         Vector3 direction2 = positionSecondLineTwo - positionFirstLineTwo;
 
+        //notch positions
         notchPos1 = positionFirstLineOne + direction1 / 4;
         notchPos2 = positionFirstLineTwo + direction2 / 4;
     }
@@ -127,7 +133,6 @@ public class SeamBehaviour : MonoBehaviour {
         SetNotchPositions();
         notch1 = VibbiUtils.AddNotch(this.gameObject, lineOne, notchPos1, color);
         notch2 = VibbiUtils.AddNotch(this.gameObject, lineTwo, notchPos2, color);
-
     }
 
 

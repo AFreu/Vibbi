@@ -12,10 +12,15 @@ public class Selectable : MonoBehaviour {
 	private bool highlighted = false;
 	private bool selected = false;
 
+    public Color sewingColor;
+    private Color previousColor;
+    private bool switchedColor;
+
 	private static List<Selectable> currentlyHighlighted;
 
 	// Use this for initialization
 	void Start () {
+        previousColor = selectedMaterial.color;
 		currentlyHighlighted = new List<Selectable>();
 	}
 	
@@ -30,6 +35,12 @@ public class Selectable : MonoBehaviour {
 
 		if (!highlighted && leftMouseButtonUp && !leftShift)
 			Select (false);
+
+        if (!selected && switchedColor)
+        {
+            switchedColor = false;
+            selectedMaterial.color = previousColor;
+        }
 
 	}
 		
@@ -85,5 +96,13 @@ public class Selectable : MonoBehaviour {
 	public bool isSelected(){
 		return selected;
 	}
+
+    public void SetSewingColor(Color color)
+    {
+        switchedColor = true;
+        sewingColor = color;
+        //previousColor = selectedMaterial.color;
+        selectedMaterial.color = sewingColor;
+    }
 		
 }
