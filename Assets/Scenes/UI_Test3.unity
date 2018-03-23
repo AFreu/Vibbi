@@ -409,6 +409,12 @@ Transform:
   m_Father: {fileID: 393321537}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &83194044 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 367514565}
+  m_Script: {fileID: 11500000, guid: 44bf29bb119084ba39cb8ed9b160c9c3, type: 3}
 --- !u!1 &84451734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,6 +1439,7 @@ GameObject:
   - component: {fileID: 279091888}
   - component: {fileID: 279091887}
   - component: {fileID: 279091889}
+  - component: {fileID: 279091890}
   m_Layer: 0
   m_Name: ModelHandler
   m_TagString: Untagged
@@ -1499,6 +1506,22 @@ MonoBehaviour:
     type: 2}
   dartPoints: []
   dartLines: []
+--- !u!114 &279091890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 279091885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 496fb357b51f64171ba5f79878405a66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triangulator: {fileID: 83194044}
+  clothModelHandler: {fileID: 279091888}
+  scaleX: 0.15
+  scaleY: 0.15
+  points: []
 --- !u!1 &295864659
 GameObject:
   m_ObjectHideFlags: 0
@@ -4045,7 +4068,8 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: b91eb1dff855f82449feb856b96d8693, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: b91eb1dff855f82449feb856b96d8693, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &655792062 stripped
@@ -6491,7 +6515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  simulationState: 0
+  simulationState: 2
 --- !u!4 &1025559684
 Transform:
   m_ObjectHideFlags: 0

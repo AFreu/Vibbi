@@ -356,11 +356,14 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
-	public void InitPolygon(Points points){
+	public void InitPolygon(PredefinedCloth cloth){
+
+
+		InitBoundaryCollection ();
 
 		SimpleLineBehaviour lb = null;
 
-		foreach (Vector2 p in points.points) {
+		foreach (Vector2 p in cloth.points) {
 			//Make a new boundary point
 			GameObject o = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
 			o.transform.Translate (new Vector3 (p.x, p.y, 0.0f));

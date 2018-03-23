@@ -45,7 +45,7 @@ public class Triangulator : MonoBehaviour {
 		return autoTriangulate;
 	}
 
-	public void Triangulate(Points ps)
+	public void Triangulate(PredefinedCloth ps)
 	{
 		
 		List<Vector2> points = ps.points;
