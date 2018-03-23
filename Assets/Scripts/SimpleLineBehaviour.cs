@@ -8,10 +8,10 @@ public class SimpleLineBehaviour : Behaviour {
 	public Transform second;
 
 	public Vector3 unitVector;
+	private BoxCollider col;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Start(){
+		addColliderToLine ();
 	}
 	
 	// Update is called once per frame
@@ -22,19 +22,59 @@ public class SimpleLineBehaviour : Behaviour {
 	}
 
 	void UpdateLine(){
+		var start = first.transform.localPosition;
+		var end = second.transform.localPosition;
+
+		Vector3[] n = { start, end };
+
+		GetComponent<LineRenderer>().SetPositions(n);
+
+		UpdateCollider();
+		//UpdateColliderLocal ();
+
+	}
+		
+	void UpdateCollider(){
+
+		UpdateColliderSize ();
+
 		var start = first.transform.position;
 		var end = second.transform.position;
 
-		var parentScaleCompensation = transform.parent.transform.localScale.x;
 		var offset = end - start;
-		var scale = new Vector3(offset.magnitude/parentScaleCompensation, 1, 1);
-		var position = start;
+
+		Vector3 midPoint = start + offset / 2;
 
 		//Save unit vector for other uses
 		unitVector = offset.normalized;
 
-		transform.position = position;
-		transform.right = offset;
-		transform.localScale = scale;
+		col.transform.position = midPoint; // setting position of collider object
+		col.transform.right = unitVector;
+
+	}
+
+	void UpdateColliderSize(){
+
+		var start = first.transform.localPosition;
+		var end = second.transform.localPosition;
+
+		var offset = end - start;
+
+		col.size = new Vector3 (offset.magnitude, 0.1f, 0.1f);
+	}
+
+	public Vector3 GetMidPoint(){
+		var start = first.transform.position;
+		var end = second.transform.position;
+		return (start + end) / 2;
+	}
+
+	private void addColliderToLine()
+	{
+
+		col = new GameObject("Collider").AddComponent<BoxCollider> ();
+		col.gameObject.layer = gameObject.layer;
+		col.transform.parent = transform; // Collider is added as child object of line
+
 	}
 }

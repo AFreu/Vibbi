@@ -12,7 +12,7 @@ public class Movable : MonoBehaviour {
 	private static GameObject currentlyDragged;
 
 	private Vector3 currentPosition;
-	private Vector3 offset;
+	protected Vector3 offset;
 
 	protected ActionManager actionManager;
 	protected InteractionStateManager interactionStateManager;
@@ -35,7 +35,6 @@ public class Movable : MonoBehaviour {
 			currentlyDragged = gameObject;
 			SaveCurrentState ();
 
-			offset = transform.position - MouseWorldPosition ();
 		}
 	}
 
@@ -62,7 +61,7 @@ public class Movable : MonoBehaviour {
 
 	}
 
-	Vector3 MouseWorldPosition(){
+	protected Vector3 MouseWorldPosition(){
 
 		//Get mouse position on screen
 		Vector3 mousePos = Input.mousePosition;
@@ -77,6 +76,7 @@ public class Movable : MonoBehaviour {
 
 	public virtual void SaveCurrentState(){
 		currentPosition = transform.position;
+		offset = transform.position - MouseWorldPosition ();
 	}
 
 	public virtual void RecordChangeOfState(){
@@ -89,6 +89,7 @@ public class Movable : MonoBehaviour {
 	}
 
 	public virtual void Move(Vector3 position){
+
 		if (snapToGrid) {
 			transform.position = SnapToGrid (position);
 		} else {

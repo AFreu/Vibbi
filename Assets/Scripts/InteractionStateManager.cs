@@ -14,6 +14,7 @@ public class InteractionStateManager : MonoBehaviour {
 		SEW,
 		ROTATE,
 		DART,
+		SCALE,
 		NONE
 	}
 
@@ -78,6 +79,9 @@ public class InteractionStateManager : MonoBehaviour {
 			break;
 		case "Dart":
 			temp = InteractionState.DART;
+			break;
+		case "Scale":
+			temp = InteractionState.SCALE;
 			break;
 		}
 		return temp;

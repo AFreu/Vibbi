@@ -25,7 +25,6 @@ public class Triangulatable : MonoBehaviour {
 	}
 
 	public void Triangulate(){
-		Debug.Log ("Triangulatable triangulating");
 		UpdateCoords ();
 
 		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;

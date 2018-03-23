@@ -46,6 +46,8 @@ public class GarmentHandler : MonoBehaviour {
 		go.GetComponent<MeshCollider>().sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;
 		go.GetComponent<MeshRenderer> ().material = garmentMaterial;
 
+		go.transform.localScale = cloth.transform.localScale;
+
         clothPieces.Add(go);
     }
 
