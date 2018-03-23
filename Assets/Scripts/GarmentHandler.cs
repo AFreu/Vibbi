@@ -82,6 +82,23 @@ public class GarmentHandler : MonoBehaviour {
 		Destroy (garmentSeam);
 	}
 
+	public void UnloadAll(){
+
+		//First unload all seams
+		foreach (GameObject seam in garmentSeams) {
+			Destroy (seam);
+		}
+
+		garmentSeams.Clear ();
+
+		//Then unload all cloth pieces
+		foreach (GameObject cloth in clothPieces) {
+			Destroy (cloth);
+		}
+
+		clothPieces.Clear ();
+	}
+
     public void AttachCloth(GameObject go, Transform t)
     {
         go.transform.position = t.position;
