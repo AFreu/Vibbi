@@ -25,31 +25,62 @@ public class GarmentHandler : MonoBehaviour {
 
 	}
 
-    public void LoadCloth(GameObject cloth)
+    public void LoadCloth(GameObject clothModel)
     {
 
-		GameObject go = Instantiate (clothPiecePrefab, deformManager.transform.parent);
+		//Create a cloth piece
+		GameObject clothPiece = Instantiate (clothPiecePrefab, deformManager.transform.parent);
 
-
-        Transform t = attachMentPointsHandler.getSelectedAttachmentPoint();
-        if(t != null)
+        Transform selectedAttachmentPoint = attachMentPointsHandler.getSelectedAttachmentPoint();
+		if(selectedAttachmentPoint != null)
         {
-            AttachCloth(go, t);
+			//Place cloth piece on the selected attachment point
+			AttachCloth(clothPiece, selectedAttachmentPoint);
         }
         else
         {
-            go.transform.localPosition = new Vector3(0, 11, 0);
-            go.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
+			//Place cloth piece above avatar
+			clothPiece.transform.localPosition = new Vector3(0, 11, 0);
+			clothPiece.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
         }
         
-		go.GetComponent<MeshFilter>().sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;
-		go.GetComponent<MeshCollider>().sharedMesh = cloth.GetComponent<MeshFilter>().sharedMesh;
-		go.GetComponent<MeshRenderer> ().material = garmentMaterial;
+		//Init cloth piece mesh according to the given cloth model mesh
+		var clothModelMesh = clothModel.GetComponent<MeshFilter>().sharedMesh;
+		clothPiece.GetComponent<MeshFilter> ().sharedMesh = clothModelMesh;
+		clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
 
-		go.transform.localScale = cloth.transform.localScale;
+		//Set garment material accordingly
+		clothPiece.GetComponent<MeshRenderer> ().material = garmentMaterial;
 
-        clothPieces.Add(go);
+		//Keep eventual scaling
+		clothPiece.transform.localScale = clothModel.transform.localScale;
+
+		clothPieces.Add(clothPiece);
     }
+
+	public void UnloadCloth(GameObject clothPiece){
+
+		List<GameObject> connectedSeams = new List<GameObject> ();
+
+		foreach (GameObject seam in garmentSeams) {
+			if (seam.GetComponent<GarmentSeamBehaviour> ().firstClothPiece == clothPiece ||
+			   seam.GetComponent<GarmentSeamBehaviour> ().secondClothPiece == clothPiece) {
+				connectedSeams.Add (seam);
+			}
+		}
+
+		foreach (GameObject seam in connectedSeams) {
+			UnloadSeam (seam);
+		}
+
+		clothPieces.Remove (clothPiece);
+		Destroy (clothPiece);
+	}
+
+	public void UnloadSeam(GameObject garmentSeam){
+		garmentSeams.Remove (garmentSeam);
+		Destroy (garmentSeam);
+	}
 
     public void AttachCloth(GameObject go, Transform t)
     {
