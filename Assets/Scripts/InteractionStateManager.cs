@@ -103,4 +103,15 @@ public class InteractionStateManager : MonoBehaviour {
 		}
 		return temp;
 	}
+
+	public Camera GetCamera(string tag){
+		Camera cam = Camera.main;
+		switch (tag) {
+		case "ClothPiece":
+			cam = Camera.allCameras [1];
+			break;
+
+		}
+		return cam;
+	}
 }
