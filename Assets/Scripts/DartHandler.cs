@@ -92,7 +92,7 @@ public class DartHandler : Behaviour {
 
 			} else {
 				//Create dart on nothing
-				CreateDart(start, end);
+				//CreateDart(start, end);
 				//TODO: what happens when dart is made outside a cloth
 				//No Cloth to add it to :(
 

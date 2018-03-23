@@ -12,7 +12,7 @@ public class BoundaryPointBehaviour : Behaviour{
 	public bool revertScaling = true;
 
 	void Start(){
-		scalableParent = transform.GetComponentInParent<BoundaryPointsHandler> ().transform;
+		scalableParent = transform.GetComponentInParent<Scalable> ().transform;
 		wantedScale = transform.localScale;
 
 	}
