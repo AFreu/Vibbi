@@ -145,7 +145,7 @@ public class ClothModelHandler : MonoBehaviour {
 	public void Load(){
 		foreach (GameObject cloth in clothModels) {
 			if (cloth.GetComponent<Selectable> ().isSelected ()) {
-				LoadCloth (cloth);
+				LoadClothWithSeams (cloth);
 			}
 		}
 
@@ -156,15 +156,37 @@ public class ClothModelHandler : MonoBehaviour {
 		}
 	}
 
+	public void LoadAllSeams(){
+		foreach (GameObject seam in seamModels) {
+			LoadSeam (seam);
+		}
+	}
+
     public void LoadCloth(GameObject gameObject)
     {
         garmentHandler.LoadCloth(gameObject);
+
     }
 
 	public void LoadSeam(GameObject gameObject)
 	{
 		garmentHandler.LoadSeam (gameObject);
 	}
+
+	public void LoadClothWithSeams(GameObject gameObject){
+		LoadCloth (gameObject);
+
+		foreach (GameObject seam in seamModels) {
+			var first = seam.GetComponent<SeamBehaviour> ().GetFirstCloth ();
+			var second = seam.GetComponent<SeamBehaviour> ().GetSecondCloth ();
+
+			if (first.Equals (gameObject) || second.Equals (gameObject)) {
+				LoadSeam (seam);
+			}
+		}
+	}
+
+
 
 
     public void Simulate()

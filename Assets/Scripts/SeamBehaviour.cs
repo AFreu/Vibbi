@@ -33,11 +33,7 @@ public class SeamBehaviour : MonoBehaviour {
 			if (Input.GetKeyUp (KeyCode.W)) {
 				Swap ();
 			}
-
-			if (Input.GetKeyUp(KeyCode.L))
-			{
-				//GetComponentInParent<ClothModelHandler>().LoadSeam(gameObject);
-			}
+				
 		}
 
         UpdateColorCoding();
@@ -153,5 +149,13 @@ public class SeamBehaviour : MonoBehaviour {
 
 	public Mesh GetSecondMesh(){
 		return lineTwo.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
+	}
+
+	public GameObject GetFirstCloth(){
+		return lineOne.GetComponentInParent<BoundaryPointsHandler> ().gameObject;
+	}
+
+	public GameObject GetSecondCloth(){
+		return lineTwo.GetComponentInParent<BoundaryPointsHandler> ().gameObject;
 	}
 }

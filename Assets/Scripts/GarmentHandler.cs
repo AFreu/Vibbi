@@ -105,6 +105,17 @@ public class GarmentHandler : MonoBehaviour {
         go.transform.forward = -t.up;
     }
 
+	public bool ClothIsLoaded(GameObject cloth){
+		var clothModelMesh = cloth.GetComponent<MeshFilter> ().sharedMesh;
+
+		for (int index = 0; index < clothPieces.Count; index++) {
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (clothModelMesh)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void LoadSeam(GameObject seam){
 		Debug.Log ("Load Seam");
 		var sb = seam.GetComponent<SeamBehaviour> ();
@@ -112,6 +123,7 @@ public class GarmentHandler : MonoBehaviour {
 		int secondLineMeshIndex = -1;
 		bool firstMeshFound = false;
 		bool secondMeshFound = false;
+
 		for (int index = 0; index < clothPieces.Count; index++) {
 			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetFirstMesh ())) {
 				Debug.Log ("Mesh 1 is previously loaded");
