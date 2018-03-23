@@ -329,6 +329,7 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   airFriction: 0.9995
   intercollision: 1
+  deformCamera: {fileID: 0}
   garmentHandler: {fileID: 0}
 --- !u!114 &114778623298030324
 MonoBehaviour:

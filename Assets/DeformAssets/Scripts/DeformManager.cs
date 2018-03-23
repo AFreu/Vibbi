@@ -44,6 +44,7 @@ public class DeformManager : MonoBehaviour {
 
     MouseOrbit mouseOrbit;
 
+    public Camera deformCamera;
     public GarmentHandler garmentHandler;
 
     //remove ??
@@ -594,7 +595,8 @@ public class DeformManager : MonoBehaviour {
         */
         if (Input.GetMouseButtonDown(1))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = deformCamera.ScreenPointToRay(Input.mousePosition);
             Vector3 rayBegin = ray.origin;
             Vector3 rayEnd = ray.origin + (4096 * ray.direction);
 
@@ -612,7 +614,9 @@ public class DeformManager : MonoBehaviour {
 
         if (isDragging)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = deformCamera.ScreenPointToRay(Input.mousePosition);
+
             Vector3 dragPos = ray.origin + (ray.direction * pickedDistance);
             isDragging = MoveParticle(pickedObjectId, pickedIndex, dragPos);
         }
