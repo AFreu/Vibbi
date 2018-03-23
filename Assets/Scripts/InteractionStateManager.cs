@@ -14,6 +14,7 @@ public class InteractionStateManager : MonoBehaviour {
 		SEW,
 		ROTATE,
 		DART,
+		SCALE,
 		NONE
 	}
 
@@ -79,6 +80,9 @@ public class InteractionStateManager : MonoBehaviour {
 		case "Dart":
 			temp = InteractionState.DART;
 			break;
+		case "Scale":
+			temp = InteractionState.SCALE;
+			break;
 		}
 		return temp;
 	}
@@ -98,5 +102,16 @@ public class InteractionStateManager : MonoBehaviour {
 		
 		}
 		return temp;
+	}
+
+	public Camera GetCamera(string tag){
+		Camera cam = Camera.main;
+		switch (tag) {
+		case "ClothPiece":
+			cam = Camera.allCameras [1];
+			break;
+
+		}
+		return cam;
 	}
 }

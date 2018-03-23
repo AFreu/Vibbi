@@ -15,6 +15,8 @@ TagManager:
   - Sew
   - Dart
   - Rotate
+  - Scale
+  - ClothPiece
   layers:
   - Default
   - TransparentFX

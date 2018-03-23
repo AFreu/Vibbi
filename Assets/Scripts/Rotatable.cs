@@ -5,7 +5,7 @@ using UnityEngine;
 public class Rotatable : MonoBehaviour {
 
 	//Camera for input
-	public Camera cam;
+	private Camera cam;
 
 	//The axis which this object should rotate around
 	private Vector3 rotationAxis;
@@ -16,8 +16,9 @@ public class Rotatable : MonoBehaviour {
 	protected InteractionStateManager interactionStateManager;
 
 	void Awake() {
-		cam = Camera.allCameras[1];
+		
 		interactionStateManager = Component.FindObjectOfType<InteractionStateManager> ();
+		cam = interactionStateManager.GetCamera (tag);
 	}
 
 	void Start(){

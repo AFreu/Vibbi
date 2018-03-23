@@ -7,24 +7,23 @@ public class MovableLine : Movable {
 	private MoveLineAction mla;
 
 	public override void SaveCurrentState(){
-		//currentPosition = transform.position;
-		mla = new MoveLineAction(GetComponent<BoundaryLineBehaviour> ());
+
+		BoundaryLineBehaviour blb = GetComponent<BoundaryLineBehaviour> ();
+
+		offset = blb.GetMidPoint() - MouseWorldPosition ();
+
+		mla = new MoveLineAction(blb);
+
 	}
 
 	public override void RecordChangeOfState(){
 		if (mla.hasNewPosition()) {
 			actionManager.RecordAction (mla);
 		}
-
-		/*//Record a move action if the point has moved since last call to MovePoint
-		if (currentPosition != transform.position) {
-			Debug.Log("m: OldPosition != NewPosition");
-			MoveAction mpa = new MoveAction (gameObject, currentPosition, transform.position);
-			actionManager.RecordAction (mpa);
-		}*/
 	}
 
 	public override void Move(Vector3 position){
+
 
 		var bL = GetComponent<BoundaryLineBehaviour> ();
 		var first = bL.first;

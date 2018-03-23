@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class BoundaryLineBehaviour : SimpleLineBehaviour{
 
-
-	Vector3 MouseWorldPosition(){
-
+	void OnMouseUp(){
 
 		//Get mouse position on screen
 		Vector3 mousePos = Input.mousePosition;
@@ -16,13 +14,7 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 		mousePos.z = transform.position.z - Camera.main.transform.position.z;
 
 		//Get a world position for the mouse
-		return Camera.main.ScreenToWorldPoint(mousePos);
-
-	}
-
-	void OnMouseUp(){
-
-		var hit = MouseWorldPosition ();
+		var hit =  Camera.main.ScreenToWorldPoint(mousePos);
 
 		if (Input.GetKey (KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
 			GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit);

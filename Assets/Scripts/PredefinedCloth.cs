@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class Points : MonoBehaviour {
+public class PredefinedCloth : MonoBehaviour {
 
 	public Triangulator triangulator;
 	public ClothModelHandler clothModelHandler;
@@ -31,7 +31,10 @@ public class Points : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKeyUp (KeyCode.H)) {
+			ModelSleeve ();
+			ModelShirt ();
+		}
 	}
 
 	public void ModelSleeve(){

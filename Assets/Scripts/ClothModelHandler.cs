@@ -84,10 +84,10 @@ public class ClothModelHandler : MonoBehaviour {
 		return o;
 	}
 
-	public GameObject AddClothModel(Vector3 position, Points points){
+	public GameObject AddClothModel(Vector3 position, PredefinedCloth cloth){
 		GameObject o = Instantiate (clothModelPrefab, transform) as GameObject;
 		o.transform.Translate (position);
-		o.GetComponent<BoundaryPointsHandler> ().InitPolygon (points);
+		o.GetComponent<BoundaryPointsHandler> ().InitPolygon (cloth);
 		clothModels.Add (o);
 		return o;
 	}
