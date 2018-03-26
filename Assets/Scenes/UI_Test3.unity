@@ -384,7 +384,7 @@ MonoBehaviour:
   radius: 0.6
   otherRadius: 0.6
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &76703751
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +536,7 @@ MonoBehaviour:
   radius: 0.5
   otherRadius: 0.5
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &137578618
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clothPiecePrefab: {fileID: 1592297285166562, guid: d47f6f4d950bb48d9982187f917a4b4f,
     type: 2}
-  garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
+  garmentMaterial: {fileID: 2100000, guid: 9c9fd444458fbdb45943f742ec824af9, type: 2}
   deformManager: {fileID: 842208067}
   attachMentPointsHandler: {fileID: 967106657}
   clothPieces: []
@@ -773,7 +773,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1133994639}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &190208247
 GameObject:
@@ -858,7 +858,7 @@ MonoBehaviour:
   radius: 0.7
   otherRadius: 0.7
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &210871152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,7 +1297,7 @@ MonoBehaviour:
   radius: 0.5
   otherRadius: 0.5
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &260895914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1729,7 +1729,7 @@ MonoBehaviour:
   radius: 0.97
   otherRadius: 0.89
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &332640420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,6 +1935,11 @@ Prefab:
     - target: {fileID: 1074131799663984, guid: 6d9caed5987f849ea81b847d4ef337cf, type: 2}
       propertyPath: m_Name
       value: Triangulator
+      objectReference: {fileID: 0}
+    - target: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
+        type: 2}
+      propertyPath: maximumArea
+      value: 0.001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d9caed5987f849ea81b847d4ef337cf, type: 2}
@@ -3034,10 +3039,10 @@ MonoBehaviour:
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 516108138}
   transformB: {fileID: 1172170455}
-  radius: 0.7
-  otherRadius: 0.7
+  radius: 0.6
+  otherRadius: 0.6
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &515561000
 GameObject:
   m_ObjectHideFlags: 0
@@ -4469,10 +4474,10 @@ MonoBehaviour:
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 553747259}
   transformB: {fileID: 237334901}
-  radius: 0.4
-  otherRadius: 0.4
+  radius: 0.3
+  otherRadius: 0.3
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &723078430
 GameObject:
   m_ObjectHideFlags: 0
@@ -5569,11 +5574,11 @@ GameObject:
   - component: {fileID: 910201047}
   - component: {fileID: 910201048}
   m_Layer: 0
-  m_Name: SpotLight
+  m_Name: SpotLightFront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &910201047
 Transform:
@@ -5581,13 +5586,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 910201046}
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 20, z: -5}
+  m_LocalRotation: {x: 0.9396927, y: 0, z: 0, w: 0.34202018}
+  m_LocalPosition: {x: 0, y: 10, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1133994639}
+  m_Father: {fileID: 1685813703}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 140, y: 0, z: 0}
 --- !u!108 &910201048
 Light:
   m_ObjectHideFlags: 0
@@ -5599,8 +5604,8 @@ Light:
   m_Type: 0
   m_Color: {r: 0.9893509, g: 1, b: 0.8897059, a: 1}
   m_Intensity: 8
-  m_Range: 40
-  m_SpotAngle: 105
+  m_Range: 30
+  m_SpotAngle: 70
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -5747,6 +5752,57 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!1 &926956369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 926956370}
+  - component: {fileID: 926956371}
+  m_Layer: 0
+  m_Name: FloorCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &926956370
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 926956369}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 9, y: 0, z: 9}
+  m_Children: []
+  m_Father: {fileID: 1685813703}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &926956371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 926956369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52af8f2d31a18cb4e97679999da666f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderType: 3
+  size: {x: 1, y: 1, z: 1}
+  capsulePointType: 0
+  pointA: {x: -0.5, y: 0, z: 0}
+  pointB: {x: 0.5, y: 0, z: 0}
+  transformA: {fileID: 0}
+  transformB: {fileID: 0}
+  radius: 0.5
+  otherRadius: 0.5
+  showColliderInEditor: 0
+  showColliderInGame: 0
 --- !u!1 &930566370
 GameObject:
   m_ObjectHideFlags: 0
@@ -5962,7 +6018,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1133994639}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &978099318
 GameObject:
@@ -6014,10 +6070,10 @@ MonoBehaviour:
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 2121169497}
   transformB: {fileID: 1464268081}
-  radius: 0.5
-  otherRadius: 0.4
+  radius: 0.4
+  otherRadius: 0.3
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &986268771
 GameObject:
   m_ObjectHideFlags: 0
@@ -6714,11 +6770,11 @@ Transform:
   m_Children:
   - {fileID: 1228019419}
   - {fileID: 842208066}
-  - {fileID: 910201047}
   - {fileID: 189792676}
   - {fileID: 967106658}
   - {fileID: 1548650038}
   - {fileID: 1810775935}
+  - {fileID: 1685813703}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7668,7 +7724,7 @@ MonoBehaviour:
   radius: 0.7
   otherRadius: 0.7
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &1302890555
 GameObject:
   m_ObjectHideFlags: 0
@@ -7860,6 +7916,71 @@ Transform:
   m_Father: {fileID: 1477643395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1342811382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1342811383}
+  - component: {fileID: 1342811384}
+  m_Layer: 0
+  m_Name: SpotLightBack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &1342811383
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342811382}
+  m_LocalRotation: {x: -0.106376246, y: 0.9336522, z: 0.33982155, w: 0.03871778}
+  m_LocalPosition: {x: 0, y: -10, z: 20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1685813703}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -40, y: 180, z: -13}
+--- !u!108 &1342811384
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1342811382}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 0
+  m_Color: {r: 0.9893509, g: 1, b: 0.8897059, a: 1}
+  m_Intensity: 8
+  m_Range: 30
+  m_SpotAngle: 70
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 1
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &1349775244
 GameObject:
   m_ObjectHideFlags: 0
@@ -8344,7 +8465,7 @@ MonoBehaviour:
   radius: 0.8
   otherRadius: 0.5
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &1463527189
 GameObject:
   m_ObjectHideFlags: 0
@@ -8948,7 +9069,7 @@ Transform:
   - {fileID: 2075251119}
   - {fileID: 355565005}
   m_Father: {fileID: 1133994639}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550627810
 GameObject:
@@ -9237,10 +9358,10 @@ MonoBehaviour:
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 1721368753}
   transformB: {fileID: 553747259}
-  radius: 0.5
-  otherRadius: 0.4
+  radius: 0.4
+  otherRadius: 0.3
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &1594679730
 GameObject:
   m_ObjectHideFlags: 0
@@ -9564,6 +9685,85 @@ Transform:
   m_Father: {fileID: 772817230}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1685813702
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1133994639}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f6829a241f1500940bc0f5466cbc2543, type: 2}
+    - target: {fileID: 2300000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+      propertyPath: m_Name
+      value: DressingRoom
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+  m_ParentPrefab: {fileID: 100100000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+  m_IsPrefabParent: 0
+--- !u!4 &1685813703 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 7271af4e9be3b95439f2a4b233699cec, type: 3}
+  m_PrefabInternal: {fileID: 1685813702}
 --- !u!1 &1686628045
 GameObject:
   m_ObjectHideFlags: 0
@@ -9923,7 +10123,7 @@ MonoBehaviour:
   radius: 0.8
   otherRadius: 0.5
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &1740079070
 GameObject:
   m_ObjectHideFlags: 0
@@ -10580,7 +10780,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1133994639}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1816645249
 GameObject:
@@ -12400,10 +12600,10 @@ MonoBehaviour:
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 1464268081}
   transformB: {fileID: 1338695491}
-  radius: 0.4
-  otherRadius: 0.4
+  radius: 0.3
+  otherRadius: 0.3
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &2124261250
 GameObject:
   m_ObjectHideFlags: 0
