@@ -18,12 +18,24 @@ public class GarmentHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyUp(KeyCode.S))
+        HandleInput();
+
+	}
+
+    void HandleInput()
+    {
+        if (Input.GetButtonUp("Start Simulation"))
         {
+            Debug.Log("Start Simulation");
             StartSimulation();
         }
 
-	}
+        if (Input.GetButtonUp("Stop Simulation"))
+        {
+            Debug.Log("Stop Simulation");
+            StopSimulation();
+        }
+    }
 
     public void LoadCloth(GameObject clothModel)
     {
@@ -177,6 +189,11 @@ public class GarmentHandler : MonoBehaviour {
         
         deformManager.Reset();
 
+    }
+
+    public void StopSimulation()
+    {
+        deformManager.ShutDownDeformPlugin();
     }
 
     public void InitSeams()

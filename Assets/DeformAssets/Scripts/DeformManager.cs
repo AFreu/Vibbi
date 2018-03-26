@@ -672,4 +672,9 @@ public class DeformManager : MonoBehaviour {
             SewObjects(deformables[0].GetId(), deformables[1].GetId(), vertices, vertices.Length);
         }
     }
+
+    public void ShutDownDeformPlugin()
+    {
+        ShutdownDeformPlugin();
+    }
 }
