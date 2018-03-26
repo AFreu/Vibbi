@@ -1,11 +1,20 @@
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
+!/Assets/Meshes/*
 /[Bb]uild/
 /[Bb]uilds/
 /Assets/AssetStoreTools*
-/Assets/DeformAssets*
+
+
+/Assets/DeformAssets/*
+!/Assets/DeformAssets/Scripts/*
+
+
 /Assets/Plugins*
+/UnityPackageManager/
+/ProjectSettings/ProjectVersion.txt/
+/TESTMESHES/*
 
 # Visual Studio 2015 cache directory
 /.vs/
@@ -39,3 +48,4 @@ sysinfo.txt
 # vivace
 *.dll
 *.xml
+ProjectSettings/ProjectVersion.txt
