@@ -30,7 +30,7 @@ public class ClothModelHandler : MonoBehaviour {
 	void Update () {
 		
 		HandleInput ();
-
+        
 	}
 
 	private void HandleInput(){
@@ -65,6 +65,7 @@ public class ClothModelHandler : MonoBehaviour {
 
 
 	}
+
 
 	public void AddCloth(){
 		AddCloth (new Vector3 (0.0f, 0.0f, 0.0f));
@@ -227,10 +228,32 @@ public class ClothModelHandler : MonoBehaviour {
     //takes a line and saves it in the sewing list, if two lines are present, SEW
     public void InitSewing(GameObject line)
     {
-        sewingList.Add(line);
+        if (sewingList.Contains(line))
+        {
+            return;
+        }
         
+        sewingList.Add(line);
+        if (sewingList.Count == 1)
+        {
+            //set selected material color
+            Color color = VibbiUtils.RandomColor();
+            line.GetComponent<Selectable>().SetSewingColor(color);
+        }
         if (sewingList.Count == 2)
         {
+            if (!sewingList[0].GetComponent<Selectable>().isSelected())
+            {
+
+                sewingList.Clear();
+
+                sewingList.Add(line);
+                //set selected material color
+                Color color = VibbiUtils.RandomColor();
+                line.GetComponent<Selectable>().SetSewingColor(color);
+                return;
+            }
+
             SewFromList();
             sewingList.Clear();
         }

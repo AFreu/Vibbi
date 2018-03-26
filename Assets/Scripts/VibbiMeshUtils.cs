@@ -52,18 +52,21 @@ public class VibbiMeshUtils : MonoBehaviour
 
     private static List<int> indicesFromLine(GameObject line)
     {
+        Vector3 start = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
+        Vector3 end = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
+
+
         straightUpLine = false;
         float epsilon = 0.01f;
 
         /*get the two points of the line and
         find the function of these two points*/
-        DefineFunction( line.GetComponent<BoundaryLineBehaviour>().first.localPosition, 
-                        line.GetComponent<BoundaryLineBehaviour>().second.localPosition);
-
+        DefineFunction(start, end);
         
-
         //get all the vertices of the mesh that the line belongs to
         Vector3[] meshVertices = line.GetComponentInParent<BoundaryPointsHandler>().GetComponent<MeshFilter>().mesh.vertices;
+        
+        
         List<int> lineIndices = new List<int>(); //fill this list with the vertices on the line
 
         //check if vertices are on the line
@@ -72,7 +75,8 @@ public class VibbiMeshUtils : MonoBehaviour
             if (straightUpLine)
             {
                 if (meshVertices[i].x > (straightUpX - epsilon) &&
-                    meshVertices[i].x < (straightUpX + epsilon))
+                    meshVertices[i].x < (straightUpX + epsilon) 
+                    )
                 {
                     lineIndices.Add(i); //add the index of the vertex
                 }
@@ -80,7 +84,8 @@ public class VibbiMeshUtils : MonoBehaviour
             else
             {
                 if (LineFunction(meshVertices[i].x) > (meshVertices[i].y - epsilon)
-                    && LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon))
+                    && LineFunction(meshVertices[i].x) < (meshVertices[i].y + epsilon)
+                    && CheckIfInsideBB(start, end, meshVertices[i], epsilon))
                 {
                     lineIndices.Add(i); //add the index of the vertex
                 }
@@ -96,6 +101,24 @@ public class VibbiMeshUtils : MonoBehaviour
         return lineIndices;
     }
 		
+
+    private static bool CheckIfInsideBB(Vector3 start, Vector3 end, Vector3 meshVertice, float epsilon)
+    {
+        float maxX = start.x > end.x ? start.x : end.x;
+        float minX = start.x < end.x ? start.x : end.x;
+        float maxY = start.y > end.y ? start.y : end.y;
+        float minY = start.y < end.y ? start.y : end.y;
+
+        if (meshVertice.x < maxX + epsilon &&
+            meshVertice.x > minX - epsilon &&
+            meshVertice.y < maxY + epsilon &&
+            meshVertice.y > minY - epsilon)
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     private static List<int> SortIndexList(List<int> lineIndices, Vector3 startPoint, Vector3[] meshVertices)
     {

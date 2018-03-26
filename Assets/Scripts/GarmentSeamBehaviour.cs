@@ -66,6 +66,7 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 			connections.Add(VibbiUtils.CreateLine (start, end, Color.red, transform));
 
 		}
+        Debug.Log(lineVerticeIndices.Count / 2);
 	}
 
 }

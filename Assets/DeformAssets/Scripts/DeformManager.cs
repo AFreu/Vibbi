@@ -44,6 +44,7 @@ public class DeformManager : MonoBehaviour {
 
     MouseOrbit mouseOrbit;
 
+    public Camera deformCamera;
     public GarmentHandler garmentHandler;
 
     //remove ??
@@ -51,6 +52,7 @@ public class DeformManager : MonoBehaviour {
     //private int totalNumberOfVertices = 0;
 
 	static bool yoMOM = false;
+    public bool pontusPseam = false;
 
     delegate void LogCallback(string msg);
 
@@ -222,26 +224,16 @@ public class DeformManager : MonoBehaviour {
         SetGlobalParameters();
         InitDeformObjects();
 
-        //malin seams
-       InitSeams();
-
-       /* if (activeObjects == 0) return;
-
-        uint[] vertices = new uint[256];
-        for (uint i = 0; i < 64; i++)
+        if (pontusPseam)
         {
-            //söm 1
-            vertices[i * 2] = i;
-            vertices[i * 2 + 1] = i + (64 * 64);
-            //söm 2
-            vertices[i * 2 + 128] = i + 63  * 64;
-            vertices[i * 2 + 1 + 128] = i + 63 * 64 + (64 * 64);
+            PontusPSeam();
         }
-
-        if (deformables.Length >= 2)
+        else
         {
-            SewObjects(deformables[0].GetId(), deformables[1].GetId(), vertices, vertices.Length);
-        }*/
+            //malin seams
+            InitSeams();
+
+        }
 
         StartSimulation();
 
@@ -426,7 +418,11 @@ public class DeformManager : MonoBehaviour {
             body.SetId(id);
             activeObjects++;
         }
-        garmentHandler.setIDs();
+
+        if (!pontusPseam)
+        {
+            garmentHandler.setIDs();
+        }
 
         colliders = FindObjectsOfType<DeformCollider>();
 
@@ -594,7 +590,8 @@ public class DeformManager : MonoBehaviour {
         */
         if (Input.GetMouseButtonDown(1))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = deformCamera.ScreenPointToRay(Input.mousePosition);
             Vector3 rayBegin = ray.origin;
             Vector3 rayEnd = ray.origin + (4096 * ray.direction);
 
@@ -612,7 +609,9 @@ public class DeformManager : MonoBehaviour {
 
         if (isDragging)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = deformCamera.ScreenPointToRay(Input.mousePosition);
+
             Vector3 dragPos = ray.origin + (ray.direction * pickedDistance);
             isDragging = MoveParticle(pickedObjectId, pickedIndex, dragPos);
         }
@@ -651,5 +650,26 @@ public class DeformManager : MonoBehaviour {
     public void Sew(int id1, int id2, uint[] indices, int numIndices)
     {
         SewObjects(id1, id2, indices, numIndices);
+    }
+
+    private void PontusPSeam()
+    {
+        if (activeObjects == 0) return;
+
+        uint[] vertices = new uint[256];
+        for (uint i = 0; i < 64; i++)
+        {
+            //söm 1
+            vertices[i * 2] = i;
+            vertices[i * 2 + 1] = i + (64 * 64);
+            //söm 2
+            vertices[i * 2 + 128] = i + 63 * 64;
+            vertices[i * 2 + 1 + 128] = i + 63 * 64 + (64 * 64);
+        }
+
+        if (deformables.Length >= 2)
+        {
+            SewObjects(deformables[0].GetId(), deformables[1].GetId(), vertices, vertices.Length);
+        }
     }
 }

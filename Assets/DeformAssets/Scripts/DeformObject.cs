@@ -66,7 +66,12 @@ public class DeformObject : DeformBody {
 
         fixedVertices = new bool[mesh.vertexCount];
         attachedVertices = new bool[mesh.vertexCount];
+
         friction = new bool[mesh.vertexCount];
+        for(int i = 0; i < mesh.vertexCount; i++)
+        {
+            friction[i] = true;
+        }
             
         oldMesh = mesh;
 
@@ -74,7 +79,6 @@ public class DeformObject : DeformBody {
         id = CreateDeformableObject(meshVertices, mesh.uv, (uint)mesh.vertices.Length, mesh.triangles, (uint)mesh.triangles.Length / 3,
                                     transform.position, GetRotation(), transform.lossyScale, distanceStiffness, bendingStiffness);
 
-        Debug.Log("rebuild:: "+id);
     }
 
 
