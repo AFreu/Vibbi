@@ -147,7 +147,12 @@ public class DeformManager : MonoBehaviour {
 		if (yoMOM)
 			return;
         //Time.timeScale = 0.66f;
-        
+
+        if (deformCamera == null)
+        {
+            deformCamera = Camera.main;
+        }
+
         originalGravity = gravity;
         originalWind = wind;
 
