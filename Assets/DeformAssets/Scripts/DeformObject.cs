@@ -29,13 +29,21 @@ public class DeformObject : DeformBody {
     protected override void OnValidate()
     {
         base.OnValidate();
-        
 
-        if(!originalMesh.Equals(oldMesh))
+       
+
+        try
         {
-            RebuildMesh();
-            shouldRegenerateParticles = true;
-            oldMesh = originalMesh;
+            if (!originalMesh.Equals(oldMesh))
+            {
+                RebuildMesh();
+                shouldRegenerateParticles = true;
+                oldMesh = originalMesh;
+            }
+        }
+        catch (NullReferenceException)
+        {
+            return;
         }
 
         GetComponent<MeshRenderer>().material = material;

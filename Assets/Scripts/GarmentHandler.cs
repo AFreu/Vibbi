@@ -191,7 +191,7 @@ public class GarmentHandler : MonoBehaviour {
             for (int i = 0; i < gsb.lineVerticeIndices.Count; i = i + 2)
             {
                 vertices[i] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id1]);
-                vertices[i + 1] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id2]);
+                vertices[i + 1] = (uint)(gsb.lineVerticeIndices[i+1] + idToPositonInList[id2]);
             }
 
             deformManager.Sew(id1, id2, vertices, vertices.Length);
