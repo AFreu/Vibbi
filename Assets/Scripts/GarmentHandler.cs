@@ -14,6 +14,8 @@ public class GarmentHandler : MonoBehaviour {
     public List<GameObject> clothPieces = new List<GameObject>();
 	public List<GameObject> garmentSeams = new List<GameObject>();
     
+	public Color seamColor = Color.red;
+	public float seamWidth = 0.01f;
 
 	
 	// Update is called once per frame
@@ -174,9 +176,16 @@ public class GarmentHandler : MonoBehaviour {
 		GameObject garmentSeam = new GameObject ("GarmentSeam");
 		garmentSeam.transform.parent = transform;
 
+		LineRenderer renderer = garmentSeam.AddComponent<LineRenderer> ();
+		renderer.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+		renderer.startColor = seamColor;
+		renderer.endColor = seamColor;
+		renderer.startWidth = seamWidth;
+		renderer.endWidth = seamWidth;
+
 		GarmentSeamBehaviour garmentSeamBehaviour = garmentSeam.AddComponent<GarmentSeamBehaviour> ();
 		garmentSeamBehaviour.Init (firstClothPieceIndex, secondClothPieceIndex, lineVerticeIndices, clothPieces[firstClothPieceIndex], clothPieces[secondClothPieceIndex], seam);
-	
+
 		garmentSeams.Add(garmentSeam);
 
 	}
