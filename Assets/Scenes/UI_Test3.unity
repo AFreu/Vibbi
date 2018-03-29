@@ -730,6 +730,7 @@ MonoBehaviour:
   clothPiecePrefab: {fileID: 1592297285166562, guid: d47f6f4d950bb48d9982187f917a4b4f,
     type: 2}
   garmentMaterial: {fileID: 2100000, guid: 9c9fd444458fbdb45943f742ec824af9, type: 2}
+  randomizeMaterial: 0
   deformManager: {fileID: 842208067}
   attachMentPointsHandler: {fileID: 967106657}
   clothPieces: []
@@ -5154,6 +5155,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114862959990077104, guid: c8b79cd343a32460d9c010c93b4a89ac,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b79cd343a32460d9c010c93b4a89ac, type: 2}
   m_IsPrefabParent: 0
@@ -6741,6 +6747,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   simulationState: 2
+  selectToggle: {fileID: 2142174288}
+  rotateToggle: {fileID: 1208794386}
+  scaleToggle: {fileID: 993077836}
+  newPointToggle: {fileID: 1904395522}
+  removePointToggle: {fileID: 1806885537}
+  dartToggle: {fileID: 137578618}
+  sewToggle: {fileID: 1929591121}
+  unfoldToggle: {fileID: 1686628045}
+  duplicateToggle: {fileID: 919710754}
 --- !u!4 &1025559684
 Transform:
   m_ObjectHideFlags: 0
