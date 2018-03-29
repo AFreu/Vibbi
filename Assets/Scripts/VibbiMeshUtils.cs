@@ -53,7 +53,7 @@ public class VibbiMeshUtils : MonoBehaviour
         int leftMiddle = leftList.Count / 2;
         int rightMiddle = rightList.Count / 2;
 
-        if (leftList.Count <= 2 || rightList.Count <= 2)
+        if (leftList.Count <= 1 || rightList.Count <= 1)
         {
             List<int> returnList = new List<int>();
 
@@ -62,22 +62,27 @@ public class VibbiMeshUtils : MonoBehaviour
           
             return returnList;
         }
-
-        if (leftList.Count == 2 || rightList.Count == 2)
+        
+        List<int> finalListS = new List<int>();
+        if (leftList.Count == 2)
         {
-            List<int> leftLeftListS = leftList.GetRange(0, leftMiddle);
-            List<int> rightLeftListS = leftList.GetRange(leftMiddle, leftList.Count - leftMiddle);
+            finalListS.Add(leftList[0]);
+            finalListS.Add(rightList[rightMiddle / 2]);
+            finalListS.Add(leftList[1]);
+            finalListS.Add(rightList[rightMiddle + (rightMiddle / 2)]);
+            return finalListS;
 
-            List<int> leftRightListS = rightList.GetRange(0, rightMiddle);
-            List<int> rightRightListS = rightList.GetRange(rightMiddle, rightList.Count - rightMiddle);
+        }
 
-            List<int> list1S = RecursiveDefineSeamFromLines(leftLeftListS, leftRightListS);
-            List<int> list2S = RecursiveDefineSeamFromLines(rightLeftListS, rightRightListS);
-
-            List<int> finalListS = list1S;
-            finalListS.AddRange(list2S);
+        if (rightList.Count == 2)
+        {
+            finalListS.Add(leftList[leftMiddle / 2]);
+            finalListS.Add(rightList[0]);
+            finalListS.Add(leftList[leftMiddle + (leftMiddle / 2)]);
+            finalListS.Add(rightList[1]);
             return finalListS;
         }
+            
 
 
         List<int> leftLeftList = leftList.GetRange(0, leftMiddle);
