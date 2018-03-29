@@ -7,9 +7,6 @@ public class SimpleLineBehaviour : Behaviour {
 	public Transform first;
 	public Transform second;
 
-    public Transform start;
-    public Transform end;
-
 	public Vector3 unitVector;
 	private BoxCollider col;
 
@@ -25,10 +22,10 @@ public class SimpleLineBehaviour : Behaviour {
 	}
 
 	void UpdateLine(){
-		var start = first.transform.localPosition;
-		var end = second.transform.localPosition;
+		var startPosition = first.transform.localPosition;
+		var endPosition = second.transform.localPosition;
 
-		Vector3[] n = { start, end };
+		Vector3[] n = { startPosition, endPosition };
 
 		GetComponent<LineRenderer>().SetPositions(n);
 
@@ -41,12 +38,12 @@ public class SimpleLineBehaviour : Behaviour {
 
 		UpdateColliderSize ();
 
-		var start = first.transform.position;
-		var end = second.transform.position;
+		var startPosition = first.transform.position;
+		var endPosition = second.transform.position;
 
-		var offset = end - start;
+		var offset = endPosition - startPosition;
 
-		Vector3 midPoint = start + offset / 2;
+		Vector3 midPoint = startPosition + offset / 2;
 
 		//Save unit vector for other uses
 		unitVector = offset.normalized;
@@ -58,18 +55,18 @@ public class SimpleLineBehaviour : Behaviour {
 
 	void UpdateColliderSize(){
 
-		var start = first.transform.localPosition;
-		var end = second.transform.localPosition;
+		var startPosition = first.transform.localPosition;
+		var endPosition = second.transform.localPosition;
 
-		var offset = end - start;
+		var offset = endPosition - startPosition;
 
 		col.size = new Vector3 (offset.magnitude, 0.1f, 0.1f);
 	}
 
 	public Vector3 GetMidPoint(){
-		var start = first.transform.position;
-		var end = second.transform.position;
-		return (start + end) / 2;
+		var startPosition = first.transform.position;
+		var endPosition = second.transform.position;
+		return (startPosition + endPosition) / 2;
 	}
 
 	private void addColliderToLine()

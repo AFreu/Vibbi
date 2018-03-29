@@ -7,9 +7,7 @@ public class SeamBehaviour : MonoBehaviour {
 	public GameObject lineOne;
 	public GameObject lineTwo;
 
-	private List<GameObject> connections = new List<GameObject>();
-
-    private List<GameObject> notches = new List<GameObject>();
+	private List<GameObject> connections = new List<GameObject> ();
 
     private GameObject notch1;
     private GameObject notch2;
@@ -38,12 +36,12 @@ public class SeamBehaviour : MonoBehaviour {
 	void UpdateConnections(){
 
 		var lineRendererOne = connections[0].GetComponent<LineRenderer> ();
-		lineRendererOne.SetPosition (0, lineOne.GetComponent<SimpleLineBehaviour>().first.position);
-		lineRendererOne.SetPosition (1, lineTwo.GetComponent<SimpleLineBehaviour>().first.position);
+		lineRendererOne.SetPosition (0, lineOne.GetComponent<BoundaryLineBehaviour>().start.position);
+		lineRendererOne.SetPosition (1, lineTwo.GetComponent<BoundaryLineBehaviour>().start.position);
 
 		var lineRendererTwo = connections[1].GetComponent<LineRenderer> ();
-		lineRendererTwo.SetPosition (0, lineOne.GetComponent<SimpleLineBehaviour>().second.position);
-		lineRendererTwo.SetPosition (1, lineTwo.GetComponent<SimpleLineBehaviour>().second.position);
+		lineRendererTwo.SetPosition (0, lineOne.GetComponent<BoundaryLineBehaviour>().end.position);
+		lineRendererTwo.SetPosition (1, lineTwo.GetComponent<BoundaryLineBehaviour>().end.position);
 
 	}
 
