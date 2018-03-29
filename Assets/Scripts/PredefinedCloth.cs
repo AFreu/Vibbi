@@ -31,7 +31,7 @@ public class PredefinedCloth : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyUp (KeyCode.H)) {
+		if (Input.GetButtonUp ("Predefined Shirt")) {
 			ModelSleeve ();
 			ModelShirt ();
 		}

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GarmentHandler : MonoBehaviour {
@@ -7,19 +8,33 @@ public class GarmentHandler : MonoBehaviour {
 	public GameObject clothPiecePrefab;
 
     public Material garmentMaterial;
+    public bool randomizeMaterial;
     public DeformManager deformManager;
 
     public AttachmentPointsHandler attachMentPointsHandler;
 
     public List<GameObject> clothPieces = new List<GameObject>();
 	public List<GameObject> garmentSeams = new List<GameObject>();
+
     
 	public Color seamColor = Color.red;
 	public float seamWidth = 0.01f;
 
-	
-	// Update is called once per frame
-	void Update () {
+
+    private List<Material> materials = new List<Material>();
+
+    private void Start()
+    {
+        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Chevron/Chevron.mat", typeof(Material)));
+        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Leather/Materials/Leather.mat", typeof(Material)));
+        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Flannel/Flannel.mat", typeof(Material)));
+        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Cloth.mat", typeof(Material)));
+        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/ShinyBlack.mat", typeof(Material)));
+    }
+
+
+    // Update is called once per frame
+    void Update () {
         HandleInput();
 
 	}
@@ -63,11 +78,20 @@ public class GarmentHandler : MonoBehaviour {
 		clothPiece.GetComponent<MeshFilter> ().sharedMesh = clothModelMesh;
 		clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
 
-		//Set garment material accordingly
-		clothPiece.GetComponent<MeshRenderer> ().material = garmentMaterial;
+        //Set garment material accordingly
+        if (randomizeMaterial)
+        {
+            //pick random number and load random material on the garment
+            int r = Random.Range(0, materials.Count - 1);
+            clothPiece.GetComponent<MeshRenderer>().material = materials[r];
+        }
+        else
+        {
+            clothPiece.GetComponent<MeshRenderer>().material = garmentMaterial;
+        }
 
-		//Keep eventual scaling
-		clothPiece.transform.localScale = clothModel.transform.localScale;
+        //Keep eventual scaling
+        clothPiece.transform.localScale = clothModel.transform.localScale;
 
 		clothPieces.Add(clothPiece);
     }
@@ -201,7 +225,7 @@ public class GarmentHandler : MonoBehaviour {
             DeformObject deformObject = o.AddComponent<DeformObject>();
 
             deformObject.originalMesh = mesh;
-            deformObject.material = garmentMaterial;
+            deformObject.material = o.GetComponent<MeshRenderer>().material;
             deformObject.AddToSimulation();
         }
         
@@ -226,7 +250,7 @@ public class GarmentHandler : MonoBehaviour {
             for (int i = 0; i < gsb.lineVerticeIndices.Count; i = i + 2)
             {
                 vertices[i] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id1]);
-                vertices[i + 1] = (uint)(gsb.lineVerticeIndices[i] + idToPositonInList[id2]);
+                vertices[i + 1] = (uint)(gsb.lineVerticeIndices[i+1] + idToPositonInList[id2]);
             }
 
             deformManager.Sew(id1, id2, vertices, vertices.Length);

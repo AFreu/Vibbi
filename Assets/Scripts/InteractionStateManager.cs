@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractionStateManager : MonoBehaviour {
 
@@ -27,8 +28,43 @@ public class InteractionStateManager : MonoBehaviour {
 	public InteractionState currentState;
 	public SimulationState simulationState;
 
+    //toggles
+    public GameObject selectToggle;
+    public GameObject rotateToggle;
+    public GameObject scaleToggle;
+    public GameObject newPointToggle;
+    public GameObject removePointToggle;
+    public GameObject dartToggle;
+    public GameObject sewToggle;
+    public GameObject unfoldToggle;
+    public GameObject duplicateToggle;
+    
 
-	public void OnToggleChange(GameObject toggle){
+    private void Start()
+    {
+//        selectToggle = toggleGroup.transform.GetChild(0);
+    }
+
+    private void Update()
+    {
+        HandleInput();
+    }
+
+    private void HandleInput()
+    {
+        //handle input that makes a toggle change
+        if (Input.GetKeyUp(KeyCode.M)) selectToggle.GetComponent<Toggle>().isOn = true; // M for move
+        if (Input.GetKeyUp(KeyCode.R)) rotateToggle.GetComponent<Toggle>().isOn = true; // R for rotate
+        if (Input.GetKeyUp(KeyCode.X)) scaleToggle.GetComponent<Toggle>().isOn = true; // X for shape of icon
+        if (Input.GetKeyUp(KeyCode.A)) newPointToggle.GetComponent<Toggle>().isOn = true; // A for add
+        if (Input.GetKeyUp(KeyCode.D)) removePointToggle.GetComponent<Toggle>().isOn = true; //D for destroy
+        if (Input.GetKeyUp(KeyCode.H)) dartToggle.GetComponent<Toggle>().isOn = true; // H for hole
+        if (Input.GetKeyUp(KeyCode.S)) sewToggle.GetComponent<Toggle>().isOn = true; // S for sew
+        if (Input.GetKeyUp(KeyCode.U)) unfoldToggle.GetComponent<Toggle>().isOn = true; // U for unfold
+        if (Input.GetKeyUp(KeyCode.Z)) duplicateToggle.GetComponent<Toggle>().isOn = true; // Z for copy
+    }
+
+    public void OnToggleChange(GameObject toggle){
 		Debug.Log ("Toggle: " + toggle.tag);
 		var newState = GetInteractionState (toggle.tag);
 

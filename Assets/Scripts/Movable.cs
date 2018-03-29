@@ -28,9 +28,16 @@ public class Movable : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT && interactionStateManager.currentState != InteractionStateManager.InteractionState.ADDPOINT )
 			return;
-		
+
+        if (interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT &&
+            gameObject.GetComponent<BoundaryLineBehaviour>() != null) //if we are in add point interaction state we don't want to move the lines around, just the points
+        {
+            return;
+        }
+
+
 		if (currentlyDragged == null) {
 			currentlyDragged = gameObject;
 			SaveCurrentState ();
@@ -39,7 +46,7 @@ public class Movable : MonoBehaviour {
 	}
 
 	void OnMouseUp(){
-		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT && interactionStateManager.currentState != InteractionStateManager.InteractionState.ADDPOINT)
 			return;
 
 		if (currentlyDragged == gameObject) {
@@ -51,7 +58,7 @@ public class Movable : MonoBehaviour {
 	}
 
 	void OnMouseDrag() {
-		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT)
+		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT && interactionStateManager.currentState != InteractionStateManager.InteractionState.ADDPOINT)
 			return;
 		
 		if (currentlyDragged != gameObject)

@@ -82,10 +82,10 @@ public class SeamBehaviour : MonoBehaviour {
 		this.lineOne = lineOne;
 		this.lineTwo = lineTwo;
 
-		var p1 = lineOne.GetComponent<BoundaryLineBehaviour> ().first;
-		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().first;
-		var p3 = lineOne.GetComponent<BoundaryLineBehaviour> ().second;
-		var p4 = lineTwo.GetComponent<BoundaryLineBehaviour> ().second;
+		var p1 = lineOne.GetComponent<BoundaryLineBehaviour> ().start;
+		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().start;
+		var p3 = lineOne.GetComponent<BoundaryLineBehaviour> ().end;
+		var p4 = lineTwo.GetComponent<BoundaryLineBehaviour> ().end;
 
 
         //color = VibbiUtils.RandomColor();
@@ -103,12 +103,12 @@ public class SeamBehaviour : MonoBehaviour {
     private void SetNotchPositions()
     {
         //positions line one
-        Vector3 positionFirstLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().first.position;
-        Vector3 positionSecondLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().second.position;
+        Vector3 positionFirstLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().start.position;
+        Vector3 positionSecondLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().end.position;
 
         //positions line two
-        Vector3 positionFirstLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().first.position;
-        Vector3 positionSecondLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().second.position;
+        Vector3 positionFirstLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().start.position;
+        Vector3 positionSecondLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().end.position;
 
         //directions
         Vector3 direction1 = positionSecondLineOne - positionFirstLineOne;

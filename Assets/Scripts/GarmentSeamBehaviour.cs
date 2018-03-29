@@ -71,4 +71,5 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 		this.seam = seam;
 	}
 
+
 }

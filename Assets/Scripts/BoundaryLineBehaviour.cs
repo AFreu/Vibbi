@@ -24,12 +24,14 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 
 		}else if(Input.GetKey(KeyCode.K) || interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW){
             //switch first and second depending on hit position
-			//shortest way to which point?
-			Transform tmp = first;
+            //shortest way to which point?
+            start = first;
+            end = second;
+			Transform tmp = start;
 			if ((first.position -hit).magnitude > (second.position - hit).magnitude) //if the length between first point and clicked point is larger than the second point and clicked point
 			{
-				first = second;
-				second = tmp;
+				start = end;
+				end = tmp;
 			}
             //init sewing
             GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);

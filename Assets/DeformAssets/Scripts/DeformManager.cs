@@ -147,7 +147,12 @@ public class DeformManager : MonoBehaviour {
 		if (yoMOM)
 			return;
         //Time.timeScale = 0.66f;
-        
+
+        if (deformCamera == null)
+        {
+            deformCamera = Camera.main;
+        }
+
         originalGravity = gravity;
         originalWind = wind;
 
@@ -401,6 +406,7 @@ public class DeformManager : MonoBehaviour {
 
     void InitDeformObjects()
     {
+        
         deformables = FindObjectsOfType<DeformBody>();
         
         foreach (DeformBody body in deformables)
@@ -662,6 +668,7 @@ public class DeformManager : MonoBehaviour {
             //söm 1
             vertices[i * 2] = i;
             vertices[i * 2 + 1] = i + (64 * 64);
+
             //söm 2
             vertices[i * 2 + 128] = i + 63 * 64;
             vertices[i * 2 + 1 + 128] = i + 63 * 64 + (64 * 64);

@@ -7,6 +7,9 @@ public class SimpleLineBehaviour : Behaviour {
 	public Transform first;
 	public Transform second;
 
+    public Transform start;
+    public Transform end;
+
 	public Vector3 unitVector;
 	private BoxCollider col;
 
