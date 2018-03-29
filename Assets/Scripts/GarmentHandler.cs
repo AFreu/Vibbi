@@ -136,13 +136,18 @@ public class GarmentHandler : MonoBehaviour {
 		bool firstMeshFound = false;
 		bool secondMeshFound = false;
 
+
+
 		for (int index = 0; index < clothPieces.Count; index++) {
+
+			//Check if first cloth is loaded
 			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetFirstMesh ())) {
 				Debug.Log ("Mesh 1 is previously loaded");
 				firstLineMeshIndex = index;
 				firstMeshFound = true;
 			}
 
+			//Check if second cloth is loaded
 			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetSecondMesh ())) {
 				Debug.Log ("Mesh 2 is previously loaded");
 				secondLineMeshIndex = index;
@@ -151,22 +156,26 @@ public class GarmentHandler : MonoBehaviour {
 		
 		}
 
+
 		if (firstMeshFound && secondMeshFound) {
 			List<int> LineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (sb.GetFirstLine (), sb.GetSecondLine()); 
-			//List<int> secondLineVerticeIndices = VibbiMeshUtils.VerticesFromLine (sb.GetSecondLine());
+
 			if (LineVerticeIndices.Count <= 0 ) {
 				Debug.Log ("Seam edge contains 0 vertices, aborting!");
 				return;
 			}
-			CreateSeam (firstLineMeshIndex, secondLineMeshIndex, LineVerticeIndices);
+
+			CreateGarmentSeam (firstLineMeshIndex, secondLineMeshIndex, LineVerticeIndices, seam);
 		}
 	}
 
-	private void CreateSeam(int firstClothPieceIndex, int secondClothPieceIndex, List<int> lineVerticeIndices){
+	private void CreateGarmentSeam(int firstClothPieceIndex, int secondClothPieceIndex, List<int> lineVerticeIndices, GameObject seam){
+
 		GameObject garmentSeam = new GameObject ("GarmentSeam");
 		garmentSeam.transform.parent = transform;
-		var seam = garmentSeam.AddComponent<GarmentSeamBehaviour> ();
-		seam.Init (firstClothPieceIndex, secondClothPieceIndex, lineVerticeIndices, clothPieces[firstClothPieceIndex], clothPieces[secondClothPieceIndex]);
+
+		GarmentSeamBehaviour garmentSeamBehaviour = garmentSeam.AddComponent<GarmentSeamBehaviour> ();
+		garmentSeamBehaviour.Init (firstClothPieceIndex, secondClothPieceIndex, lineVerticeIndices, clothPieces[firstClothPieceIndex], clothPieces[secondClothPieceIndex], seam);
 	
 		garmentSeams.Add(garmentSeam);
 

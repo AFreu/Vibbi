@@ -14,11 +14,18 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 
 	private List<GameObject> connections = new List<GameObject>();
 
+	private GameObject seam;
+
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		UpdateIndices ();
 		UpdateConnections ();
+	}
+
+	void UpdateIndices(){
+		lineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (seam.GetComponent<SeamBehaviour>().GetFirstLine (), seam.GetComponent<SeamBehaviour>().GetSecondLine()); 
 	}
 
 	void UpdateConnections(){
@@ -40,12 +47,14 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 		}
 	}
 
-	public void Init(int firstMesh, int secondMesh, List<int> lineVerticeIndices, GameObject firstClothPiece, GameObject secondClothPiece){
+	public void Init(int firstMesh, int secondMesh, List<int> lineVerticeIndices, GameObject firstClothPiece, GameObject secondClothPiece, GameObject seam){
 		this.firstMesh = firstMesh;
 		this.secondMesh = secondMesh;
 		this.lineVerticeIndices = lineVerticeIndices;
 		this.firstClothPiece = firstClothPiece;
 		this.secondClothPiece = secondClothPiece;
+
+		this.seam = seam;
 
 		InitConnections ();
 
