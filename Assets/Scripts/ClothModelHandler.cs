@@ -140,7 +140,10 @@ public class ClothModelHandler : MonoBehaviour {
 	{
 		foreach(GameObject cloth in clothModels){
 			cloth.GetComponent<Triangulatable> ().Triangulate ();
-		}	
+		}
+
+		//When triangulating, the seam indices need to be updated
+		garmentHandler.UpdateGarmentSeams ();
 	}
 
 	public void Load(){

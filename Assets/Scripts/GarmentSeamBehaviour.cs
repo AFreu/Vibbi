@@ -12,61 +12,64 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 
 	public List<int> lineVerticeIndices { set; get;}
 
-	private List<GameObject> connections = new List<GameObject>();
+	private GameObject seam;
 
-	
+
 	// Update is called once per frame
 	void Update () {
-		
-		UpdateConnections ();
+		UpdateLineRenderer ();
 	}
 
-	void UpdateConnections(){
 
+	//Called when triangulating
+	public void UpdateIndices(){
+
+		lineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (seam.GetComponent<SeamBehaviour>().GetFirstLine (), seam.GetComponent<SeamBehaviour>().GetSecondLine()); 
+
+	}
+
+
+	private void UpdateLineRenderer(){
+		var renderer = GetComponent<LineRenderer> ();
 
 		var fMeshVertices = firstClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
 		var sMeshVertices = secondClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
 
+		var count = lineVerticeIndices.Count;
 
-		for (int i = 0; i < connections.Count; i++) {
+		renderer.positionCount = count;
+
+		Vector3 [] positions = new Vector3[count];
+		bool alt = true;
+		for (int i = 0; i < count; i = i+2) {
 
 
-			var start = firstClothPiece.transform.TransformPoint (fMeshVertices [lineVerticeIndices [2 * i]]);
-			var end = secondClothPiece.transform.TransformPoint (sMeshVertices [lineVerticeIndices [2 * i + 1]]);
+			var start = firstClothPiece.transform.TransformPoint (fMeshVertices [lineVerticeIndices [i]]);
+			var end = secondClothPiece.transform.TransformPoint (sMeshVertices [lineVerticeIndices [i+1]]);
 
-			var lineRenderer = connections[i].GetComponent<LineRenderer> ();
-			lineRenderer.SetPosition (0, start);
-			lineRenderer.SetPosition (1, end);
+			if (alt) {
+				alt = false;
+				positions [i] = start;
+				positions [i + 1] = end;
+			} else {
+				alt = true;
+				positions [i] = end;
+				positions [i + 1] = start;
+			}
 		}
+			
+		renderer.SetPositions (positions);
 	}
 
-	public void Init(int firstMesh, int secondMesh, List<int> lineVerticeIndices, GameObject firstClothPiece, GameObject secondClothPiece){
+	public void Init(int firstMesh, int secondMesh, List<int> lineVerticeIndices, GameObject firstClothPiece, GameObject secondClothPiece, GameObject seam){
 		this.firstMesh = firstMesh;
 		this.secondMesh = secondMesh;
 		this.lineVerticeIndices = lineVerticeIndices;
 		this.firstClothPiece = firstClothPiece;
 		this.secondClothPiece = secondClothPiece;
 
-		InitConnections ();
-
-
+		this.seam = seam;
 	}
 
-	private void InitConnections(){
-
-		var fMeshVertices = firstClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
-		var sMeshVertices = secondClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
-
-		for (int i = 0; i < lineVerticeIndices.Count; i = i+2) {
-
-
-			var start = firstClothPiece.transform.TransformPoint (fMeshVertices [lineVerticeIndices [i]]);
-			var end = secondClothPiece.transform.TransformPoint (sMeshVertices [lineVerticeIndices [i+1]]);
-
-			connections.Add(VibbiUtils.CreateLine (start, end, Color.red, transform));
-
-		}
-
-	}
 
 }

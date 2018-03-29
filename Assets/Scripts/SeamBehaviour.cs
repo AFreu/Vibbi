@@ -7,9 +7,6 @@ public class SeamBehaviour : MonoBehaviour {
 	public GameObject lineOne;
 	public GameObject lineTwo;
 
-	private List<Transform> startPoints = new List<Transform> ();
-	private List<Transform> endPoints = new List<Transform> ();
-
 	private List<GameObject> connections = new List<GameObject>();
 
     private List<GameObject> notches = new List<GameObject>();
@@ -20,10 +17,6 @@ public class SeamBehaviour : MonoBehaviour {
     private Vector3 notchPos2;
 
     private Color color;
-
-
-	void Start(){
-	}
 
 	void Update(){
 		if (lineOne == null || lineTwo == null)
@@ -41,13 +34,17 @@ public class SeamBehaviour : MonoBehaviour {
 		UpdateConnections ();
 
 	}
-
+		
 	void UpdateConnections(){
-		for(int i = 0; i < connections.Count; i++) {
-			var lineRenderer = connections[i].GetComponent<LineRenderer> ();
-			lineRenderer.SetPosition (0, startPoints[i].position);
-			lineRenderer.SetPosition (1, endPoints[i].position);
-		}
+
+		var lineRendererOne = connections[0].GetComponent<LineRenderer> ();
+		lineRendererOne.SetPosition (0, lineOne.GetComponent<SimpleLineBehaviour>().first.position);
+		lineRendererOne.SetPosition (1, lineTwo.GetComponent<SimpleLineBehaviour>().first.position);
+
+		var lineRendererTwo = connections[1].GetComponent<LineRenderer> ();
+		lineRendererTwo.SetPosition (0, lineOne.GetComponent<SimpleLineBehaviour>().second.position);
+		lineRendererTwo.SetPosition (1, lineTwo.GetComponent<SimpleLineBehaviour>().second.position);
+
 	}
 
     void UpdateColorCoding()
@@ -60,19 +57,17 @@ public class SeamBehaviour : MonoBehaviour {
     {
         SetNotchPositions();
         notch1.transform.position = notchPos1;
-        //notch1.transform.position = lineOne.GetComponent<BoundaryLineBehaviour>().transform.position;
+        
         notch1.transform.up = lineOne.GetComponent<BoundaryLineBehaviour>().unitVector;
 
         notch2.transform.position = notchPos2;
-        //notch2.transform.position = lineTwo.GetComponent<BoundaryLineBehaviour>().transform.position;
+        
         notch2.transform.up = lineTwo.GetComponent<BoundaryLineBehaviour>().unitVector;
     }
     
 
 	void AddConnection(Transform start, Transform end){
 
-		startPoints.Add (start);
-		endPoints.Add (end);
 		connections.Add(VibbiUtils.CreateLine (start.position, end.position, Color.blue, transform));
 
 	}
@@ -83,9 +78,9 @@ public class SeamBehaviour : MonoBehaviour {
 		}
 	}
 
-	public void Init(GameObject line1, GameObject line2){ //remove hitpointline1 & 2
-		lineOne = line1;
-		lineTwo = line2;
+	public void Init(GameObject lineOne, GameObject lineTwo){ //remove hitpointline1 & 2
+		this.lineOne = lineOne;
+		this.lineTwo = lineTwo;
 
 		var p1 = lineOne.GetComponent<BoundaryLineBehaviour> ().start;
 		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().start;
@@ -101,7 +96,7 @@ public class SeamBehaviour : MonoBehaviour {
         InstantiateNotches();
        
         AddConnection(p1, p2);
-		AddConnection (p3, p4);
+		AddConnection(p3, p4);
 	}
 
     //sets the position of the notches depending on where the start and endpoints of the line are
@@ -127,13 +122,23 @@ public class SeamBehaviour : MonoBehaviour {
     private void InstantiateNotches()
     {
         SetNotchPositions();
-        notch1 = VibbiUtils.AddNotch(this.gameObject, lineOne, notchPos1, color);
-        notch2 = VibbiUtils.AddNotch(this.gameObject, lineTwo, notchPos2, color);
+        notch1 = AddNotch(this.gameObject, lineOne, notchPos1, color);
+        notch2 = AddNotch(this.gameObject, lineTwo, notchPos2, color);
     }
+
+	public GameObject AddNotch(GameObject seam, GameObject line, Vector3 notchPos, Color color)
+	{
+
+		GameObject notch = Instantiate(line.GetComponentInParent<BoundaryPointsHandler>().notchPrefab, notchPos, Quaternion.identity, seam.transform) as GameObject;
+		notch.transform.up = line.GetComponent<BoundaryLineBehaviour>().unitVector;
+		notch.GetComponent<Renderer>().material.SetColor("_Color", color);
+		return notch;
+
+	}
 
 
     public void Swap(){
-		endPoints.Reverse ();
+		//endPoints.Reverse ();
 	}
 
 	public bool isSelected(){
