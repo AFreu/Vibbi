@@ -31,7 +31,8 @@ public class Movable : MonoBehaviour {
 		if (interactionStateManager.currentState != InteractionStateManager.InteractionState.SELECT && interactionStateManager.currentState != InteractionStateManager.InteractionState.ADDPOINT )
 			return;
 
-        if (gameObject.GetComponent<BoundaryLineBehaviour>() != null) //if we are in add point interaction state we don't want to move the lines around, just the points
+        if (interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT &&
+            gameObject.GetComponent<BoundaryLineBehaviour>() != null) //if we are in add point interaction state we don't want to move the lines around, just the points
         {
             return;
         }
