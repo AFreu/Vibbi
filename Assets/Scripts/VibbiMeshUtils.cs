@@ -14,42 +14,96 @@ public class VibbiMeshUtils : MonoBehaviour
     private static bool straightUpLine = false;
     private static float straightUpX;
 
-    //take two lines and find their vertices and make an array with all the pairs
+    //take two lines and find their vertices and return a List<int> with all the pairs of indices
     public static List<int> DefineSeamFromLines(GameObject line1, GameObject line2)
     {
-        //find vertex indices on the lines
+         //find vertex indices on the lines
         List<int> indicesLine1 = indicesFromLine(line1);
         List<int> indicesLine2 = indicesFromLine(line2);
-        
-        //pair them up
-        //distribution : how many jumps to make from the last index
-        List<int> smallestList = indicesLine1.Count <= indicesLine2.Count ? indicesLine1 : indicesLine2;
-        List<int> largestList = indicesLine1.Count >= indicesLine2.Count ? indicesLine1 : indicesLine2;
-        
-        int distribution = Mathf.FloorToInt(largestList.Count / smallestList.Count);
-       
-        int isLine1Smallest = indicesLine1.Count <= indicesLine2.Count ? distribution: 1;
-        int isLine2Smallest = indicesLine2.Count < indicesLine1.Count ? distribution : 1;
-        
-        List<int> pairsOfIndices = new List<int>(); //index from line1 is first then index from line2
-        for (int i = 0; i < smallestList.Count; i ++)
-        {
-            if (i == smallestList.Count-1)
-            {
-                pairsOfIndices.Add(indicesLine1[indicesLine1.Count-1]);
-                pairsOfIndices.Add(indicesLine2[indicesLine2.Count-1]);
-            }
-            else
-            {
-                pairsOfIndices.Add(indicesLine1[i * (distribution / isLine1Smallest)]);
-                pairsOfIndices.Add(indicesLine2[i * (distribution / isLine2Smallest)]);
-            }
 
-        }
+        //save and then remove first and last elements of the lists in order to force start elements together and end elements together
+        var il1START = indicesLine1[0];
+        var il2START = indicesLine2[0];
+        var il1END = indicesLine1[indicesLine1.Count - 1];
+        var il2END = indicesLine2[indicesLine2.Count - 1];
+        indicesLine1.Remove(0);
+        indicesLine2.Remove(0);
+        indicesLine1.Remove(indicesLine1.Count - 1);
+        indicesLine2.Remove(indicesLine2.Count - 1);
         
+        //create list of indices to send back
+        List<int> pairsOfIndices = new List<int>();
+        pairsOfIndices.Add(il1START);
+        pairsOfIndices.Add(il2START);
+        
+        //divide and conquer recursive function
+        pairsOfIndices.AddRange(RecursiveDefineSeamFromLines(indicesLine1, indicesLine2));
+
+        pairsOfIndices.Add(il1END);
+        pairsOfIndices.Add(il2END);
+     
         return pairsOfIndices;
     }
 
+
+    //takes two lists, left and right, and runs a divide and conquer recursive algorithm
+    private static List<int> RecursiveDefineSeamFromLines(List<int> leftList, List<int> rightList)
+    {
+
+        int leftMiddle = leftList.Count / 2;
+        int rightMiddle = rightList.Count / 2;
+
+        if (leftList.Count <= 1 || rightList.Count <= 1)
+        {
+            List<int> returnList = new List<int>();
+
+            returnList.Add(leftList[leftMiddle]);
+            returnList.Add(rightList[rightMiddle]);
+          
+            return returnList;
+        }
+        
+        List<int> finalListS = new List<int>();
+        if (leftList.Count == 2)
+        {
+            finalListS.Add(leftList[0]);
+            finalListS.Add(rightList[rightMiddle / 2]);
+            finalListS.Add(leftList[1]);
+            finalListS.Add(rightList[rightMiddle + (rightMiddle / 2)]);
+            return finalListS;
+
+        }
+
+        if (rightList.Count == 2)
+        {
+            finalListS.Add(leftList[leftMiddle / 2]);
+            finalListS.Add(rightList[0]);
+            finalListS.Add(leftList[leftMiddle + (leftMiddle / 2)]);
+            finalListS.Add(rightList[1]);
+            return finalListS;
+        }
+            
+
+
+        List<int> leftLeftList = leftList.GetRange(0, leftMiddle);
+        List<int> rightLeftList = leftList.GetRange(leftMiddle + 1, leftList.Count - leftMiddle - 1);
+
+        List<int> leftRightList = rightList.GetRange(0, rightMiddle);
+        List<int> rightRightList = rightList.GetRange(rightMiddle + 1, rightList.Count - rightMiddle - 1);
+
+        var leftMiddleElement = leftList[leftMiddle];
+        var rightMiddleElement = rightList[rightMiddle];
+
+        List<int> list1 = RecursiveDefineSeamFromLines(leftLeftList, leftRightList);
+        List<int> list2 = RecursiveDefineSeamFromLines(rightLeftList, rightRightList);
+
+        List<int> finalList = list1;
+        finalList.Add(leftMiddleElement);
+        finalList.Add(rightMiddleElement);
+        finalList.AddRange(list2);
+        return finalList;
+    }
+    
     private static List<int> indicesFromLine(GameObject line)
     {
         Vector3 start = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
@@ -167,6 +221,44 @@ public class VibbiMeshUtils : MonoBehaviour
             k = deltaY / deltaX;
             m = firstPointPos.y - (k * firstPointPos.x);
         }
+    }
+
+
+    private static List<int> OldDefineSeamFromLines(GameObject line1, GameObject line2)
+    {
+        //find vertex indices on the lines
+        List<int> indicesLine1 = indicesFromLine(line1);
+        List<int> indicesLine2 = indicesFromLine(line2);
+        //pair them up
+        //distribution : how many jumps to make from the last index
+        List<int> smallestList = indicesLine1.Count <= indicesLine2.Count ? indicesLine1 : indicesLine2;
+        List<int> largestList = indicesLine1.Count >= indicesLine2.Count ? indicesLine1 : indicesLine2;
+
+        //distribution
+        int distribution = Mathf.FloorToInt(largestList.Count / smallestList.Count);
+        int distTimesPoints = distribution * (smallestList.Count - 2);
+
+
+
+        int isLine1Smallest = indicesLine1.Count <= indicesLine2.Count ? distribution: 1;
+        int isLine2Smallest = indicesLine2.Count < indicesLine1.Count ? distribution : 1;
+
+        List<int> pairsOfIndices = new List<int>(); //index from line1 is first then index from line2
+        for (int i = 0; i < smallestList.Count; i ++)
+        {
+            if (i == smallestList.Count-1)
+            {
+                pairsOfIndices.Add(indicesLine1[indicesLine1.Count-1]);
+                pairsOfIndices.Add(indicesLine2[indicesLine2.Count-1]);
+            }
+            else
+            {
+                pairsOfIndices.Add(indicesLine1[i * (distribution / isLine1Smallest)]);
+                pairsOfIndices.Add(indicesLine2[i * (distribution / isLine2Smallest)]);
+            }
+
+        }
+        return pairsOfIndices; 
     }
 
 

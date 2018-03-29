@@ -55,5 +55,6 @@ MonoBehaviour:
   minimumAngle: 0
   conformingDelaunay: 1
   naive: 0
+  autoTriangulate: 0
   material: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   y: 0

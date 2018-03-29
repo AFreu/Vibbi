@@ -1685,7 +1685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &323908226
 Transform:
   m_ObjectHideFlags: 0
@@ -1717,10 +1717,10 @@ MonoBehaviour:
   capsulePointType: 1
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 0, y: 0, z: 0}
-  transformA: {fileID: 417837517}
-  transformB: {fileID: 807081874}
-  radius: 0.97
-  otherRadius: 0.89
+  transformA: {fileID: 586913761}
+  transformB: {fileID: 1244968617}
+  radius: 0.8
+  otherRadius: 0.8
   showColliderInEditor: 1
   showColliderInGame: 1
 --- !u!1 &332640420
@@ -4590,6 +4590,57 @@ Transform:
   m_Father: {fileID: 516108138}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &766479688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 766479689}
+  - component: {fileID: 766479690}
+  m_Layer: 0
+  m_Name: LEFT_THING
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &766479689
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 766479688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.54, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1358134852}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &766479690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 766479688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52af8f2d31a18cb4e97679999da666f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderType: 2
+  size: {x: 1, y: 1, z: 1}
+  capsulePointType: 1
+  pointA: {x: -0.5, y: 0, z: 0}
+  pointB: {x: 0.5, y: 0, z: 0}
+  transformA: {fileID: 807081874}
+  transformB: {fileID: 586913761}
+  radius: 0.76
+  otherRadius: 0.7
+  showColliderInEditor: 1
+  showColliderInGame: 0
 --- !u!1 &772817229
 GameObject:
   m_ObjectHideFlags: 0
@@ -7639,8 +7690,8 @@ MonoBehaviour:
   pointB: {x: 0, y: 0, z: 0}
   transformA: {fileID: 1416986360}
   transformB: {fileID: 1744879086}
-  radius: 0.7
-  otherRadius: 0.7
+  radius: 0.8
+  otherRadius: 0.8
   showColliderInEditor: 1
   showColliderInGame: 1
 --- !u!1 &1302890555
@@ -8037,6 +8088,8 @@ Transform:
   - {fileID: 197130635}
   - {fileID: 511819803}
   - {fileID: 70781139}
+  - {fileID: 766479689}
+  - {fileID: 1911435728}
   m_Father: {fileID: 1548650038}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10959,6 +11012,57 @@ Transform:
   m_Father: {fileID: 235815912}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1911435727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1911435728}
+  - component: {fileID: 1911435729}
+  m_Layer: 0
+  m_Name: RIGHT_THING
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1911435728
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1911435727}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.54, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1358134852}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1911435729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1911435727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52af8f2d31a18cb4e97679999da666f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderType: 2
+  size: {x: 1, y: 1, z: 1}
+  capsulePointType: 1
+  pointA: {x: -0.5, y: 0, z: 0}
+  pointB: {x: 0.5, y: 0, z: 0}
+  transformA: {fileID: 807081874}
+  transformB: {fileID: 1244968617}
+  radius: 0.76
+  otherRadius: 0.7
+  showColliderInEditor: 1
+  showColliderInGame: 0
 --- !u!1 &1923132701
 GameObject:
   m_ObjectHideFlags: 0
