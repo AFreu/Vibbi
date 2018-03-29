@@ -730,7 +730,7 @@ MonoBehaviour:
   clothPiecePrefab: {fileID: 1592297285166562, guid: d47f6f4d950bb48d9982187f917a4b4f,
     type: 2}
   garmentMaterial: {fileID: 2100000, guid: 9c9fd444458fbdb45943f742ec824af9, type: 2}
-  randomizeMaterial: 0
+  randomizeMaterial: 1
   deformManager: {fileID: 842208067}
   attachMentPointsHandler: {fileID: 967106657}
   clothPieces: []
@@ -2127,11 +2127,6 @@ Prefab:
     - target: {fileID: 1074131799663984, guid: 6d9caed5987f849ea81b847d4ef337cf, type: 2}
       propertyPath: m_Name
       value: Triangulator
-      objectReference: {fileID: 0}
-    - target: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
-        type: 2}
-      propertyPath: maximumArea
-      value: 0.001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d9caed5987f849ea81b847d4ef337cf, type: 2}
