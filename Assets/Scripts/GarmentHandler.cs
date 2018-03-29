@@ -233,5 +233,11 @@ public class GarmentHandler : MonoBehaviour {
             totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;  
         }
     }
+
+	public void UpdateGarmentSeams(){
+		foreach (GameObject o in garmentSeams) {
+			o.GetComponent<GarmentSeamBehaviour> ().UpdateIndices ();
+		}
+	}
 		
 }

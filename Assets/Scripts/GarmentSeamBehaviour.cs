@@ -34,11 +34,11 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		UpdateIndices ();
+		//UpdateIndices ();
 		DrawConnections ();
 	}
 
-	void UpdateIndices(){
+	public void UpdateIndices(){
 		lineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (seam.GetComponent<SeamBehaviour>().GetFirstLine (), seam.GetComponent<SeamBehaviour>().GetSecondLine()); 
 	}
 
@@ -84,10 +84,6 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 		this.secondClothPiece = secondClothPiece;
 
 		this.seam = seam;
-
-
-
-
 	}
 
 	void UpdateLine(GameObject line, Vector3 start, Vector3 end, Color color){
