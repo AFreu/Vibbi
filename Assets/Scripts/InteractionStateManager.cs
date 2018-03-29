@@ -61,7 +61,7 @@ public class InteractionStateManager : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.H)) dartToggle.GetComponent<Toggle>().isOn = true; // H for hole
         if (Input.GetKeyUp(KeyCode.S)) sewToggle.GetComponent<Toggle>().isOn = true; // S for sew
         if (Input.GetKeyUp(KeyCode.U)) unfoldToggle.GetComponent<Toggle>().isOn = true; // U for unfold
-        if (Input.GetKeyUp(KeyCode.C)) duplicateToggle.GetComponent<Toggle>().isOn = true; // C for copy
+        if (Input.GetKeyUp(KeyCode.Z)) duplicateToggle.GetComponent<Toggle>().isOn = true; // Z for copy
     }
 
     public void OnToggleChange(GameObject toggle){
