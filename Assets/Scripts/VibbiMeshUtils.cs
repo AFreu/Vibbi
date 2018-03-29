@@ -106,8 +106,8 @@ public class VibbiMeshUtils : MonoBehaviour
     
     private static List<int> indicesFromLine(GameObject line)
     {
-        Vector3 start = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
-        Vector3 end = line.GetComponent<BoundaryLineBehaviour>().second.localPosition;
+        Vector3 start = line.GetComponent<BoundaryLineBehaviour>().start.localPosition;
+        Vector3 end = line.GetComponent<BoundaryLineBehaviour>().end.localPosition;
 
 
         straightUpLine = false;
