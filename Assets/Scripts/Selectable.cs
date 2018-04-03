@@ -8,14 +8,16 @@ public class Selectable : MonoBehaviour {
 	public Material highlightMaterial;
 	public Material normalMaterial;
 
+    public Color selectedColor = Color.red;
+    public Color highlightColor = Color.white;
+    public Color normalColor = Color.green;
 
 	private bool highlighted = false;
 	private bool selected = false;
-
-    public Color sewingColor;
+    
     private Color previousColor;
     private bool switchedColor;
-
+    
 	private static List<Selectable> currentlyHighlighted;
 
 	// Use this for initialization
@@ -23,6 +25,7 @@ public class Selectable : MonoBehaviour {
         //previousColor = selectedMaterial.color;
         previousColor = Color.red;
 		currentlyHighlighted = new List<Selectable>();
+
 	}
 	
 	// Update is called once per frame
@@ -31,16 +34,20 @@ public class Selectable : MonoBehaviour {
 		bool leftMouseButtonUp = Input.GetMouseButtonUp (0);
 		bool leftShift = Input.GetKey (KeyCode.LeftShift);
 
-		if (highlighted && leftMouseButtonUp)
-			Select (true);
+        if (highlighted && leftMouseButtonUp)
+        {
+            Select(true);
+        }
 
-		if (!highlighted && leftMouseButtonUp && !leftShift)
-			Select (false);
+        if (!highlighted && leftMouseButtonUp && !leftShift)
+        {
+            Select(false);
+        }
 
         if (!selected && switchedColor)
         {
             switchedColor = false;
-            selectedMaterial.color = previousColor;
+            ResetSelectedColor();
         }
 
 	}
@@ -79,18 +86,18 @@ public class Selectable : MonoBehaviour {
 		if (selected)
 			return;
 		if (on) {
-			GetComponent<Renderer> ().material = highlightMaterial;
+			GetComponent<Renderer> ().material.color = highlightColor;
 		} else {
-			GetComponent<Renderer> ().material = normalMaterial;
+			GetComponent<Renderer> ().material.color = normalColor;
 		}
 	}
 
 	void Select(bool on){
 		selected = on;
 		if (on) {
-			GetComponent<Renderer> ().material = selectedMaterial;
+			GetComponent<Renderer> ().material.color = selectedColor;
 		} else {
-			GetComponent<Renderer> ().material = normalMaterial;
+			GetComponent<Renderer> ().material.color = normalColor;
 		}
 	}
 
@@ -101,8 +108,19 @@ public class Selectable : MonoBehaviour {
     public void SetSewingColor(Color color)
     {
         switchedColor = true;
-        sewingColor = color;
-        selectedMaterial.color = sewingColor;
+
+        selectedColor = color;
+        normalColor = color;
+    }
+
+    public void ResetSelectedColor()
+    {
+        selectedColor = Color.red;
+    }
+
+    public void ResetNormalColor()
+    {
+        normalColor = Color.green;
     }
 		
 }

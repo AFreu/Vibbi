@@ -17,6 +17,7 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        //if seam has been removed in 2D, remove it in 3D 
         if (seam == null)
         {
             Destroy(this.gameObject);

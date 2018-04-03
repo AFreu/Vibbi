@@ -227,7 +227,7 @@ public class ClothModelHandler : MonoBehaviour {
     }
 
 
-
+    private Color color;
     //takes a line and saves it in the sewing list, if two lines are present, SEW
     public void InitSewing(GameObject line)
     {
@@ -235,17 +235,19 @@ public class ClothModelHandler : MonoBehaviour {
         {
             return;
         }
-        
-        sewingList.Add(line);
-        if (sewingList.Count == 1)
+
+        if (sewingList.Count == 0)
         {
             //set selected material color
-            Color color = VibbiUtils.RandomColor();
-            line.GetComponent<Selectable>().SetSewingColor(color);
+            color = VibbiUtils.RandomColor();
         }
+        line.GetComponent<Selectable>().SetSewingColor(color);
+
+        sewingList.Add(line);
+        
         if (sewingList.Count == 2)
         {
-            if (!sewingList[0].GetComponent<Selectable>().isSelected())
+           /* if (!sewingList[0].GetComponent<Selectable>().isSelected()) //Click outside to cancel seam
             {
 
                 sewingList.Clear();
@@ -255,7 +257,7 @@ public class ClothModelHandler : MonoBehaviour {
                 Color color = VibbiUtils.RandomColor();
                 line.GetComponent<Selectable>().SetSewingColor(color);
                 return;
-            }
+            }*/
 
             SewFromList();
             sewingList.Clear();
