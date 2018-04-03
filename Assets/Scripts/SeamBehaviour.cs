@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SeamBehaviour : MonoBehaviour {
 
-	public GameObject lineOne;
-	public GameObject lineTwo;
+	public GameObject line1;
+	public GameObject line2;
 
 	private List<GameObject> connections = new List<GameObject> ();
 
@@ -17,10 +17,10 @@ public class SeamBehaviour : MonoBehaviour {
     private Color color;
 
 	void Update(){
-		if (lineOne == null || lineTwo == null)
+		if (line1 == null || line2 == null)
 			return;
 
-		if (lineOne.GetComponent<Selectable> ().isSelected () || lineTwo.GetComponent<Selectable> ().isSelected ()) {
+		if (line1.GetComponent<Selectable> ().isSelected () || line2.GetComponent<Selectable> ().isSelected ()) {
 			if (Input.GetKeyUp (KeyCode.W)) {
 				Swap ();
 			}
@@ -36,19 +36,19 @@ public class SeamBehaviour : MonoBehaviour {
 	void UpdateConnections(){
 
 		var lineRendererOne = connections[0].GetComponent<LineRenderer> ();
-		lineRendererOne.SetPosition (0, lineOne.GetComponent<BoundaryLineBehaviour>().start.position);
-		lineRendererOne.SetPosition (1, lineTwo.GetComponent<BoundaryLineBehaviour>().start.position);
+		lineRendererOne.SetPosition (0, line1.GetComponent<BoundaryLineBehaviour>().start.position);
+		lineRendererOne.SetPosition (1, line2.GetComponent<BoundaryLineBehaviour>().start.position);
 
 		var lineRendererTwo = connections[1].GetComponent<LineRenderer> ();
-		lineRendererTwo.SetPosition (0, lineOne.GetComponent<BoundaryLineBehaviour>().end.position);
-		lineRendererTwo.SetPosition (1, lineTwo.GetComponent<BoundaryLineBehaviour>().end.position);
+		lineRendererTwo.SetPosition (0, line1.GetComponent<BoundaryLineBehaviour>().end.position);
+		lineRendererTwo.SetPosition (1, line2.GetComponent<BoundaryLineBehaviour>().end.position);
 
 	}
 
     void UpdateColorCoding()
     {
-        lineOne.GetComponent<Renderer>().material.SetColor("_Color", this.color);
-        lineTwo.GetComponent<Renderer>().material.SetColor("_Color", this.color);
+        line1.GetComponent<Renderer>().material.SetColor("_Color", this.color);
+        line2.GetComponent<Renderer>().material.SetColor("_Color", this.color);
     }
 
     void UpdateNotches()
@@ -56,11 +56,11 @@ public class SeamBehaviour : MonoBehaviour {
         SetNotchPositions();
         notch1.transform.position = notchPos1;
         
-        notch1.transform.up = lineOne.GetComponent<BoundaryLineBehaviour>().unitVector;
+        notch1.transform.up = line1.GetComponent<BoundaryLineBehaviour>().unitVector;
 
         notch2.transform.position = notchPos2;
         
-        notch2.transform.up = lineTwo.GetComponent<BoundaryLineBehaviour>().unitVector;
+        notch2.transform.up = line2.GetComponent<BoundaryLineBehaviour>().unitVector;
     }
     
 
@@ -76,37 +76,35 @@ public class SeamBehaviour : MonoBehaviour {
 		}
 	}
 
-	public void Init(GameObject lineOne, GameObject lineTwo){ //remove hitpointline1 & 2
-		this.lineOne = lineOne;
-		this.lineTwo = lineTwo;
+	public void Init(GameObject line1, GameObject line2){ //remove hitpointline1 & 2
+		this.line1 = line1;
+		this.line2 = line2;
 
-		var p1 = lineOne.GetComponent<BoundaryLineBehaviour> ().start;
-		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().start;
-		var p3 = lineOne.GetComponent<BoundaryLineBehaviour> ().end;
-		var p4 = lineTwo.GetComponent<BoundaryLineBehaviour> ().end;
-
+		var firstStart = line1.GetComponent<BoundaryLineBehaviour> ().start;
+		var secondStart = line2.GetComponent<BoundaryLineBehaviour> ().start;
+		var firstEnd = line1.GetComponent<BoundaryLineBehaviour> ().end;
+		var secondEnd = line2.GetComponent<BoundaryLineBehaviour> ().end;
 
         //color = VibbiUtils.RandomColor();
         Debug.Log("Setting seam color");
-        color = lineOne.GetComponent<Selectable>().sewingColor;
-
+        color = line1.GetComponent<Selectable>().sewingColor;
 
         InstantiateNotches();
        
-        AddConnection(p1, p2);
-		AddConnection(p3, p4);
+        AddConnection(firstStart, secondStart);
+		AddConnection(firstEnd, secondEnd);
 	}
 
     //sets the position of the notches depending on where the start and endpoints of the line are
     private void SetNotchPositions()
     {
         //positions line one
-        Vector3 positionFirstLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().start.position;
-        Vector3 positionSecondLineOne = lineOne.GetComponent<BoundaryLineBehaviour>().end.position;
+        Vector3 positionFirstLineOne = line1.GetComponent<BoundaryLineBehaviour>().start.position;
+        Vector3 positionSecondLineOne = line1.GetComponent<BoundaryLineBehaviour>().end.position;
 
         //positions line two
-        Vector3 positionFirstLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().start.position;
-        Vector3 positionSecondLineTwo = lineTwo.GetComponent<BoundaryLineBehaviour>().end.position;
+        Vector3 positionFirstLineTwo = line2.GetComponent<BoundaryLineBehaviour>().start.position;
+        Vector3 positionSecondLineTwo = line2.GetComponent<BoundaryLineBehaviour>().end.position;
 
         //directions
         Vector3 direction1 = positionSecondLineOne - positionFirstLineOne;
@@ -120,8 +118,8 @@ public class SeamBehaviour : MonoBehaviour {
     private void InstantiateNotches()
     {
         SetNotchPositions();
-        notch1 = AddNotch(this.gameObject, lineOne, notchPos1, color);
-        notch2 = AddNotch(this.gameObject, lineTwo, notchPos2, color);
+        notch1 = AddNotch(this.gameObject, line1, notchPos1, color);
+        notch2 = AddNotch(this.gameObject, line2, notchPos2, color);
     }
 
 	public GameObject AddNotch(GameObject seam, GameObject line, Vector3 notchPos, Color color)
@@ -136,34 +134,35 @@ public class SeamBehaviour : MonoBehaviour {
 
 
     public void Swap(){
+		Debug.Log ("Swap not implemented");
 		//endPoints.Reverse ();
 	}
 
 	public bool isSelected(){
-		return lineOne.GetComponent<Selectable> ().isSelected () || lineTwo.GetComponent<Selectable> ().isSelected ();
+		return line1.GetComponent<Selectable> ().isSelected () || line2.GetComponent<Selectable> ().isSelected ();
 	}
 
 	public GameObject GetFirstLine(){
-		return lineOne;
+		return line1;
 	}
 
 	public GameObject GetSecondLine(){
-		return lineTwo;
+		return line2;
 	}
 
 	public Mesh GetFirstMesh(){
-		return lineOne.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
+		return line1.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
 	}
 
 	public Mesh GetSecondMesh(){
-		return lineTwo.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
+		return line2.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
 	}
 
 	public GameObject GetFirstCloth(){
-		return lineOne.GetComponentInParent<BoundaryPointsHandler> ().gameObject;
+		return line1.GetComponentInParent<BoundaryPointsHandler> ().gameObject;
 	}
 
 	public GameObject GetSecondCloth(){
-		return lineTwo.GetComponentInParent<BoundaryPointsHandler> ().gameObject;
+		return line2.GetComponentInParent<BoundaryPointsHandler> ().gameObject;
 	}
 }

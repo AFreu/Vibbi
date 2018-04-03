@@ -156,7 +156,7 @@ public class GarmentHandler : MonoBehaviour {
 
 	public void LoadSeam(GameObject seam){
 		Debug.Log ("Load Seam");
-		var sb = seam.GetComponent<SeamBehaviour> ();
+		var seamBehaviour = seam.GetComponent<SeamBehaviour> ();
 		int firstLineMeshIndex = -1;
 		int secondLineMeshIndex = -1;
 		bool firstMeshFound = false;
@@ -165,16 +165,16 @@ public class GarmentHandler : MonoBehaviour {
 
 
 		for (int index = 0; index < clothPieces.Count; index++) {
-
+			
 			//Check if first cloth is loaded
-			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetFirstMesh ())) {
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetFirstMesh ())) {
 				Debug.Log ("Mesh 1 is previously loaded");
 				firstLineMeshIndex = index;
 				firstMeshFound = true;
 			}
 
 			//Check if second cloth is loaded
-			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (sb.GetSecondMesh ())) {
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetSecondMesh ())) {
 				Debug.Log ("Mesh 2 is previously loaded");
 				secondLineMeshIndex = index;
 				secondMeshFound = true;
@@ -184,7 +184,7 @@ public class GarmentHandler : MonoBehaviour {
 
 
 		if (firstMeshFound && secondMeshFound) {
-			List<int> LineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (sb.GetFirstLine (), sb.GetSecondLine()); 
+			List<int> LineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (seamBehaviour.GetFirstLine (), seamBehaviour.GetSecondLine()); 
 
 			if (LineVerticeIndices.Count <= 0 ) {
 				Debug.Log ("Seam edge contains 0 vertices, aborting!");
