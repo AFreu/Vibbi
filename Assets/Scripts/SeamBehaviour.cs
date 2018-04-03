@@ -81,14 +81,14 @@ public class SeamBehaviour : MonoBehaviour {
 	}
 
 	void OnDestroy(){
-        line1.GetComponent<Selectable>().ResetNormalColor();
-        line2.GetComponent<Selectable>().ResetNormalColor();
+        line1.GetComponent<Selectable>().ResetSewingColor(color);
+        line2.GetComponent<Selectable>().ResetSewingColor(color);
         foreach (GameObject c in connections) {
 			Destroy (c);
 		}
 	}
 
-	public void Init(GameObject line1, GameObject line2){ //remove hitpointline1 & 2
+	public void Init(GameObject line1, GameObject line2, Color color){ //remove hitpointline1 & 2
 		this.line1 = line1;
 		this.line2 = line2;
 
@@ -99,8 +99,10 @@ public class SeamBehaviour : MonoBehaviour {
 
         //color
         //normal color = color
-        color = line1.GetComponent<Selectable>().normalColor;
-        
+        this.color = color;
+        line1.GetComponent<Selectable>().normalColor = color;
+        line2.GetComponent<Selectable>().normalColor = color;
+
         InstantiateNotches();
        
         AddConnection(firstStart, secondStart);

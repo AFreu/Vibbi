@@ -118,9 +118,17 @@ public class Selectable : MonoBehaviour {
         selectedColor = Color.red;
     }
 
-    public void ResetNormalColor()
+    private void ResetNormalColor()
     {
         normalColor = Color.green;
+    }
+
+    public void ResetSewingColor(Color color)
+    {
+        if (color.Equals(normalColor))
+        {
+            ResetNormalColor();
+        }
     }
 		
 }

@@ -241,27 +241,16 @@ public class ClothModelHandler : MonoBehaviour {
             //set selected material color
             color = VibbiUtils.RandomColor();
         }
-        line.GetComponent<Selectable>().SetSewingColor(color);
+        
 
         sewingList.Add(line);
         
         if (sewingList.Count == 2)
         {
-           /* if (!sewingList[0].GetComponent<Selectable>().isSelected()) //Click outside to cancel seam
-            {
-
-                sewingList.Clear();
-
-                sewingList.Add(line);
-                //set selected material color
-                Color color = VibbiUtils.RandomColor();
-                line.GetComponent<Selectable>().SetSewingColor(color);
-                return;
-            }*/
-
             SewFromList();
             sewingList.Clear();
         }
+        line.GetComponent<Selectable>().SetSewingColor(color);
     }
 
     public void SewFromList()
@@ -313,7 +302,7 @@ public class ClothModelHandler : MonoBehaviour {
 		GameObject s = new GameObject ("Seam");
 		s.transform.parent = transform;
 		var seam = s.AddComponent<SeamBehaviour> ();
-		seam.Init (firstLine, secondLine);
+		seam.Init (firstLine, secondLine, color);
 		seamModels.Add (s);
 		return s;
 	}
