@@ -9,6 +9,10 @@ public class SeamBehaviour : MonoBehaviour {
 
 	private List<GameObject> connections = new List<GameObject> ();
 
+
+    private Transform start;
+    private Transform end;
+
     private GameObject notch1;
     private GameObject notch2;
     private Vector3 notchPos1;
@@ -79,6 +83,12 @@ public class SeamBehaviour : MonoBehaviour {
 	public void Init(GameObject lineOne, GameObject lineTwo){ //remove hitpointline1 & 2
 		this.lineOne = lineOne;
 		this.lineTwo = lineTwo;
+
+        if (!lineOne.GetComponent<BoundaryLineBehaviour>().isFirstStart)
+        {
+            start = lineOne.GetComponent<BoundaryLineBehaviour>().second;
+        }
+
 
 		var p1 = lineOne.GetComponent<BoundaryLineBehaviour> ().start;
 		var p2 = lineTwo.GetComponent<BoundaryLineBehaviour> ().start;

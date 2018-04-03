@@ -7,6 +7,7 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 
 	public Transform start;
 	public Transform end;
+    public bool isFirstStart = true;
 
 	void OnMouseUp(){
 
@@ -21,6 +22,9 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 
 		if (Input.GetKey (KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
 			GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit);
+            //case where user adds a point on a seamline
+            if (isFirstStart) end = second;
+            else start = second;
 
 		}else if(Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH){
 			GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
@@ -36,6 +40,7 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 			{
 				start = end;
 				end = tmp;
+                isFirstStart = false;
 			}
             //init sewing
             GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);
