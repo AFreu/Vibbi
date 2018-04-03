@@ -85,8 +85,7 @@ public class SeamBehaviour : MonoBehaviour {
 		var firstEnd = line1.GetComponent<BoundaryLineBehaviour> ().end;
 		var secondEnd = line2.GetComponent<BoundaryLineBehaviour> ().end;
 
-        //color = VibbiUtils.RandomColor();
-        Debug.Log("Setting seam color");
+        //setting seam color
         color = line1.GetComponent<Selectable>().sewingColor;
 
         InstantiateNotches();
