@@ -227,7 +227,7 @@ public class ClothModelHandler : MonoBehaviour {
     }
 
 
-
+    private Color color;
     //takes a line and saves it in the sewing list, if two lines are present, SEW
     public void InitSewing(GameObject line)
     {
@@ -235,31 +235,22 @@ public class ClothModelHandler : MonoBehaviour {
         {
             return;
         }
-        
-        sewingList.Add(line);
-        if (sewingList.Count == 1)
+
+        if (sewingList.Count == 0)
         {
             //set selected material color
-            Color color = VibbiUtils.RandomColor();
-            line.GetComponent<Selectable>().SetSewingColor(color);
+            color = VibbiUtils.RandomColor();
         }
+        
+
+        sewingList.Add(line);
+        
         if (sewingList.Count == 2)
         {
-            if (!sewingList[0].GetComponent<Selectable>().isSelected())
-            {
-
-                sewingList.Clear();
-
-                sewingList.Add(line);
-                //set selected material color
-                Color color = VibbiUtils.RandomColor();
-                line.GetComponent<Selectable>().SetSewingColor(color);
-                return;
-            }
-
             SewFromList();
             sewingList.Clear();
         }
+        line.GetComponent<Selectable>().SetSewingColor(color);
     }
 
     public void SewFromList()
@@ -277,6 +268,7 @@ public class ClothModelHandler : MonoBehaviour {
                 break; //only one seam possible to find
             }
         }
+        
         GameObject seam = CreateSeam(sewingList[0], sewingList[1]);
 
     }
@@ -310,7 +302,7 @@ public class ClothModelHandler : MonoBehaviour {
 		GameObject s = new GameObject ("Seam");
 		s.transform.parent = transform;
 		var seam = s.AddComponent<SeamBehaviour> ();
-		seam.Init (firstLine, secondLine);
+		seam.Init (firstLine, secondLine, color);
 		seamModels.Add (s);
 		return s;
 	}

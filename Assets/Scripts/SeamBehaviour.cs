@@ -26,8 +26,18 @@ public class SeamBehaviour : MonoBehaviour {
 			}
 				
 		}
+        //remove seam
+        if (line1.GetComponent<Selectable>().isSelected() || line2.GetComponent<Selectable>().isSelected())
+        {
+            if (Input.GetKeyUp(KeyCode.B))
+            {
+                GetComponentInParent<ClothModelHandler>().RemoveSeam(this.gameObject);
 
-        UpdateColorCoding();
+            }
+
+        }
+
+       // UpdateColorCoding();
         UpdateNotches();
 		UpdateConnections ();
 
@@ -71,12 +81,14 @@ public class SeamBehaviour : MonoBehaviour {
 	}
 
 	void OnDestroy(){
-		foreach (GameObject c in connections) {
+        line1.GetComponent<Selectable>().ResetSewingColor(color);
+        line2.GetComponent<Selectable>().ResetSewingColor(color);
+        foreach (GameObject c in connections) {
 			Destroy (c);
 		}
 	}
 
-	public void Init(GameObject line1, GameObject line2){ //remove hitpointline1 & 2
+	public void Init(GameObject line1, GameObject line2, Color color){ //remove hitpointline1 & 2
 		this.line1 = line1;
 		this.line2 = line2;
 
@@ -85,8 +97,11 @@ public class SeamBehaviour : MonoBehaviour {
 		var firstEnd = line1.GetComponent<BoundaryLineBehaviour> ().end;
 		var secondEnd = line2.GetComponent<BoundaryLineBehaviour> ().end;
 
-        //setting seam color
-        color = line1.GetComponent<Selectable>().sewingColor;
+        //color
+        //normal color = color
+        this.color = color;
+        line1.GetComponent<Selectable>().normalColor = color;
+        line2.GetComponent<Selectable>().normalColor = color;
 
         InstantiateNotches();
        
