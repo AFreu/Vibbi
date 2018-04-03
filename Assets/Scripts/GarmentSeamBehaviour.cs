@@ -58,9 +58,9 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 				positions [i + 1] = start;
 			}
 		}
-        Debug.Log("positions: " + positions[0] + " " + positions[1] + " " + positions[2] + " " + positions[3]);
-        Debug.Log("indicesstart: " + lineVerticeIndices[0] + " " + lineVerticeIndices[1] + " " + lineVerticeIndices[2] + " " + lineVerticeIndices[3] + " " + lineVerticeIndices[4] + " " + lineVerticeIndices[5] + " " + lineVerticeIndices[6] + " " + lineVerticeIndices[7]);
-        Debug.Log("indicesend: " + lineVerticeIndices[count - 1] + " " + lineVerticeIndices[count - 2] + " " + lineVerticeIndices[count - 3] + " " + lineVerticeIndices[count - 4] + " " + lineVerticeIndices[count - 5] + " " + lineVerticeIndices[count - 6] + " " + lineVerticeIndices[count-7]);
+        //Debug.Log("positions: " + positions[0] + " " + positions[1] + " " + positions[2] + " " + positions[3]);
+        //Debug.Log("indicesstart: " + lineVerticeIndices[0] + " " + lineVerticeIndices[1] + " " + lineVerticeIndices[2] + " " + lineVerticeIndices[3] + " " + lineVerticeIndices[4] + " " + lineVerticeIndices[5] + " " + lineVerticeIndices[6] + " " + lineVerticeIndices[7]);
+        //Debug.Log("indicesend: " + lineVerticeIndices[count - 1] + " " + lineVerticeIndices[count - 2] + " " + lineVerticeIndices[count - 3] + " " + lineVerticeIndices[count - 4] + " " + lineVerticeIndices[count - 5] + " " + lineVerticeIndices[count - 6] + " " + lineVerticeIndices[count-7]);
         renderer.SetPositions (positions);
 	}
 
