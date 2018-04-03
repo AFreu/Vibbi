@@ -17,13 +17,17 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		UpdateLineRenderer ();
+        if (seam == null)
+        {
+            Destroy(this.gameObject);
+        }
+        UpdateLineRenderer ();
 	}
 
 
 	//Called when triangulating
 	public void UpdateIndices(){
-
+        
 		lineVerticeIndices = VibbiMeshUtils.DefineSeamFromLines (seam.GetComponent<SeamBehaviour>().GetFirstLine (), seam.GetComponent<SeamBehaviour>().GetSecondLine()); 
 
 	}
