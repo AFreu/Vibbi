@@ -27,6 +27,16 @@ public class SeamBehaviour : MonoBehaviour {
 				
 		}
 
+        //remove seam
+        if (line1.GetComponent<Selectable>().isSelected() || line2.GetComponent<Selectable>().isSelected())
+        {
+            if (Input.GetKeyUp(KeyCode.B))
+            {
+                Destroy(this.gameObject);
+            }
+
+        }
+
         UpdateColorCoding();
         UpdateNotches();
 		UpdateConnections ();

@@ -277,6 +277,7 @@ public class ClothModelHandler : MonoBehaviour {
                 break; //only one seam possible to find
             }
         }
+        
         GameObject seam = CreateSeam(sewingList[0], sewingList[1]);
 
     }

@@ -8,7 +8,7 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 	public Transform start;
 	public Transform end;
     public bool isFirstStart = true;
-
+    
 	void OnMouseUp(){
 
 		//Get mouse position on screen
@@ -20,32 +20,32 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 		//Get a world position for the mouse
 		var hit =  Camera.main.ScreenToWorldPoint(mousePos);
 
-		if (Input.GetKey (KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
-			GetComponentInParent<BoundaryPointsHandler> ().AddPoint(gameObject, hit);
+        if (Input.GetKey(KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
+            GetComponentInParent<BoundaryPointsHandler>().AddPoint(gameObject, hit);
             //case where user adds a point on a seamline
             if (isFirstStart) end = second;
             else start = second;
 
-		}else if(Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH){
-			GetComponentInParent<BoundaryPointsHandler> ().Unfold(gameObject);
+        } else if (Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH) {
+            GetComponentInParent<BoundaryPointsHandler>().Unfold(gameObject);
 
-		}else if(Input.GetKey(KeyCode.K) || interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW){
+        } else if (Input.GetKey(KeyCode.K) || interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW) {
             //switch first and second depending on hit position
             //shortest way to which point?
             start = first;
             end = second;
 
-			Transform tmp = start;
-			if ((first.position -hit).magnitude > (second.position - hit).magnitude) //if the length between first point and clicked point is larger than the second point and clicked point
-			{
-				start = end;
-				end = tmp;
+            Transform tmp = start;
+            if ((first.position - hit).magnitude > (second.position - hit).magnitude) //if the length between first point and clicked point is larger than the second point and clicked point
+            {
+                start = end;
+                end = tmp;
                 isFirstStart = false;
-			}
+            }
             //init sewing
             GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);
 
-		}
+        } 
 	}
     
 }
