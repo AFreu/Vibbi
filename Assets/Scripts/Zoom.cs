@@ -9,6 +9,7 @@ public class Zoom : MonoBehaviour {
 
 	private Camera cam;
 
+
 	void Start(){
 		cam = GetComponent<Camera> ();
 	}
@@ -17,12 +18,12 @@ public class Zoom : MonoBehaviour {
 
 		Vector3 point = cam.ScreenToViewportPoint(Input.mousePosition);
 		bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
-
 		if (!cursorInViewPort)
 			return;
 
 		float scroll = Input.GetAxis ("Mouse ScrollWheel");
 		float value = cam.orthographicSize;
+
 
 		if (scroll > 0) {
 			value = cam.orthographicSize+zoomSpeed;
@@ -31,6 +32,8 @@ public class Zoom : MonoBehaviour {
 		}
 
 		cam.orthographicSize = Mathf.Clamp(value, min, max);
+
+
 
 	}
 }
