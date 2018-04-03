@@ -49,7 +49,6 @@ public class Orbit : MonoBehaviour
 		Vector3 point = camera.ScreenToViewportPoint(Input.mousePosition);
 		bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
 
-
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			SetActive(!active);
@@ -65,8 +64,9 @@ public class Orbit : MonoBehaviour
 			// Rotate
 			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
 			{
-				Cursor.visible = false;
-				Cursor.lockState = CursorLockMode.Locked;
+				Debug.Log ("Rotate");
+				//Cursor.visible = false;
+				//Cursor.lockState = CursorLockMode.Locked;
 
 				x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
 				y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
@@ -76,8 +76,8 @@ public class Orbit : MonoBehaviour
 			// Pan
 			else if (Input.GetMouseButton(2))
 			{
-				Cursor.visible = false;
-				Cursor.lockState = CursorLockMode.Locked;
+				//Cursor.visible = false;
+				//Cursor.lockState = CursorLockMode.Locked;
 
 				Vector3 forwardVector = GetComponent<Camera>().transform.forward;
 
