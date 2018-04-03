@@ -26,21 +26,21 @@ public class VibbiMeshUtils : MonoBehaviour
         var il2START = indicesLine2[0];
         var il1END = indicesLine1[indicesLine1.Count - 1];
         var il2END = indicesLine2[indicesLine2.Count - 1];
-        indicesLine1.Remove(0);
-        indicesLine2.Remove(0);
-        indicesLine1.Remove(indicesLine1.Count - 1);
-        indicesLine2.Remove(indicesLine2.Count - 1);
+        //indicesLine1.Remove(0);
+        //indicesLine2.Remove(0);
+        //indicesLine1.Remove(indicesLine1.Count - 1);
+        //indicesLine2.Remove(indicesLine2.Count - 1);
         
         //create list of indices to send back
         List<int> pairsOfIndices = new List<int>();
-        pairsOfIndices.Add(il1START);
-        pairsOfIndices.Add(il2START);
+        //pairsOfIndices.Add(il1START);
+        //pairsOfIndices.Add(il2START);
         
         //divide and conquer recursive function
         pairsOfIndices.AddRange(RecursiveDefineSeamFromLines(indicesLine1, indicesLine2));
 
-        pairsOfIndices.Add(il1END);
-        pairsOfIndices.Add(il2END);
+        //pairsOfIndices.Add(il1END);
+        //pairsOfIndices.Add(il2END);
      
         return pairsOfIndices;
     }
@@ -147,7 +147,7 @@ public class VibbiMeshUtils : MonoBehaviour
         }
 
         //decide starting point : either first or second, why second????
-        Vector3 startPoint = line.GetComponent<BoundaryLineBehaviour>().first.localPosition;
+        Vector3 startPoint = line.GetComponent<BoundaryLineBehaviour>().start.localPosition;
 
 
         lineIndices = SortIndexList(lineIndices, startPoint, meshVertices);

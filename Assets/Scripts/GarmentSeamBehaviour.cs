@@ -36,18 +36,19 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 		var sMeshVertices = secondClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
 
 		var count = lineVerticeIndices.Count;
+        //count = 4;
 
 		renderer.positionCount = count;
 
 		Vector3 [] positions = new Vector3[count];
 		bool alt = true;
 		for (int i = 0; i < count; i = i+2) {
-
-
+            
 			var start = firstClothPiece.transform.TransformPoint (fMeshVertices [lineVerticeIndices [i]]);
-			var end = secondClothPiece.transform.TransformPoint (sMeshVertices [lineVerticeIndices [i+1]]);
+            var end = secondClothPiece.transform.TransformPoint(sMeshVertices[lineVerticeIndices[i+1]]);
+           
 
-			if (alt) {
+            if (alt) {
 				alt = false;
 				positions [i] = start;
 				positions [i + 1] = end;
@@ -57,8 +58,10 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 				positions [i + 1] = start;
 			}
 		}
-			
-		renderer.SetPositions (positions);
+        Debug.Log("positions: " + positions[0] + " " + positions[1] + " " + positions[2] + " " + positions[3]);
+        Debug.Log("indicesstart: " + lineVerticeIndices[0] + " " + lineVerticeIndices[1] + " " + lineVerticeIndices[2] + " " + lineVerticeIndices[3] + " " + lineVerticeIndices[4] + " " + lineVerticeIndices[5] + " " + lineVerticeIndices[6] + " " + lineVerticeIndices[7]);
+        Debug.Log("indicesend: " + lineVerticeIndices[count - 1] + " " + lineVerticeIndices[count - 2] + " " + lineVerticeIndices[count - 3] + " " + lineVerticeIndices[count - 4] + " " + lineVerticeIndices[count - 5] + " " + lineVerticeIndices[count - 6] + " " + lineVerticeIndices[count-7]);
+        renderer.SetPositions (positions);
 	}
 
 	public void Init(int firstMesh, int secondMesh, List<int> lineVerticeIndices, GameObject firstClothPiece, GameObject secondClothPiece, GameObject seam){
