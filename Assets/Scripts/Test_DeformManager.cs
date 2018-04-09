@@ -15,49 +15,65 @@ public class Test_DeformManager : MonoBehaviour
     public Mesh meshForDeformObject;
     public GameObject cubeCollider;
 
+    private List<GameObject> clothPieces = new List<GameObject>();
 
     private DeformCloth dc;
 
     public void MakeAPieceOfCloth()
     {
         GameObject go = new GameObject("A piece of cloth");
-
+        
         dc = go.AddComponent<DeformCloth>();
         //dc.SetSize(5, 5);
         //dc.SetMaterial(garmentMaterial);
+        go.GetComponent<MeshRenderer>().material = garmentMaterial;
+
+
 
         deformManager.Reset();
     }
 
     public void MakeAPieceOfClothFromMesh()
     {
-        GameObject go2 = new GameObject("A weird piece of cloth");
+        GameObject clothPiece = Instantiate(pieceOfCloth, deformManager.transform.parent);
 
-        DeformObject deformObject = go2.AddComponent<DeformObject>();
 
-       // deformObject.SetMesh(meshForDeformObject);
-        //deformObject.SetMaterial(garmentMaterial);
+        //Place cloth piece above box
+        clothPiece.transform.localPosition = new Vector3(0, 3, 0);
+        clothPiece.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
 
+        //DeformObject deformObject = clothPiece.AddComponent<DeformObject>();
+
+        //Init cloth piece mesh according to the given cloth model mesh
+        clothPiece.GetComponent<MeshFilter>().sharedMesh = meshForDeformObject;
+        clothPiece.GetComponent<MeshCollider>().sharedMesh = meshForDeformObject;
+
+        clothPieces.Add(clothPiece);
+
+        StartSimulation();
+        
+    }
+
+    public void StartSimulation()
+    {
+        foreach (GameObject o in clothPieces)
+        {
+            Mesh mesh = o.GetComponent<MeshFilter>().sharedMesh;
+            DeformObject deformObject = o.AddComponent<DeformObject>();
+
+            deformObject.originalMesh = mesh;
+            deformObject.material = o.GetComponent<MeshRenderer>().material;
+            deformObject.AddToSimulation();
+        }
 
         deformManager.Reset();
+
     }
 
 
     //for now, changing the size
     public void UpdateClothMesh()
     {
-        //dc.SetSize(2, 3);
-        //dc.UseReset();
-
-        //figure out location:: location of cube?
-        //dc.transform
-        Vector3 location = cubeCollider.transform.position;
-        location.y = location.y + 0.5f;
-
-        Vector3 locationDC = dc.transform.position;
-        locationDC.y = locationDC.y + 0.5f;
-        
-
-        //deformManager.CreateNewDeformableObject(dc, locationDC); //doesnt work very well
+       
     }
 }

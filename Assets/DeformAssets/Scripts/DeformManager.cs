@@ -53,6 +53,7 @@ public class DeformManager : MonoBehaviour {
 
 	static bool yoMOM = false;
     public bool pontusPseam = false;
+    public bool testing = false;
 
     delegate void LogCallback(string msg);
 
@@ -235,8 +236,11 @@ public class DeformManager : MonoBehaviour {
         }
         else
         {
-            //malin seams
-            InitSeams();
+            if (!testing)
+            {
+                //malin seams
+                InitSeams();
+            }
 
         }
 
@@ -425,7 +429,7 @@ public class DeformManager : MonoBehaviour {
             activeObjects++;
         }
 
-        if (!pontusPseam)
+        if (!pontusPseam && !testing)
         {
             garmentHandler.setIDs();
         }

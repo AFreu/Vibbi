@@ -388,6 +388,10 @@ MonoBehaviour:
   wind: {x: 0, y: 0, z: 0}
   airFriction: 0.9995
   intercollision: 0
+  deformCamera: {fileID: 0}
+  garmentHandler: {fileID: 0}
+  pontusPseam: 0
+  testing: 1
 --- !u!4 &254914922
 Transform:
   m_ObjectHideFlags: 0
@@ -482,6 +486,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+--- !u!1001 &648103936
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298604535277658, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 96cab587a3c99764284e9ead8ab258d7, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1084496186
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 254914921}
-  pieceOfCloth: {fileID: 1648751786941974, guid: 94b75e746e52c6f458b88fb5b98cac7f,
+  pieceOfCloth: {fileID: 1592297285166562, guid: d47f6f4d950bb48d9982187f917a4b4f,
     type: 2}
   meshForDeformObject: {fileID: 4300000, guid: bf558122a53f2cc4992ffa62a7103c90, type: 3}
   cubeCollider: {fileID: 1666998207}
@@ -1018,7 +1064,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1666998207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.894, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1046,7 +1092,6 @@ MonoBehaviour:
   otherRadius: 0
   showColliderInEditor: 1
   showColliderInGame: 0
-  collisionBounds: {fileID: 0}
 --- !u!1 &1710209953
 GameObject:
   m_ObjectHideFlags: 0
