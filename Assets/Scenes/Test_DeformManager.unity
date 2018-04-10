@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4163e030549e6649b67fdcc371c03a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: {x: 0, y: -9.82, z: 0}
+  gravity: {x: 0, y: 0, z: 0}
   wind: {x: 0, y: 0, z: 0}
   airFriction: 0.9995
   intercollision: 0

@@ -74,6 +74,15 @@ public class Test_DeformManager : MonoBehaviour
     //for now, changing the size
     public void UpdateClothMesh()
     {
-       
+        //get id 
+        int id = clothPieces[0].GetComponent<DeformObject>().GetId();
+
+        int count = meshForDeformObject.vertices.Length / 2;
+        //new vertices
+        for (int i = 0; i < count; i++)
+        {
+            meshForDeformObject.vertices[i].x += 20;
+        }
+        
     }
 }

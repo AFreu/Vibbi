@@ -424,7 +424,6 @@ public class DeformManager : MonoBehaviour {
                                             body.transform.position, body.GetRotation(), body.transform.lossyScale,
                                             body.distanceStiffness, body.bendingStiffness);
 
-            
             body.SetId(id);
             activeObjects++;
         }
@@ -688,4 +687,5 @@ public class DeformManager : MonoBehaviour {
     {
         ShutdownDeformPlugin();
     }
+    
 }
