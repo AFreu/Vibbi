@@ -90,12 +90,14 @@ public class GarmentHandler : MonoBehaviour {
 			var clothModelFabric = clothModel.GetComponent<Fabricable>();
 			var clothPieceFabric = clothPiece.GetComponent<Fabricable> ();
 
-			//Use same material as cloth model
-			clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
-
 			//Clone reference used to update fabric when changed
 			clothPieceFabric.clone = clothModelFabric;
 			clothModelFabric.clone = clothPieceFabric;
+
+			//Use same material as cloth model
+			clothPieceFabric.materialIndex = clothModelFabric.GetSimulationMaterialIndex ();
+			//clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
+			//clothPieceFabric.SetSimulationMaterial
         }
 
         //Keep eventual scaling

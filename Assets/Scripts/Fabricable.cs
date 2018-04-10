@@ -1,16 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Fabricable : Behaviour {
 
-	public Material[] materials;
-	public Material[] simulationMaterials;
+	public Material defaultMaterial;
 
-	private int materialIndex = 0;
+	private List<Material> materials;
+	private List<Material> simulationMaterials;
+
+	public int materialIndex = 0;
 
 	//Clone used for bidirectionality
 	public Fabricable clone;
+
+	void Start(){
+		materials = new List<Material> ();
+		materials.Add(defaultMaterial);
+
+		materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Chevron.mat", typeof(Material)));
+		materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Leather.mat", typeof(Material)));
+		materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Purple_Flannel.mat", typeof(Material)));
+		materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Brown_Flannel.mat", typeof(Material)));
+		materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Green_Flannel.mat", typeof(Material)));
+
+		simulationMaterials = new List<Material> ();
+		simulationMaterials.Add(defaultMaterial);
+
+		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Chevron_Two_Sided.mat", typeof(Material)));
+		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Leather_Two_Sided.mat", typeof(Material)));
+		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Purple_Flannel_Two_Sided.mat", typeof(Material)));
+		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Brown_Flannel_Two_Sided.mat", typeof(Material)));
+		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Green_Flannel_Two_Sided.mat", typeof(Material)));
+
+		UpdateMaterial (materialIndex);
+	}
 
 	void OnMouseUp(){
 		
@@ -36,6 +61,12 @@ public class Fabricable : Behaviour {
 		if (Input.GetKey (KeyCode.Alpha4)) {
 
 			UpdateState (4);
+
+		}
+
+		if (Input.GetKey (KeyCode.Alpha5)) {
+
+			UpdateState (5);
 
 		}
 

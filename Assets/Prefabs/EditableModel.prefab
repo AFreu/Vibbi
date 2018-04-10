@@ -187,18 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d855369307b64dfdab57cfe2efaffc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 2100000, guid: e10ef87546e2ab94bb9969e726d1217f, type: 2}
-  - {fileID: 2100000, guid: 5ad3dee8583df984ea59895a564dea80, type: 2}
-  - {fileID: 2100000, guid: 207aab098d09d5a428b21a1987ea79ba, type: 2}
-  - {fileID: 2100000, guid: 998a6861ca6404fd39136cb28cb340ee, type: 2}
-  simulationMaterials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 2100000, guid: 9c9fd444458fbdb45943f742ec824af9, type: 2}
-  - {fileID: 2100000, guid: 5ad3dee8583df984ea59895a564dea80, type: 2}
-  - {fileID: 2100000, guid: 207aab098d09d5a428b21a1987ea79ba, type: 2}
-  - {fileID: 2100000, guid: d9050dde4a142fe4f9fd8cb1569f28c8, type: 2}
+  defaultMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  materialIndex: 0
+  clone: {fileID: 0}
 --- !u!114 &114725319676228154
 MonoBehaviour:
   m_ObjectHideFlags: 1

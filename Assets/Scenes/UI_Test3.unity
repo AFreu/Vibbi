@@ -5152,15 +5152,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114862959990077104, guid: c8b79cd343a32460d9c010c93b4a89ac,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1777482651291148, guid: c8b79cd343a32460d9c010c93b4a89ac, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8b79cd343a32460d9c010c93b4a89ac, type: 2}
   m_IsPrefabParent: 0
@@ -8106,7 +8097,7 @@ GameObject:
   - component: {fileID: 1325865574}
   - component: {fileID: 1325865575}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: FrontSpotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8135,9 +8126,9 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 0.9763271, b: 0.9117647, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_Range: 30
-  m_SpotAngle: 30
+  m_SpotAngle: 40
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -8463,7 +8454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1358134852
 Transform:
   m_ObjectHideFlags: 0
