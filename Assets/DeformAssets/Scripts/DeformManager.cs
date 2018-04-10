@@ -164,6 +164,7 @@ public class DeformManager : MonoBehaviour {
     {
 		if (yoMOM)
 			return;
+
         HandleInput();
         UpdateColliders();
 
@@ -424,6 +425,8 @@ public class DeformManager : MonoBehaviour {
                                             body.transform.position, body.GetRotation(), body.transform.lossyScale,
                                             body.distanceStiffness, body.bendingStiffness);
 
+            
+
             body.SetId(id);
             activeObjects++;
         }
@@ -438,6 +441,7 @@ public class DeformManager : MonoBehaviour {
         foreach (DeformCollider collider in colliders)
         {
             CreateCollider(collider);
+            Debug.Log("Created collider");
         }
 
         //if (sdfPath != null && objPath != null && sdfPath.Length > 0 && objPath.Length > 0)
@@ -635,9 +639,22 @@ public class DeformManager : MonoBehaviour {
     
     public void Reset()
     {
+        Debug.Log("Resetting deform manager");
         InitCameraComponents();
         ShutdownDeformPlugin();
         ResetSimulation();
+        FixDeformObjects();
+    }
+
+    private void FixDeformObjects()
+    {
+        Debug.Log("Fixing objects");
+        deformables = FindObjectsOfType<DeformBody>();
+
+        foreach (DeformBody body in deformables)
+        {
+            body.FixEverything();
+        }
     }
 
     public void Quit()
@@ -686,6 +703,12 @@ public class DeformManager : MonoBehaviour {
     public void ShutDownDeformPlugin()
     {
         ShutdownDeformPlugin();
+    }
+
+
+    public void MoveTheParticle(int id, int index, Vector3 position)
+    {
+        MoveParticle(id, index, position);
     }
     
 }

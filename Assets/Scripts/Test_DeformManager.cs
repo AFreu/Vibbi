@@ -21,25 +21,27 @@ public class Test_DeformManager : MonoBehaviour
 
     public void MakeAPieceOfCloth()
     {
-        GameObject go = new GameObject("A piece of cloth");
+        //GameObject go = new GameObject("A piece of cloth");
         
-        dc = go.AddComponent<DeformCloth>();
+        //dc = go.AddComponent<DeformCloth>();
         //dc.SetSize(5, 5);
         //dc.SetMaterial(garmentMaterial);
-        go.GetComponent<MeshRenderer>().material = garmentMaterial;
+        //go.GetComponent<MeshRenderer>().material = garmentMaterial;
 
 
 
-        deformManager.Reset();
+        StartSimulation();
     }
 
+    private int clicks = 0;
     public void MakeAPieceOfClothFromMesh()
     {
+        clicks += 2;
         GameObject clothPiece = Instantiate(pieceOfCloth, deformManager.transform.parent);
 
 
         //Place cloth piece above box
-        clothPiece.transform.localPosition = new Vector3(0, 3, 0);
+        clothPiece.transform.localPosition = new Vector3(0, clicks, 0);
         clothPiece.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
 
         //DeformObject deformObject = clothPiece.AddComponent<DeformObject>();
@@ -47,11 +49,16 @@ public class Test_DeformManager : MonoBehaviour
         //Init cloth piece mesh according to the given cloth model mesh
         clothPiece.GetComponent<MeshFilter>().sharedMesh = meshForDeformObject;
         clothPiece.GetComponent<MeshCollider>().sharedMesh = meshForDeformObject;
+        if (clicks > 2)
+        {
+            clothPiece.GetComponent<MeshRenderer>().material = garmentMaterial;
+            
+        }
+
 
         clothPieces.Add(clothPiece);
 
-        StartSimulation();
-        
+     
     }
 
     public void StartSimulation()
@@ -83,6 +90,8 @@ public class Test_DeformManager : MonoBehaviour
         {
             meshForDeformObject.vertices[i].x += 20;
         }
-        
+
+
+        deformManager.MoveTheParticle(id, 0, new Vector3(meshForDeformObject.vertices[0].x + 2, meshForDeformObject.vertices[0].y, meshForDeformObject.vertices[0].z));
     }
 }

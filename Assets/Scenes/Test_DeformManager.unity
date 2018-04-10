@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4163e030549e6649b67fdcc371c03a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: {x: 0, y: 0, z: 0}
+  gravity: {x: 0, y: -9.82, z: 0}
   wind: {x: 0, y: 0, z: 0}
   airFriction: 0.9995
   intercollision: 0
@@ -861,7 +861,7 @@ MonoBehaviour:
   deformManager: {fileID: 254914921}
   pieceOfCloth: {fileID: 1592297285166562, guid: d47f6f4d950bb48d9982187f917a4b4f,
     type: 2}
-  meshForDeformObject: {fileID: 4300000, guid: bf558122a53f2cc4992ffa62a7103c90, type: 3}
+  meshForDeformObject: {fileID: 4300000, guid: 15f571a705ba1cd43bf47c0220e67636, type: 3}
   cubeCollider: {fileID: 1666998207}
 --- !u!1 &1641213063
 GameObject:
@@ -1091,7 +1091,7 @@ MonoBehaviour:
   radius: 0
   otherRadius: 0
   showColliderInEditor: 1
-  showColliderInGame: 0
+  showColliderInGame: 1
 --- !u!1 &1710209953
 GameObject:
   m_ObjectHideFlags: 0
