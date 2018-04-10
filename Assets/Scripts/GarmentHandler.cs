@@ -83,11 +83,19 @@ public class GarmentHandler : MonoBehaviour {
         {
             //pick random number and load random material on the garment
             int r = Random.Range(0, materials.Count - 1);
-            clothPiece.GetComponent<MeshRenderer>().material = materials[r];
+            clothPiece.GetComponent<Renderer>().material = materials[r];
         }
         else
         {
-            clothPiece.GetComponent<MeshRenderer>().material = garmentMaterial;
+			var clothModelFabric = clothModel.GetComponent<Fabricable>();
+			var clothPieceFabric = clothPiece.GetComponent<Fabricable> ();
+
+			//Use same material as cloth model
+			clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
+
+			//Clone reference used to update fabric when changed
+			clothPieceFabric.clone = clothModelFabric;
+			clothModelFabric.clone = clothPieceFabric;
         }
 
         //Keep eventual scaling
@@ -225,7 +233,8 @@ public class GarmentHandler : MonoBehaviour {
             DeformObject deformObject = o.AddComponent<DeformObject>();
 
             deformObject.originalMesh = mesh;
-            deformObject.material = o.GetComponent<MeshRenderer>().material;
+            //deformObject.material = o.GetComponent<MeshRenderer>().material;
+			deformObject.material = o.GetComponent<Fabricable>().GetSimulationMaterial();
             deformObject.AddToSimulation();
         }
         
