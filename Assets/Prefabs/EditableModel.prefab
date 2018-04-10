@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 114238962494986772}
   - component: {fileID: 114466588780067020}
   - component: {fileID: 114242655319535170}
+  - component: {fileID: 114669878136980068}
   m_Layer: 0
   m_Name: EditableModel
   m_TagString: Untagged
@@ -175,6 +176,29 @@ MonoBehaviour:
     type: 2}
   boundaryCollection: {fileID: 0}
   boundaries: {fileID: 0}
+--- !u!114 &114669878136980068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670655632340280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d855369307b64dfdab57cfe2efaffc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e10ef87546e2ab94bb9969e726d1217f, type: 2}
+  - {fileID: 2100000, guid: 5ad3dee8583df984ea59895a564dea80, type: 2}
+  - {fileID: 2100000, guid: 207aab098d09d5a428b21a1987ea79ba, type: 2}
+  - {fileID: 2100000, guid: 998a6861ca6404fd39136cb28cb340ee, type: 2}
+  simulationMaterials:
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9c9fd444458fbdb45943f742ec824af9, type: 2}
+  - {fileID: 2100000, guid: 5ad3dee8583df984ea59895a564dea80, type: 2}
+  - {fileID: 2100000, guid: 207aab098d09d5a428b21a1987ea79ba, type: 2}
+  - {fileID: 2100000, guid: d9050dde4a142fe4f9fd8cb1569f28c8, type: 2}
 --- !u!114 &114725319676228154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,9 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a356b9572df5d41ffbbf4a00bcbd46b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedMaterial: {fileID: 2100000, guid: e563d2611df3e984e92203420188c3ee, type: 2}
-  highlightMaterial: {fileID: 2100000, guid: 6833a623d1b4df54abdfe933a1483a27, type: 2}
-  normalMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  selectedColor: {r: 0.46274507, g: 0.53333336, b: 1, a: 1}
+  highlightColor: {r: 0.6397059, g: 0.71388406, b: 1, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &114983107856260482
 MonoBehaviour:
   m_ObjectHideFlags: 1
