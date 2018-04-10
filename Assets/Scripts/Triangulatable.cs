@@ -6,6 +6,7 @@ public class Triangulatable : MonoBehaviour {
 
 
 	public Triangulator triangulator;
+    
 
 	List<Vector2> coords = new List<Vector2>();
 	List<List<Vector2>> holeCoords = new List<List<Vector2>>();
@@ -25,7 +26,12 @@ public class Triangulatable : MonoBehaviour {
 	}
 
 	public void Triangulate(){
-		UpdateCoords ();
+
+        if (!GetComponent<ClothModelBehaviour>().editedAndNotTriangulated) return;
+
+        GetComponent<ClothModelBehaviour>().editedAndNotTriangulated = false;
+        
+        UpdateCoords ();
 
 		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
 

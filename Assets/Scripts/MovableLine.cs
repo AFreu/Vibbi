@@ -38,8 +38,10 @@ public class MovableLine : Movable {
 		first.transform.position += a2;
 		second.transform.position += a2;
 
-		//Love linear algebra! 
-	}
+        //Love linear algebra! 
+
+        GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true;
+    }
 
 	private class MoveLineAction : AbstractAction{
 

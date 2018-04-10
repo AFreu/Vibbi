@@ -6,6 +6,10 @@ public class ClothModelBehaviour : Behaviour {
 
 	private ClothModelHandler clothModelHandler;
 
+
+    //for triangulation
+    public bool editedAndNotTriangulated = true;
+
 	void Start(){
 		clothModelHandler = GetComponentInParent<ClothModelHandler> ();
 	}
