@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114979540358759480}
   - component: {fileID: 114912195935084094}
   - component: {fileID: 114385917285496932}
+  - component: {fileID: 114089889244199898}
   m_Layer: 11
   m_Name: ClothPiece
   m_TagString: ClothPiece
@@ -59,7 +60,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 9c9fd444458fbdb45943f742ec824af9, type: 2}
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,6 +100,20 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 3e495f370191340bfb8e9e1bc9e39676, type: 3}
+--- !u!114 &114089889244199898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1592297285166562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d855369307b64dfdab57cfe2efaffc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  materialIndex: 0
+  clone: {fileID: 0}
 --- !u!114 &114350828032391074
 MonoBehaviour:
   m_ObjectHideFlags: 1
