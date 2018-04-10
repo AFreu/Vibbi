@@ -643,17 +643,17 @@ public class DeformManager : MonoBehaviour {
         InitCameraComponents();
         ShutdownDeformPlugin();
         ResetSimulation();
-        FixDeformObjects();
+        SetDeformObjectsToZero();
     }
 
-    private void FixDeformObjects()
+    private void SetDeformObjectsToZero()
     {
         Debug.Log("Fixing objects");
         deformables = FindObjectsOfType<DeformBody>();
 
         foreach (DeformBody body in deformables)
         {
-            body.FixEverything();
+            body.SetTransformToZero();
         }
     }
 

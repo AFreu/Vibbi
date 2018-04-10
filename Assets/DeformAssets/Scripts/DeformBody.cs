@@ -215,8 +215,8 @@ public abstract class DeformBody : MonoBehaviour {
     {
         id = bodyId;
     }
-
-    public void FixEverything()
+    
+    public void SetTransformToZero()
     {
         originalTransform = transform;
 
