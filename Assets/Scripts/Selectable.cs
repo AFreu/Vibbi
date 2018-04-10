@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Selectable : MonoBehaviour {
 
-	public Material selectedMaterial;
-	public Material highlightMaterial;
-	public Material normalMaterial;
-
     public Color selectedColor = Color.red;
     public Color highlightColor = Color.white;
     public Color normalColor = Color.green;
