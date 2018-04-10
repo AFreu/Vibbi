@@ -53,6 +53,7 @@ public class DeformManager : MonoBehaviour {
 
 	static bool yoMOM = false;
     public bool pontusPseam = false;
+    public bool testing = false;
 
     delegate void LogCallback(string msg);
 
@@ -163,6 +164,7 @@ public class DeformManager : MonoBehaviour {
     {
 		if (yoMOM)
 			return;
+
         HandleInput();
         UpdateColliders();
 
@@ -235,8 +237,11 @@ public class DeformManager : MonoBehaviour {
         }
         else
         {
-            //malin seams
-            InitSeams();
+            if (!testing)
+            {
+                //malin seams
+                InitSeams();
+            }
 
         }
 
@@ -421,11 +426,12 @@ public class DeformManager : MonoBehaviour {
                                             body.distanceStiffness, body.bendingStiffness);
 
             
+
             body.SetId(id);
             activeObjects++;
         }
 
-        if (!pontusPseam)
+        if (!pontusPseam && !testing)
         {
             garmentHandler.setIDs();
         }
@@ -435,6 +441,7 @@ public class DeformManager : MonoBehaviour {
         foreach (DeformCollider collider in colliders)
         {
             CreateCollider(collider);
+            Debug.Log("Created collider");
         }
 
         //if (sdfPath != null && objPath != null && sdfPath.Length > 0 && objPath.Length > 0)
@@ -632,9 +639,22 @@ public class DeformManager : MonoBehaviour {
     
     public void Reset()
     {
+        Debug.Log("Resetting deform manager");
         InitCameraComponents();
         ShutdownDeformPlugin();
         ResetSimulation();
+        FixDeformObjects();
+    }
+
+    private void FixDeformObjects()
+    {
+        Debug.Log("Fixing objects");
+        deformables = FindObjectsOfType<DeformBody>();
+
+        foreach (DeformBody body in deformables)
+        {
+            body.FixEverything();
+        }
     }
 
     public void Quit()
@@ -684,4 +704,11 @@ public class DeformManager : MonoBehaviour {
     {
         ShutdownDeformPlugin();
     }
+
+
+    public void MoveTheParticle(int id, int index, Vector3 position)
+    {
+        MoveParticle(id, index, position);
+    }
+    
 }

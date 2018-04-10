@@ -26,10 +26,10 @@ public class GarmentHandler : MonoBehaviour {
     private void Start()
     {
         materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Chevron/Chevron.mat", typeof(Material)));
-        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Leather/Materials/Leather.mat", typeof(Material)));
+       // materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Leather/Materials/Leather.mat", typeof(Material)));
         materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Flannel/Flannel.mat", typeof(Material)));
         materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Cloth.mat", typeof(Material)));
-        materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/ShinyBlack.mat", typeof(Material)));
+       // materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/ShinyBlack.mat", typeof(Material)));
     }
 
 

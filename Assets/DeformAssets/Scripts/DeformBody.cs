@@ -89,7 +89,8 @@ public abstract class DeformBody : MonoBehaviour {
     }
 
     protected virtual void Start () {
-        originalTransform = transform;
+        Debug.Log("Starting body");
+       /* originalTransform = transform;
 
         originalPosition = transform.position;
         originalRotation = transform.rotation;
@@ -98,8 +99,9 @@ public abstract class DeformBody : MonoBehaviour {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.localScale = new Vector3(1, 1, 1);
-
+        
         transformReset = true;
+        */
     }
 
     void OnDestroy()
@@ -118,7 +120,7 @@ public abstract class DeformBody : MonoBehaviour {
 
     protected virtual void Reset()
     {
-        HideMeshComponents();
+        //HideMeshComponents();
         originalTransform = transform;
     }
 
@@ -134,13 +136,15 @@ public abstract class DeformBody : MonoBehaviour {
     }
 
     public virtual void AddToSimulation()
-    { 
+    {
+        Debug.Log("Add to simulation "+id);
         RebuildMesh();
         includeInSimulation = true;
     }
 
     public void ResetTransform()
     {
+        Debug.Log("Resetting transform of "+id);
         if (transformReset)
         {
             transform.position = originalPosition;
@@ -210,5 +214,20 @@ public abstract class DeformBody : MonoBehaviour {
     public void SetId(int bodyId)
     {
         id = bodyId;
+    }
+
+    public void FixEverything()
+    {
+        originalTransform = transform;
+
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
+        originalScale = transform.localScale;
+
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.localScale = new Vector3(1, 1, 1);
+
+        transformReset = true;
     }
 }

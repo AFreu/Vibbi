@@ -83,6 +83,11 @@ public class DeformCloth : DeformBody {
 
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer>().material = material;
+
+        for (int i = 0; i < mesh.vertexCount; i++)
+        {
+            friction[i] = true;
+        }
     }
 
     public void ResetColorBuffers()
