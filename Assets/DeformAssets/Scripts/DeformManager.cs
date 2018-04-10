@@ -441,7 +441,6 @@ public class DeformManager : MonoBehaviour {
         foreach (DeformCollider collider in colliders)
         {
             CreateCollider(collider);
-            Debug.Log("Created collider");
         }
 
         //if (sdfPath != null && objPath != null && sdfPath.Length > 0 && objPath.Length > 0)
@@ -639,7 +638,6 @@ public class DeformManager : MonoBehaviour {
     
     public void Reset()
     {
-        Debug.Log("Resetting deform manager");
         InitCameraComponents();
         ShutdownDeformPlugin();
         ResetSimulation();
@@ -648,7 +646,6 @@ public class DeformManager : MonoBehaviour {
 
     private void SetDeformObjectsToZero()
     {
-        Debug.Log("Fixing objects");
         deformables = FindObjectsOfType<DeformBody>();
 
         foreach (DeformBody body in deformables)

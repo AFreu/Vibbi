@@ -89,7 +89,6 @@ public abstract class DeformBody : MonoBehaviour {
     }
 
     protected virtual void Start () {
-        Debug.Log("Starting body");
        /* originalTransform = transform;
 
         originalPosition = transform.position;
@@ -137,14 +136,12 @@ public abstract class DeformBody : MonoBehaviour {
 
     public virtual void AddToSimulation()
     {
-        Debug.Log("Add to simulation "+id);
         RebuildMesh();
         includeInSimulation = true;
     }
 
     public void ResetTransform()
     {
-        Debug.Log("Resetting transform of "+id);
         if (transformReset)
         {
             transform.position = originalPosition;
