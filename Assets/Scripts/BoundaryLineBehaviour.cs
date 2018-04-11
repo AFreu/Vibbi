@@ -27,6 +27,7 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
             else start = second;
 
         } else if (Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH) {
+            GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true; //if the polygon is unfolded, it should be triangulated
             GetComponentInParent<BoundaryPointsHandler>().Unfold(gameObject);
 
         } else if (Input.GetKey(KeyCode.K) || interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW) {

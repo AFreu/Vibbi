@@ -101,9 +101,16 @@ public class Movable : MonoBehaviour {
 			transform.position = SnapToGrid (position);
 		} else {
 			transform.position = position;
-		}
 
-	}
+            //polygon has been edited if a point or line was moved
+            if (gameObject.tag.Equals("BoundaryPoint"))
+            {
+                GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true;
+            }
+
+        }
+
+    }
 
 	protected Vector3 SnapToGrid(Vector3 pt){
 
