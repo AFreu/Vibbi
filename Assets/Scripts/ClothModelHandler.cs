@@ -59,7 +59,7 @@ public class ClothModelHandler : MonoBehaviour {
 		}
 
 		if (Input.GetKeyUp (KeyCode.R)) {
-			Debug.Log ("Redo");
+			//Debug.Log ("Redo");
 			//actionManager.Redo ();
 		}
 

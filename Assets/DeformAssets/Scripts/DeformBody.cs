@@ -144,6 +144,7 @@ public abstract class DeformBody : MonoBehaviour {
     {
         if (transformReset)
         {
+            Debug.Log("OP "+originalPosition.y);
             transform.position = originalPosition;
             transform.rotation = originalRotation;
             transform.localScale = originalScale;

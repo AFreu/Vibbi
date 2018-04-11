@@ -29,9 +29,7 @@ public class DeformObject : DeformBody {
     protected override void OnValidate()
     {
         base.OnValidate();
-
-       
-
+        
         try
         {
             if (!originalMesh.Equals(oldMesh))
@@ -83,9 +81,9 @@ public class DeformObject : DeformBody {
             
         oldMesh = mesh;
 
-        InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
-        id = CreateDeformableObject(meshVertices, mesh.uv, (uint)mesh.vertices.Length, mesh.triangles, (uint)mesh.triangles.Length / 3,
-                                    transform.position, GetRotation(), transform.lossyScale, distanceStiffness, bendingStiffness);
+        //InitDeformPlugin(Application.dataPath + "/Plugins/deform_config.xml");
+        //id = CreateDeformableObject(meshVertices, mesh.uv, (uint)mesh.vertices.Length, mesh.triangles, (uint)mesh.triangles.Length / 3,
+        //                            transform.position, GetRotation(), transform.lossyScale, distanceStiffness, bendingStiffness);
 
     }
 

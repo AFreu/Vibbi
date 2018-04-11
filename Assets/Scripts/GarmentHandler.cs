@@ -52,6 +52,8 @@ public class GarmentHandler : MonoBehaviour {
             Debug.Log("Stop Simulation");
             StopSimulation();
         }
+
+        if (Input.GetKeyDown(KeyCode.R)) Reset();
     }
 
     public void LoadCloth(GameObject clothModel)
@@ -72,6 +74,8 @@ public class GarmentHandler : MonoBehaviour {
 			clothPiece.transform.localPosition = new Vector3(0, 11, 0);
 			clothPiece.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
         }
+
+        originalPosition = clothPiece.transform.position;
         
 		//Init cloth piece mesh according to the given cloth model mesh
 		var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
@@ -228,6 +232,9 @@ public class GarmentHandler : MonoBehaviour {
     private bool idsSet = false;
     private int totalNumberOfVertices = 0;
 
+    //for resetting simulation
+    private Vector3 originalPosition;
+
     public void StartSimulation()
     {
         foreach(GameObject o in clothPieces)
@@ -243,6 +250,24 @@ public class GarmentHandler : MonoBehaviour {
         
         deformManager.Reset();
 
+    }
+
+
+    private void Reset()
+    {
+        foreach (GameObject o in clothPieces)
+        {
+            Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
+            
+
+            DeformObject deformObject = o.GetComponent<DeformObject>();
+            
+            deformObject.originalMesh = mesh;
+            //deformObject.material = o.GetComponent<MeshRenderer>().material;
+            deformObject.material = o.GetComponent<Fabricable>().GetSimulationMaterial();
+            deformObject.AddToSimulation();
+        }
+        deformManager.Reset();
     }
 
     public void StopSimulation()
