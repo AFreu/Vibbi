@@ -54,7 +54,7 @@ public class InteractionStateManager : MonoBehaviour {
     {
         //handle input that makes a toggle change
         if (Input.GetKeyUp(KeyCode.M)) selectToggle.GetComponent<Toggle>().isOn = true; // M for move
-        if (Input.GetKeyUp(KeyCode.R)) rotateToggle.GetComponent<Toggle>().isOn = true; // R for rotate
+        if (Input.GetKeyUp(KeyCode.O)) rotateToggle.GetComponent<Toggle>().isOn = true; // O for shape
         if (Input.GetKeyUp(KeyCode.X)) scaleToggle.GetComponent<Toggle>().isOn = true; // X for shape of icon
         if (Input.GetKeyUp(KeyCode.A)) newPointToggle.GetComponent<Toggle>().isOn = true; // A for add
         if (Input.GetKeyUp(KeyCode.D)) removePointToggle.GetComponent<Toggle>().isOn = true; //D for destroy

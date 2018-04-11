@@ -635,13 +635,19 @@ public class DeformManager : MonoBehaviour {
 			return;
         ShutdownDeformPlugin();
     }
-    
+
+
+    private int click = 0;
     public void Reset()
     {
         InitCameraComponents();
+
         ShutdownDeformPlugin();
         ResetSimulation();
         SetDeformObjectsToZero();
+
+
+        click++;
     }
 
     private void SetDeformObjectsToZero()

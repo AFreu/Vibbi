@@ -225,6 +225,7 @@ public class GarmentHandler : MonoBehaviour {
 	}
 
     private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
+    private bool idsSet = false;
     private int totalNumberOfVertices = 0;
 
     public void StartSimulation()
@@ -270,11 +271,15 @@ public class GarmentHandler : MonoBehaviour {
 
     public void setIDs()
     {
-        //gå baklänges
-        for (int i = clothPieces.Count-1; i > -1; i--)
+        if (!idsSet)
         {
-            idToPositonInList.Add(clothPieces[i].GetComponent<DeformObject>().GetId(), totalNumberOfVertices); //so that we can get global index when sewing
-            totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;  
+            //gå baklänges
+            for (int i = clothPieces.Count - 1; i > -1; i--)
+            {
+                idToPositonInList.Add(clothPieces[i].GetComponent<DeformObject>().GetId(), totalNumberOfVertices); //so that we can get global index when sewing
+                totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;
+            }
+            idsSet = true;
         }
     }
 
