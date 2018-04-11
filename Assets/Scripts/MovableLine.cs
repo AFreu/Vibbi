@@ -40,7 +40,7 @@ public class MovableLine : Movable {
 
         //Love linear algebra! 
 
-        GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true;
+        GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true; //if a line is moved the polygon should be triangulated
     }
 
 	private class MoveLineAction : AbstractAction{
