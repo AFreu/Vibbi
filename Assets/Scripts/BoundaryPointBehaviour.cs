@@ -2,19 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryPointBehaviour : MonoBehaviour {
+public class BoundaryPointBehaviour : Behaviour{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public GameObject line;
+
+	Transform scalableParent;
+	Vector3 wantedScale;
+
+	public bool revertScaling = true;
+
+	void Start(){
+		scalableParent = transform.GetComponentInParent<Scalable> ().transform;
+		wantedScale = transform.localScale;
+
 	}
 
-	void OnMouseEnter(){
-		Debug.Log ("Enter Handle");
+	void Update(){
+		if(revertScaling)
+			RevertScaling ();
 	}
+
+	void OnMouseUp(){
+		
+		if (Input.GetKey (KeyCode.D) || interactionStateManager.currentState == InteractionStateManager.InteractionState.REMOVEPOINT) {
+			transform.GetComponentInParent<BoundaryPointsHandler> ().RemovePoint(gameObject);
+		}
+	}
+
+	void RevertScaling(){
+		var X = scalableParent.localScale.x;
+		var Y = scalableParent.localScale.y;
+		var Z = scalableParent.localScale.z;
+
+		if (X == 0 || Y == 0 || Z == 0)
+			return;
+
+		Vector3 n = new Vector3 (wantedScale.x / X, wantedScale.y / Y, wantedScale.z / Z);
+
+		transform.localScale = n;
+	}
+
+
 }

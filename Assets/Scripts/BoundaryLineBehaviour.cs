@@ -2,59 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoundaryLineBehaviour : MonoBehaviour {
 
-	public Transform first;
-	public Transform second;
+public class BoundaryLineBehaviour : SimpleLineBehaviour{
 
-	public float width;
+	public Transform start;
+	public Transform end;
+    public bool isFirstStart = true;
+    
+	void OnMouseUp(){
 
+		//Get mouse position on screen
+		Vector3 mousePos = Input.mousePosition;
 
-	// Use this for initialization
-	void Start () {
-		
+		//Adjust mouse position 
+		mousePos.z = transform.position.z - Camera.main.transform.position.z;
+
+		//Get a world position for the mouse
+		var hit =  Camera.main.ScreenToWorldPoint(mousePos);
+
+        if (Input.GetKey(KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
+            GetComponentInParent<BoundaryPointsHandler>().AddPoint(gameObject, hit);
+            //case where user adds a point on a seamline
+            if (isFirstStart) end = second;
+            else start = second;
+
+        } else if (Input.GetKey(KeyCode.U) || interactionStateManager.currentState == InteractionStateManager.InteractionState.UNFOLDCLOTH) {
+            GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true; //if the polygon is unfolded, it should be triangulated
+            GetComponentInParent<BoundaryPointsHandler>().Unfold(gameObject);
+
+        } else if (Input.GetKey(KeyCode.K) || interactionStateManager.currentState == InteractionStateManager.InteractionState.SEW) {
+            //switch first and second depending on hit position
+            //shortest way to which point?
+            start = first;
+            end = second;
+
+            Transform tmp = start;
+            if ((first.position - hit).magnitude > (second.position - hit).magnitude) //if the length between first point and clicked point is larger than the second point and clicked point
+            {
+                start = end;
+                end = tmp;
+                isFirstStart = false;
+            }
+            //init sewing
+            GetComponentInParent<ClothModelHandler>().InitSewing(this.gameObject);
+
+            Debug.Log("Sewing");
+
+        } 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (first == null || second == null)
-			return;
-		UpdateLine ();
-
-
-	}
-
-	void OnMouseOver(){
-		Debug.Log ("OnMouseOver");
-		if (Input.GetMouseButtonUp (1)) {
-			Debug.Log ("RightClick");
-			int layerMask = 1 << 8;
-			RaycastHit hit;
-
-			if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 30f, layerMask)) {
-				gameObject.transform.GetComponentInParent<BoundaryPointsHandler> ().AddBoundaryPoint(gameObject, hit.point);
-			}
-			
-
-
-		}
-	}
-
-	void OnMouseEnter(){
-		Debug.Log ("Enter Boundary");
-	}
-
-	void UpdateLine(){
-		var start = first.transform.position;
-		var end = second.transform.position;
-
-		var parentScaleCompensation = transform.parent.transform.localScale.x;
-		var offset = end - start;
-		var scale = new Vector3(offset.magnitude/parentScaleCompensation, width, width);
-		var position = start;
-
-		transform.position = position;
-		transform.right = offset;
-		transform.localScale = scale;
-	}
+    
 }

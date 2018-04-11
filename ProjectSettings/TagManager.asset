@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Cloth
+  - BoundaryLine
+  - BoundaryPoint
+  - Select
+  - AddPoint
+  - RemovePoint
+  - DuplicateCloth
+  - UnfoldCloth
+  - Sew
+  - Dart
+  - Rotate
+  - Scale
+  - ClothPiece
   layers:
   - Default
   - TransparentFX
@@ -13,9 +26,9 @@ TagManager:
   - UI
   - 
   - 
-  - ModelPlane
   - 
-  - 
+  - Body
+  - BoundaryLine
   - 
   - 
   - 
