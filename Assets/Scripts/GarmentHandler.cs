@@ -74,7 +74,7 @@ public class GarmentHandler : MonoBehaviour {
         }
         
 		//Init cloth piece mesh according to the given cloth model mesh
-		var clothModelMesh = clothModel.GetComponent<MeshFilter>().sharedMesh;
+		var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
 		clothPiece.GetComponent<MeshFilter> ().sharedMesh = clothModelMesh;
 		clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
 
@@ -153,7 +153,7 @@ public class GarmentHandler : MonoBehaviour {
         go.transform.forward = -t.up;
     }
 
-	public bool ClothIsLoaded(GameObject cloth){
+	/*public bool ClothIsLoaded(GameObject cloth){
 		var clothModelMesh = cloth.GetComponent<MeshFilter> ().sharedMesh;
 
 		for (int index = 0; index < clothPieces.Count; index++) {
@@ -162,7 +162,7 @@ public class GarmentHandler : MonoBehaviour {
 			}
 		}
 		return false;
-	}
+	}*/
 
 	public void LoadSeam(GameObject seam){
 		Debug.Log ("Load Seam");

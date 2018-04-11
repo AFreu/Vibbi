@@ -165,10 +165,12 @@ public class SeamBehaviour : MonoBehaviour {
 	}
 
 	public Mesh GetFirstMesh(){
+		Debug.Log("GetFirstMesh");
 		return line1.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
 	}
 
 	public Mesh GetSecondMesh(){
+		Debug.Log("GetSecondMesh");
 		return line2.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
 	}
 
