@@ -11,34 +11,35 @@ public class Selectable : MonoBehaviour {
 	private bool highlighted = false;
 	private bool selected = false;
     
-    private Color previousColor;
+    //private Color previousColor;
     private bool switchedColor;
     
-	private static List<Selectable> currentlyHighlighted;
+	private SelectableManager manager;
 
-	// Use this for initialization
-	void Start () {
-        //previousColor = selectedMaterial.color;
-        previousColor = Color.red;
-		currentlyHighlighted = new List<Selectable>();
-
+	void Awake(){
+		manager = Component.FindObjectOfType<SelectableManager> ();
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
 
 		bool leftMouseButtonUp = Input.GetMouseButtonUp (0);
 		bool leftShift = Input.GetKey (KeyCode.LeftShift);
+		bool mouseOverUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ();
+
 
         if (highlighted && leftMouseButtonUp)
         {
             Select(true);
         }
 
-        if (!highlighted && leftMouseButtonUp && !leftShift)
+        if (!highlighted && leftMouseButtonUp && !leftShift && !mouseOverUI)
         {
             Select(false);
         }
+
+
 
         if (!selected && switchedColor)
         {
@@ -46,8 +47,11 @@ public class Selectable : MonoBehaviour {
             ResetSelectedColor();
         }
 
+		if (selected) {
+			GetComponent<Renderer> ().material.color = selectedColor;
+		}
+
 	}
-		
 
 	void OnMouseEnter(){
 		Highlight (true);
@@ -60,21 +64,18 @@ public class Selectable : MonoBehaviour {
 	void OnDisable(){
 		Highlight (false);
 	}
+
+	void OnMouseUp(){
+		
+	}
 		
 
 	void Highlight(bool highlight){
 		if (highlight) {
-			currentlyHighlighted.Add (this);
-			currentlyHighlighted [0].SetHighlighted (true);
+			manager.AddHighligted (this);
 		} else {
-			currentlyHighlighted.Remove (this);
-			SetHighlighted (false);
-
-			if (currentlyHighlighted.Count > 0) {
-				currentlyHighlighted [0].SetHighlighted (true);
-			}
+			manager.RemoveHighligted (this);
 		}
-
 	}
 
 	public void SetHighlighted(bool on){
@@ -88,13 +89,21 @@ public class Selectable : MonoBehaviour {
 		}
 	}
 
-	void Select(bool on){
-		selected = on;
+	public void Select(bool on){
 		if (on) {
 			GetComponent<Renderer> ().material.color = selectedColor;
+			manager.AddSelected (this);
+
 		} else {
 			GetComponent<Renderer> ().material.color = normalColor;
+			manager.RemoveSelected (this);
+
 		}
+		selected = on;
+	}
+
+	public bool isHighlighted(){
+		return highlighted;
 	}
 
 	public bool isSelected(){

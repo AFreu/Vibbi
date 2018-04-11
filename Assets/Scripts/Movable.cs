@@ -51,8 +51,6 @@ public class Movable : MonoBehaviour {
 
 		if (currentlyDragged == gameObject) {
 			currentlyDragged = null;
-
-			Debug.Log ("M: OnMouseUp");
 			RecordChangeOfState ();
 		}
 	}

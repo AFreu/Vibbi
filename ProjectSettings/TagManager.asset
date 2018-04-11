@@ -17,6 +17,7 @@ TagManager:
   - Rotate
   - Scale
   - ClothPiece
+  - ClothModel
   layers:
   - Default
   - TransparentFX
