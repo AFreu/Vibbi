@@ -169,6 +169,8 @@ public class InteractionStateManager : MonoBehaviour {
 	public void ShowAttributes(Selectable selectable){
 		switch (selectable.tag) {
 		case "ClothModel":
+			if (textureDropdown == null)
+				return;
 			textureDropdown.transform.localScale = Vector3.one;
 
 			break;
@@ -177,6 +179,8 @@ public class InteractionStateManager : MonoBehaviour {
 	}
 		
 	public void HideAttributes(){
+		if (textureDropdown == null)
+			return;
 		textureDropdown.transform.localScale = Vector3.zero;
 	}
 
@@ -194,7 +198,8 @@ public class InteractionStateManager : MonoBehaviour {
 	public void Selected(Selectable selectable){
 		switch (selectable.tag) {
 		case "ClothModel":
-			
+			if (textureDropdown == null)
+				return;
 			textureDropdown.onValueChanged.SetPersistentListenerState (0, UnityEngine.Events.UnityEventCallState.Off);
 			textureDropdown.value = selectable.GetComponent<Fabricable> ().GetSimulationMaterialIndex ();
 			textureDropdown.onValueChanged.SetPersistentListenerState (0, UnityEngine.Events.UnityEventCallState.RuntimeOnly);
