@@ -99,7 +99,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 3e495f370191340bfb8e9e1bc9e39676, type: 3}
+  m_Mesh: {fileID: 0}
 --- !u!114 &114089889244199898
 MonoBehaviour:
   m_ObjectHideFlags: 1

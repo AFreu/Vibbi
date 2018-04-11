@@ -31,7 +31,7 @@ GameObject:
   - component: {fileID: 33928838322300252}
   m_Layer: 0
   m_Name: EditableModel
-  m_TagString: Untagged
+  m_TagString: ClothModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacb5d0e375d12143bd915cf81e8e2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editedAndNotTriangulated: 1
 --- !u!114 &114242655319535170
 MonoBehaviour:
   m_ObjectHideFlags: 1

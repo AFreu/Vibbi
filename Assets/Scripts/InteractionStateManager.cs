@@ -38,6 +38,9 @@ public class InteractionStateManager : MonoBehaviour {
     public GameObject sewToggle;
     public GameObject unfoldToggle;
     public GameObject duplicateToggle;
+
+	//dropdowns
+	public Dropdown textureDropdown;
     
 
     private void Start()
@@ -48,6 +51,9 @@ public class InteractionStateManager : MonoBehaviour {
     private void Update()
     {
         HandleInput();
+
+		HandleSelection ();
+
     }
 
     private void HandleInput()
@@ -63,6 +69,15 @@ public class InteractionStateManager : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.U)) unfoldToggle.GetComponent<Toggle>().isOn = true; // U for unfold
         if (Input.GetKeyUp(KeyCode.Z)) duplicateToggle.GetComponent<Toggle>().isOn = true; // Z for copy
     }
+
+	private void HandleSelection(){
+
+		HideAttributes ();
+
+		foreach(Selectable s in GetComponent<SelectableManager>().GetCurrentlySelected()){
+			ShowAttributes (s);
+		}
+	}
 
     public void OnToggleChange(GameObject toggle){
 		Debug.Log ("Toggle: " + toggle.tag);
@@ -149,5 +164,42 @@ public class InteractionStateManager : MonoBehaviour {
 
 		}
 		return cam;
+	}
+		
+	public void ShowAttributes(Selectable selectable){
+		switch (selectable.tag) {
+		case "ClothModel":
+			textureDropdown.transform.localScale = Vector3.one;
+
+			break;
+		}
+
+	}
+		
+	public void HideAttributes(){
+		textureDropdown.transform.localScale = Vector3.zero;
+	}
+
+	public void OnTextureDropdownChange(){
+
+		//Set selected material to all currently selected fabricable objects
+		foreach (Selectable s in GetComponent<SelectableManager>().GetCurrentlySelected()) {
+			var fabricable = s.gameObject.GetComponent<Fabricable> ();
+			if (fabricable != null) {
+				fabricable.SetSimulationMaterial (textureDropdown.value);
+			}
+		}
+	}
+
+	public void Selected(Selectable selectable){
+		switch (selectable.tag) {
+		case "ClothModel":
+			
+			textureDropdown.onValueChanged.SetPersistentListenerState (0, UnityEngine.Events.UnityEventCallState.Off);
+			textureDropdown.value = selectable.GetComponent<Fabricable> ().GetSimulationMaterialIndex ();
+			textureDropdown.onValueChanged.SetPersistentListenerState (0, UnityEngine.Events.UnityEventCallState.RuntimeOnly);
+
+			break;
+		}
 	}
 }

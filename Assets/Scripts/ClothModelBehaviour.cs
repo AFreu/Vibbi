@@ -15,6 +15,9 @@ public class ClothModelBehaviour : Behaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		/*if (GetComponent<Selectable> ().isSelected ()) {
+			interactionStateManager.ShowAttributes (tag, true);
+		}*/
 	}
 
 	void OnMouseUp(){
@@ -23,5 +26,7 @@ public class ClothModelBehaviour : Behaviour {
 		}else if(Input.GetKey (KeyCode.D) || interactionStateManager.currentState == InteractionStateManager.InteractionState.REMOVECLOTH){
 			clothModelHandler.RemoveCloth (gameObject);
 		}
+
+
 	}
 }
