@@ -273,13 +273,16 @@ public class GarmentHandler : MonoBehaviour {
     {
         if (!idsSet)
         {
+            int n = 0; //if there are no cloth pieces, no ids will be set
             //gå baklänges
             for (int i = clothPieces.Count - 1; i > -1; i--)
             {
+                n++;
                 idToPositonInList.Add(clothPieces[i].GetComponent<DeformObject>().GetId(), totalNumberOfVertices); //so that we can get global index when sewing
                 totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;
             }
-            idsSet = true;
+            if(n>0) idsSet = true;
+
         }
     }
 

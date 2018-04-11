@@ -54,6 +54,7 @@ public class DeformManager : MonoBehaviour {
 	static bool yoMOM = false;
     public bool pontusPseam = false;
     public bool testing = false;
+    private bool idsSet = false;
 
     delegate void LogCallback(string msg);
 
