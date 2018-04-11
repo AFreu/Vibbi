@@ -64,17 +64,19 @@ public class SeamBehaviour : MonoBehaviour {
     void UpdateNotches()
     {
         SetNotchPositions();
-        notch1.transform.position = notchPos1;
-        
+        notch1.transform.position = notchPos1;        
         notch1.transform.up = line1.GetComponent<BoundaryLineBehaviour>().unitVector;
+        //color when selecting/highlighting
+        notch1.GetComponent<Renderer>().material.SetColor("_Color",line1.GetComponent<Renderer>().material.color);
 
         notch2.transform.position = notchPos2;
-        
         notch2.transform.up = line2.GetComponent<BoundaryLineBehaviour>().unitVector;
+        //color when selecting/highlighting
+        notch2.GetComponent<Renderer>().material.SetColor("_Color", line2.GetComponent<Renderer>().material.color);
     }
-    
 
-	void AddConnection(Transform start, Transform end){
+
+    void AddConnection(Transform start, Transform end){
 
 		connections.Add(VibbiUtils.CreateLine (start.position, end.position, Color.blue, transform));
 
@@ -136,14 +138,12 @@ public class SeamBehaviour : MonoBehaviour {
         notch2 = AddNotch(this.gameObject, line2, notchPos2, color);
     }
 
-	public GameObject AddNotch(GameObject seam, GameObject line, Vector3 notchPos, Color color)
+	private GameObject AddNotch(GameObject seam, GameObject line, Vector3 notchPos, Color color)
 	{
-
 		GameObject notch = Instantiate(line.GetComponentInParent<BoundaryPointsHandler>().notchPrefab, notchPos, Quaternion.identity, seam.transform) as GameObject;
 		notch.transform.up = line.GetComponent<BoundaryLineBehaviour>().unitVector;
 		notch.GetComponent<Renderer>().material.SetColor("_Color", color);
 		return notch;
-
 	}
 
 
