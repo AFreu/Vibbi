@@ -8,6 +8,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	private int MINIMUM_AMOUNT_BOUNDARYPOINTS = 3; 
 
 	public DartHandler dartHandler;
+	public Triangulator triangulator;
 
 	//The lists are order dependent
 	public List<GameObject> boundaryPoints = new List<GameObject> ();
@@ -22,12 +23,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public GameObject boundaryLinePrefab;
     public GameObject notchPrefab;
 
-    
 	private static bool save;
 
-
-	public GameObject boundaryCollection;
-	public Transform boundaries;
+	private GameObject boundaryCollection;
+	private Transform boundaries;
 
 
 	// Use this for initialization
@@ -294,6 +293,25 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
+	private void InitMesh(){
+
+		Debug.Log ("InitMesh");
+
+		List<Vector2> coords = new List<Vector2> ();
+		List<List<Vector2>> holes = new List<List<Vector2>> ();
+
+		foreach(GameObject o in boundaryPoints){
+			var t = o.transform.localPosition;
+			coords.Add (new Vector2 (t.x, t.y));
+		}
+
+		Mesh mesh = new Mesh ();
+		mesh.name = "My mesh";
+
+		triangulator.Triangulate (mesh, coords, holes);
+		GetComponent<MeshFilter> ().sharedMesh = mesh;
+	}
+
 	public void InitQuad(){
 
 		Debug.Log ("InitQuad!");
@@ -352,6 +370,8 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		boundaryLines.Add (l3);
 		boundaryLines.Add (l4);
 
+		InitMesh ();
+
 		//AddDart (new Vector3 (0.3f, 0.4f, 0.0f), new Vector3 (0.3f, 0.1f, 0.0f));
 
 	}
@@ -388,6 +408,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		//Set last line's second point to be the first point of the set
 		lb.second = boundaryPoints [0].transform;
 			
+		InitMesh ();
 	
 	}
 

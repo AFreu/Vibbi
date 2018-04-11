@@ -21,14 +21,14 @@ GameObject:
   - component: {fileID: 4384689762559404}
   - component: {fileID: 114615442074442714}
   - component: {fileID: 60003282998810426}
-  - component: {fileID: 33771799025072294}
-  - component: {fileID: 23484687413130904}
   - component: {fileID: 114983107856260482}
   - component: {fileID: 114725319676228154}
   - component: {fileID: 114238962494986772}
   - component: {fileID: 114466588780067020}
   - component: {fileID: 114242655319535170}
   - component: {fileID: 114669878136980068}
+  - component: {fileID: 23805749542606908}
+  - component: {fileID: 33928838322300252}
   m_Layer: 0
   m_Name: EditableModel
   m_TagString: Untagged
@@ -49,7 +49,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!23 &23484687413130904
+--- !u!23 &23805749542606908
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -81,13 +81,13 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33771799025072294
+--- !u!33 &33928838322300252
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1670655632340280}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 0}
 --- !u!60 &60003282998810426
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb0879889a994df7a7bad0b7127bab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triangulator: {fileID: 0}
+  triangulator: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
+    type: 2}
 --- !u!114 &114615442074442714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,6 +166,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dartHandler: {fileID: 0}
+  triangulator: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
+    type: 2}
   boundaryPoints: []
   boundaryLines: []
   darts: []
@@ -174,8 +177,6 @@ MonoBehaviour:
     type: 2}
   notchPrefab: {fileID: 1583172564579452, guid: d47a7aab2230f124eaeb895b87d7e8a6,
     type: 2}
-  boundaryCollection: {fileID: 0}
-  boundaries: {fileID: 0}
 --- !u!114 &114669878136980068
 MonoBehaviour:
   m_ObjectHideFlags: 1

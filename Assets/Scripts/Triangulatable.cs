@@ -10,10 +10,6 @@ public class Triangulatable : MonoBehaviour {
 
 	List<Vector2> coords = new List<Vector2>();
 	List<List<Vector2>> holeCoords = new List<List<Vector2>>();
-
-	void Awake(){
-		triangulator = Component.FindObjectOfType<Triangulator> ();
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,11 +23,13 @@ public class Triangulatable : MonoBehaviour {
 
 	public void Triangulate(){
 
+
         if (!GetComponent<ClothModelBehaviour>().editedAndNotTriangulated) return;
 
         GetComponent<ClothModelBehaviour>().editedAndNotTriangulated = false;
         
         UpdateCoords ();
+
 
 		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
 
@@ -40,7 +38,6 @@ public class Triangulatable : MonoBehaviour {
 
 		triangulator.Triangulate(mesh, coords, holeCoords);
 
-		GetComponent<MeshFilter>().sharedMesh = GetComponent<MeshFilter> ().mesh;
 	}
 
 	protected virtual void UpdateCoords(){

@@ -153,11 +153,11 @@ public class ClothModelHandler : MonoBehaviour {
 			}
 		}
 
-		foreach (GameObject seam in seamModels) {
+		/*foreach (GameObject seam in seamModels) {
 			if (seam.GetComponent<SeamBehaviour> ().isSelected ()) {
 				LoadSeam (seam);
 			}
-		}
+		}*/
 	}
 
 	public void LoadAllSeams(){
@@ -178,6 +178,7 @@ public class ClothModelHandler : MonoBehaviour {
 	}
 
 	public void LoadClothWithSeams(GameObject gameObject){
+		Debug.Log("LoadClothWithSeams");
 		LoadCloth (gameObject);
 
 		foreach (GameObject seam in seamModels) {
