@@ -18,6 +18,7 @@ TagManager:
   - Scale
   - ClothPiece
   - ClothModel
+  - Boundaries
   layers:
   - Default
   - TransparentFX
