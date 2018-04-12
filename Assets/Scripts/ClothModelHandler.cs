@@ -155,6 +155,19 @@ public class ClothModelHandler : Behaviour {
 		}
 	}
 
+	public void LoadAll(){
+
+		LoadAllCloths ();
+		LoadAllSeams ();
+
+	}
+
+	public void LoadAllCloths(){
+		foreach (GameObject cloth in clothModels) {
+			LoadCloth (cloth);
+		}
+	}
+
 	public void LoadAllSeams(){
 		foreach (GameObject seam in seamModels) {
 			LoadSeam (seam);
@@ -295,7 +308,7 @@ public class ClothModelHandler : Behaviour {
 		}
 	}
 
-	public void CreateSeam(GameObject firstLine, GameObject secondLine){
+	public GameObject CreateSeam(GameObject firstLine, GameObject secondLine){
 		GameObject seam = new GameObject ("Seam");
 		seam.transform.parent = transform;
 		var seamBehaviour = seam.AddComponent<SeamBehaviour> ();
