@@ -213,8 +213,8 @@ public class InteractionStateManager : MonoBehaviour {
 
 		switch (type) {
 		case "Selected Material":
-			
-			value = textureDropdown.value;
+                if (textureDropdown != null)
+                value = textureDropdown.value;
 			break;
 		}
 
