@@ -37,7 +37,8 @@ public class ClothModelHandler : Behaviour {
 
 	private void HandleInput(){
 		if(Input.GetKeyUp (KeyCode.C)){
-			AddCloth ();
+            Debug.Log("Add Cloth");
+            AddCloth ();
 		}
 
 		if(Input.GetButtonUp("Triangulate")){
@@ -70,8 +71,8 @@ public class ClothModelHandler : Behaviour {
 
 	//Records an add cloth model action at the given position
 	public void AddCloth(Vector3 position = new Vector3()){
-		
-		actionManager.RecordAction (new AddClothAction (this, position));
+        Debug.Log("Adding cloth");
+        actionManager.RecordAction (new AddClothAction (this, position));
 
 	}
 		
@@ -140,6 +141,7 @@ public class ClothModelHandler : Behaviour {
 	public void TriangulateModels()
 	{
 		foreach(GameObject cloth in clothModels){
+            Debug.Log("Triangulating cloth");
 			cloth.GetComponent<Triangulatable> ().Triangulate ();
 		}
 

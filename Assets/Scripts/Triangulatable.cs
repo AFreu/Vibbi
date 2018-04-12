@@ -22,16 +22,16 @@ public class Triangulatable : MonoBehaviour {
 	}
 
 	public void Triangulate(){
-
+       
 
         if (!GetComponent<ClothModelBehaviour>().editedAndNotTriangulated) return;
 
         GetComponent<ClothModelBehaviour>().editedAndNotTriangulated = false;
         
         UpdateCoords ();
+        Debug.Log("Updated coords");
 
-
-		Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
+        Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
 
 		if (mesh == null)
 			Debug.Log ("Mesh is null");
