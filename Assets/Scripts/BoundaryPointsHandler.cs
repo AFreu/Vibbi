@@ -312,7 +312,18 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		GetComponent<MeshFilter> ().sharedMesh = mesh;
 	}
 
-	public void InitQuad(){
+
+
+	public void Init(PredefinedCloth cloth){
+		if (cloth != null) {
+			InitPolygon (cloth);
+		} else {
+			InitQuad ();
+		}
+
+	}
+
+	private void InitQuad(){
 
 		Debug.Log ("InitQuad!");
 
@@ -376,7 +387,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
-	public void InitPolygon(PredefinedCloth cloth){
+	private void InitPolygon(PredefinedCloth cloth){
 
 
 		InitBoundaryCollection ();
@@ -450,7 +461,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	//Probably some nicer way to implement this
 	public void Duplicate(){
-		GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
+		GetComponentInParent<ClothModelHandler> ().CopyCloth(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
 	}
 
 

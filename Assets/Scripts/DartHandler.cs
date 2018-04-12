@@ -184,7 +184,8 @@ public class DartHandler : Behaviour {
 		
 		bph.boundaryPointPrefab = dartPointPrefab;
 		bph.boundaryLinePrefab = simpleLinePrefab;
-		bph.InitQuad ();
+
+		bph.Init (null);
 
 		bph.boundaryPoints [0].transform.position = positions[0];
 		bph.boundaryPoints [1].transform.position = positions[2];

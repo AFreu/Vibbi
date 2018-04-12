@@ -4,7 +4,7 @@ using UnityEngine;
 using GuiLabs.Undo;
 using System;
 
-public class ClothModelHandler : MonoBehaviour {
+public class ClothModelHandler : Behaviour {
 
 	public GameObject clothModelPrefab;
 	public GameObject seamModelPrefab;
@@ -19,6 +19,8 @@ public class ClothModelHandler : MonoBehaviour {
     private List<GameObject> sewingList = new List<GameObject>();
 
 	private ActionManager actionManager;
+
+	private Color color;
 
 
     // Use this for initialization
@@ -66,37 +68,40 @@ public class ClothModelHandler : MonoBehaviour {
 
 	}
 
+	//Records an add cloth model action at the given position
+	public void AddCloth(Vector3 position = new Vector3()){
+		
+		actionManager.RecordAction (new AddClothAction (this, position));
 
-	public void AddCloth(){
-		AddCloth (new Vector3 (0.0f, 0.0f, 0.0f));
 	}
-
-	public void AddCloth(Vector3 position){
-		AddClothAction aca = new AddClothAction (this, position);
-		actionManager.RecordAction (aca);
-	}
-
-	public GameObject AddClothModel(Vector3 position){
-		GameObject o = Instantiate (clothModelPrefab, transform) as GameObject;
-		o.transform.Translate (position);
-		o.GetComponent<BoundaryPointsHandler> ().InitQuad ();
-		clothModels.Add (o);
-		return o;
-	}
-
-	public GameObject AddClothModel(Vector3 position, PredefinedCloth cloth){
-		GameObject o = Instantiate (clothModelPrefab, transform) as GameObject;
-		o.transform.Translate (position);
-		o.GetComponent<BoundaryPointsHandler> ().InitPolygon (cloth);
-		clothModels.Add (o);
-		return o;
-	}
-
+		
+	//Records an remove cloth model action of the given cloth model
 	public void RemoveCloth(GameObject clothModel){
-		RemoveClothAction rca = new RemoveClothAction (this, clothModel);
-		actionManager.RecordAction (rca);
+
+		actionManager.RecordAction (new RemoveClothAction (this, clothModel));
+
 	}
 
+	//Records an copy cloth model action at the given position
+	public void CopyCloth(GameObject clothModel, Vector3 position){
+
+		actionManager.RecordAction (new CopyClothAction (this, clothModel, position));
+
+	}
+		
+
+	//Adds a cloth model at the given position, #predefinedCloth is optional
+	public GameObject AddClothModel(Vector3 position, PredefinedCloth predefinedCloth = null){
+
+		GameObject cloth = Instantiate (clothModelPrefab, transform) as GameObject;
+		cloth.transform.Translate (position);
+		cloth.GetComponent<BoundaryPointsHandler> ().Init (predefinedCloth);
+		cloth.GetComponent<Fabricable> ().materialIndex = interactionStateManager.GetValue ("Selected Material");
+		clothModels.Add (cloth);
+		return cloth;
+
+	}
+		
 	public void RemoveClothModel(GameObject clothModel){
 		clothModels.Remove (clothModel);
 		GameObject.Destroy (clothModel);
@@ -113,27 +118,23 @@ public class ClothModelHandler : MonoBehaviour {
 	}
 
 	public void DeactivateClothModel(GameObject clothModel){
+
 		clothModels.Remove (clothModel);
 
 		clothModel.transform.parent = transform.parent;
 		clothModel.SetActive (false);
+
 	}
 
 	public GameObject CopyClothModel(GameObject clothModel, Vector3 position){
 
-		GameObject o = Instantiate (clothModel, transform);
-		o.GetComponent<BoundaryPointsHandler> ().InitCopy ();
-		o.transform.Translate (position);
-		clothModels.Add (o);
+		GameObject newClothModel = Instantiate (clothModel, transform);
+		newClothModel.GetComponent<BoundaryPointsHandler> ().InitCopy ();
+		newClothModel.transform.Translate (position);
+		clothModels.Add (newClothModel);
 
-		return o;
+		return newClothModel;
 	}
-
-	public void CopyModel(GameObject clothModel, Vector3 position){
-		CopyClothAction cca = new CopyClothAction (this, clothModel, position);
-		actionManager.RecordAction (cca);
-	}
-
 
 
 	public void TriangulateModels()
@@ -152,12 +153,6 @@ public class ClothModelHandler : MonoBehaviour {
 				LoadClothWithSeams (cloth);
 			}
 		}
-
-		/*foreach (GameObject seam in seamModels) {
-			if (seam.GetComponent<SeamBehaviour> ().isSelected ()) {
-				LoadSeam (seam);
-			}
-		}*/
 	}
 
 	public void LoadAllSeams(){
@@ -185,6 +180,7 @@ public class ClothModelHandler : MonoBehaviour {
 			var first = seam.GetComponent<SeamBehaviour> ().GetFirstCloth ();
 			var second = seam.GetComponent<SeamBehaviour> ().GetSecondCloth ();
 
+			//If cloth has a seam, try to load it. It won't be loaded if the other cloth isn't
 			if (first.Equals (gameObject) || second.Equals (gameObject)) {
 				LoadSeam (seam);
 			}
@@ -228,7 +224,7 @@ public class ClothModelHandler : MonoBehaviour {
     }
 
 
-    private Color color;
+    
     //takes a line and saves it in the sewing list, if two lines are present, SEW
     public void InitSewing(GameObject line)
     {
@@ -270,7 +266,7 @@ public class ClothModelHandler : MonoBehaviour {
             }
         }
         
-        GameObject seam = CreateSeam(sewingList[0], sewingList[1]);
+        CreateSeam(sewingList[0], sewingList[1]);
 
     }
 
@@ -299,13 +295,13 @@ public class ClothModelHandler : MonoBehaviour {
 		}
 	}
 
-	public GameObject CreateSeam(GameObject firstLine, GameObject secondLine){
-		GameObject s = new GameObject ("Seam");
-		s.transform.parent = transform;
-		var seam = s.AddComponent<SeamBehaviour> ();
-		seam.Init (firstLine, secondLine, color);
-		seamModels.Add (s);
-		return s;
+	public void CreateSeam(GameObject firstLine, GameObject secondLine){
+		GameObject seam = new GameObject ("Seam");
+		seam.transform.parent = transform;
+		var seamBehaviour = seam.AddComponent<SeamBehaviour> ();
+		seamBehaviour.Init (firstLine, secondLine, color);
+		seamModels.Add (seam);
+		return seam;
 	}
 
 	public void RemoveSeam(GameObject seam){
