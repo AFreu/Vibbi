@@ -171,7 +171,7 @@ public class InteractionStateManager : MonoBehaviour {
 		case "ClothModel":
 			if (textureDropdown == null)
 				return;
-			textureDropdown.transform.localScale = Vector3.one;
+			//textureDropdown.transform.localScale = Vector3.one;
 
 			break;
 		}
@@ -181,7 +181,7 @@ public class InteractionStateManager : MonoBehaviour {
 	public void HideAttributes(){
 		if (textureDropdown == null)
 			return;
-		textureDropdown.transform.localScale = Vector3.zero;
+		//textureDropdown.transform.localScale = Vector3.zero;
 	}
 
 	public void OnTextureDropdownChange(){
@@ -206,5 +206,18 @@ public class InteractionStateManager : MonoBehaviour {
 
 			break;
 		}
+	}
+
+	public int GetValue(string type){
+		var value = 0;
+
+		switch (type) {
+		case "Texture":
+			
+			value = textureDropdown.value;
+			break;
+		}
+
+		return value;
 	}
 }

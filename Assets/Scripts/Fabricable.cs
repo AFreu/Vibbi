@@ -34,7 +34,7 @@ public class Fabricable : Behaviour {
 		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Brown_Flannel_Two_Sided.mat", typeof(Material)));
 		simulationMaterials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/Materials/Fabrics/Green_Flannel_Two_Sided.mat", typeof(Material)));
 
-		UpdateMaterial (materialIndex);
+		UpdateMaterial (interactionStateManager.GetValue("Texture"));
 	}
 
 	void OnMouseUp(){
