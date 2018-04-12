@@ -77,8 +77,9 @@ public class GarmentHandler : MonoBehaviour {
 
         //save position & rotation of clothpiece
         clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
-        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = Quaternion.Euler(clothPiece.transform.forward);
+//        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = Quaternion.Euler(clothPiece.transform.up);
 
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = clothPiece.transform.rotation;
 
         //Init cloth piece mesh according to the given cloth model mesh
         var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
@@ -119,14 +120,14 @@ public class GarmentHandler : MonoBehaviour {
         GameObject clothPiece = Instantiate(clothPieceModel, clothPieceModel.GetComponent<ClothPieceBehaviour>().originalPosition, 
             clothPieceModel.GetComponent<ClothPieceBehaviour>().originalRotation, deformManager.transform.parent);
 
-
+        //clothPiece.transform.rotation = clothPieceModel.GetComponent<ClothPieceBehaviour>().originalRotation;
         Destroy(clothPiece.GetComponent<DeformObject>());
         //load the mesh from 2D window
         clothPiece.GetComponent<MeshFilter>().sharedMesh = clothPiece.GetComponent<MeshCollider>().sharedMesh;
 
         //save position & rotation of clothpiece
         clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
-        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = Quaternion.Euler(clothPiece.transform.forward);
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = clothPiece.transform.rotation;
         //clothPiece.SetActive(true);
 
         clothPieces.Add(clothPiece);
