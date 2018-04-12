@@ -75,10 +75,13 @@ public class GarmentHandler : MonoBehaviour {
 			clothPiece.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
         }
 
-        originalPosition = clothPiece.transform.position;
-        
-		//Init cloth piece mesh according to the given cloth model mesh
-		var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
+        //save position & rotation of clothpiece
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = Quaternion.Euler(clothPiece.transform.forward);
+
+
+        //Init cloth piece mesh according to the given cloth model mesh
+        var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
 		clothPiece.GetComponent<MeshFilter> ().sharedMesh = clothModelMesh;
 		clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
 
@@ -110,7 +113,28 @@ public class GarmentHandler : MonoBehaviour {
 		clothPieces.Add(clothPiece);
     }
 
-	public void UnloadCloth(GameObject clothPiece){
+    private void LoadClothPiece(GameObject clothPieceModel)
+    {
+        //Create a cloth piece
+        GameObject clothPiece = Instantiate(clothPieceModel, clothPieceModel.GetComponent<ClothPieceBehaviour>().originalPosition, 
+            clothPieceModel.GetComponent<ClothPieceBehaviour>().originalRotation, deformManager.transform.parent);
+
+
+        Destroy(clothPiece.GetComponent<DeformObject>());
+        //load the mesh from 2D window
+        clothPiece.GetComponent<MeshFilter>().sharedMesh = clothPiece.GetComponent<MeshCollider>().sharedMesh;
+
+        //save position & rotation of clothpiece
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = Quaternion.Euler(clothPiece.transform.forward);
+        //clothPiece.SetActive(true);
+
+        clothPieces.Add(clothPiece);
+        //Destroy(clothPieceModel);
+
+    }
+
+    public void UnloadCloth(GameObject clothPiece){
 
 		List<GameObject> connectedSeams = new List<GameObject> ();
 
@@ -231,9 +255,7 @@ public class GarmentHandler : MonoBehaviour {
     private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
     private bool idsSet = false;
     private int totalNumberOfVertices = 0;
-
-    //for resetting simulation
-    private Vector3 originalPosition;
+    
 
     public void StartSimulation()
     {
@@ -270,9 +292,45 @@ public class GarmentHandler : MonoBehaviour {
         deformManager.Reset();
     }
 
+    private List<GameObject> savedClothPieces = new List<GameObject>();
     public void StopSimulation()
     {
-        deformManager.ShutDownDeformPlugin();
+        
+        //deaktivera objektet
+        foreach(GameObject o in clothPieces)
+        {
+            savedClothPieces.Add(o);
+        }
+
+        clothPieces.Clear();
+
+        foreach (GameObject o in savedClothPieces)
+        {
+            LoadClothPiece(o);
+            o.SetActive(false);
+        }
+
+        savedClothPieces.Clear();
+
+        /*//remove all the deformobjects
+         //save all the clothpieces
+        foreach(GameObject o in clothPieces)
+        {
+            Destroy(o.GetComponent<DeformObject>());
+            savedClothPieces.Add(o);
+        }
+        //clothPieces.Clear();
+        //unload all the pieces
+        //UnloadAll();
+
+        //then load them again
+        foreach (GameObject o in savedClothPieces)
+        {
+            LoadClothPiece(o);
+        }
+
+        savedClothPieces.Clear();
+//        deformManager.ShutDownDeformPlugin();*/
     }
 
     public void InitSeams()
