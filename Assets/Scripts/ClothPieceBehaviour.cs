@@ -10,12 +10,27 @@ public class ClothPieceBehaviour : Behaviour {
     public Vector3 originalPosition { set; get; }
     public Quaternion originalRotation { set; get; }
 
+    public Mesh initialMesh;
 
-    void Awake(){
+    private MeshCollider meshCollider;
+
+	void Awake(){
 		garmentHandler = FindObjectOfType<GarmentHandler> ();
 	}
 
-	void OnMouseUp(){
+    void Start()
+    {
+        meshCollider = GetComponent<MeshCollider>();
+        initialMesh = meshCollider.sharedMesh;
+    }
+
+    void LateUpdate()
+    {
+        meshCollider.sharedMesh = null;
+        meshCollider.sharedMesh = GetComponent<MeshFilter>().sharedMesh;
+    }
+
+    void OnMouseUp(){
 		if (Input.GetKey (KeyCode.D)) {
 			garmentHandler.UnloadCloth (gameObject);
 		}

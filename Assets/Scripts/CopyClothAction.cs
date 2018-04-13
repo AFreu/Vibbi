@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class CopyClothAction : AbstractAction
 {
-	public CopyClothAction(ClothModelHandler handler, GameObject cloth, Vector3 pos){
+	public CopyClothAction(ClothModelHandler clothModelHandler, GameObject clothModel, Vector3 position){
 		
-		clothModel = cloth;
-		position = pos;
-		clothModelHandler = handler;
+		this.clothModel = clothModel;
+		this.position = position;
+		this.clothModelHandler = clothModelHandler;
 
 	}
 

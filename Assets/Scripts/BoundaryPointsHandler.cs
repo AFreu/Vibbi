@@ -11,9 +11,11 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public Triangulator triangulator;
 
 	//The lists are order dependent
+	[SerializeField]
 	public List<GameObject> boundaryPoints = new List<GameObject> ();
+	[SerializeField]
 	public List<GameObject> boundaryLines = new List<GameObject> (); 
-
+	[SerializeField]
 	public List<GameObject> darts = new List<GameObject> ();
 
 	private PolygonCollider2D polygonCollider;
@@ -25,8 +27,10 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	private static bool save;
 
-	private GameObject boundaryCollection;
+	[SerializeField]
 	private Transform boundaries;
+	[SerializeField]
+	private Mesh mesh;
 
 
 	// Use this for initialization
@@ -286,10 +290,12 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 
 	private void InitBoundaryCollection(){
-		boundaryCollection = new GameObject ("Boundaries");
+		GameObject boundaryCollection = new GameObject ("Boundaries");
+		boundaryCollection.tag = "Boundaries";
 		boundaryCollection.transform.parent = transform;
 		boundaryCollection.transform.localPosition = Vector3.zero;
 		boundaries = boundaryCollection.transform;
+
 
 	}
 
@@ -305,18 +311,30 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			coords.Add (new Vector2 (t.x, t.y));
 		}
 
-		Mesh mesh = new Mesh ();
+		mesh = new Mesh ();
 		mesh.name = "My mesh";
 
 		triangulator.Triangulate (mesh, coords, holes);
 		GetComponent<MeshFilter> ().sharedMesh = mesh;
 	}
 
-	public void InitQuad(){
 
-		Debug.Log ("InitQuad!");
+
+	public void Init(PredefinedCloth cloth){
 
 		InitBoundaryCollection ();
+
+		if (cloth != null) {
+			InitPolygon (cloth);
+		} else {
+			InitQuad ();
+		}
+
+	}
+
+	private void InitQuad(){
+
+		Debug.Log ("InitQuad!");
 
 		//Instantiate boundary
 		GameObject o1 = Instantiate (boundaryPointPrefab, boundaries) as GameObject;
@@ -376,10 +394,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 	}
 
-	public void InitPolygon(PredefinedCloth cloth){
-
-
-		InitBoundaryCollection ();
+	private void InitPolygon(PredefinedCloth cloth){
 
 		SimpleLineBehaviour lb = null;
 
@@ -422,7 +437,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 
 	public void HandleInput(){
-        if (GetComponent<Selectable>() == null)
+        /*if (GetComponent<Selectable>() == null)
         {
 			Debug.Log ("Has no Selectable");
             return;
@@ -434,14 +449,15 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			} else if (Input.GetKeyUp (KeyCode.D)) {
 				Remove ();
 			}
-		}
+		}*/
 	}
 
-	public void Remove(){
+	//Not currently used
+	//public void Remove(){
 		//GetComponentInParent starts looking in "this" object before looking into parents. 
-		transform.parent.GetComponentInParent<BoundaryPointsHandler> ().RemoveDart (gameObject);
-		GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
-	}
+	//	transform.parent.GetComponentInParent<BoundaryPointsHandler> ().RemoveDart (gameObject);
+	//	GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
+	//}
 
 	public void RemoveDart(GameObject dart){
 		Debug.Log ("Removing dart: " + dart);
@@ -449,38 +465,46 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 
 	//Probably some nicer way to implement this
-	public void Duplicate(){
-		GetComponentInParent<ClothModelHandler> ().CopyModel(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
-	}
+	//public void Duplicate(){
+	//	GetComponentInParent<ClothModelHandler> ().CopyCloth(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
+	//}
 
 
 
 	public void InitCopy(){
-		Debug.Log ("InitCopy");
+		/*Debug.Log ("InitCopy");
 		boundaryPoints.Clear ();
 		boundaryLines.Clear ();
 		darts.Clear ();
 
-		foreach (Transform t in boundaries) {
-			switch (t.tag) {
+		foreach (Transform childObject in transform) {
+			if (childObject.tag == "Dart") {
+				Debug.Log ("Adding Dart to copy");
+				darts.Add (childObject.gameObject);
+			}
+
+			//Only needed if Boundaries are not seriliazable
+			//if (childObject.tag == "Boundaries") {
+			//	Debug.Log ("Adding Boundaries to copy");
+
+			//	boundaries = childObject;
+			//}
+		}
+
+		foreach (Transform boundary in boundaries) {
+			switch (boundary.tag) {
 			case "BoundaryLine":
 				Debug.Log ("Adding BoundaryLine to copy");
-				boundaryLines.Add (t.gameObject);
+				boundaryLines.Add (boundary.gameObject);
 				break;
 			case "BoundaryPoint":
 				Debug.Log ("Adding BoundaryPoint to copy");
-				boundaryPoints.Add (t.gameObject);
+				boundaryPoints.Add (boundary.gameObject);
 				break;
 			}
-		}
+		}*/
 
-		foreach (Transform d in transform) {
-			if (d.tag == "Dart") {
-				Debug.Log ("Adding Dart to copy");
-				darts.Add (d.gameObject);
-			}
-		}
-
+		InitMesh ();
 	}
 
 	public void Unfold(GameObject line){
