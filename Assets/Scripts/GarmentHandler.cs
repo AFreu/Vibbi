@@ -77,8 +77,6 @@ public class GarmentHandler : MonoBehaviour {
 
         //save position & rotation of clothpiece
         clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
-//        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = Quaternion.Euler(clothPiece.transform.up);
-
         clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = clothPiece.transform.rotation;
 
         //Init cloth piece mesh according to the given cloth model mesh
@@ -296,8 +294,7 @@ public class GarmentHandler : MonoBehaviour {
     private List<GameObject> savedClothPieces = new List<GameObject>();
     public void StopSimulation()
     {
-        
-        //deaktivera objektet
+        //spara i en temp lista eftersom vi vill tömma clothpieces listan
         foreach(GameObject o in clothPieces)
         {
             savedClothPieces.Add(o);
@@ -305,33 +302,14 @@ public class GarmentHandler : MonoBehaviour {
 
         clothPieces.Clear();
 
+        //load all pieces and set the old piece to inactive
         foreach (GameObject o in savedClothPieces)
         {
             LoadClothPiece(o);
             o.SetActive(false);
         }
-
+        //clear tmplist
         savedClothPieces.Clear();
-
-        /*//remove all the deformobjects
-         //save all the clothpieces
-        foreach(GameObject o in clothPieces)
-        {
-            Destroy(o.GetComponent<DeformObject>());
-            savedClothPieces.Add(o);
-        }
-        //clothPieces.Clear();
-        //unload all the pieces
-        //UnloadAll();
-
-        //then load them again
-        foreach (GameObject o in savedClothPieces)
-        {
-            LoadClothPiece(o);
-        }
-
-        savedClothPieces.Clear();
-//        deformManager.ShutDownDeformPlugin();*/
     }
 
     public void InitSeams()
