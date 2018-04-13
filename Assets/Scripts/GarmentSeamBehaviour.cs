@@ -22,7 +22,8 @@ public class GarmentSeamBehaviour : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
-        UpdateLineRenderer ();
+        
+		UpdateLineRenderer ();
 	}
 
 

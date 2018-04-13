@@ -8,12 +8,15 @@ public class ClothModelHandler : Behaviour {
 
 	public GameObject clothModelPrefab;
 	public GameObject seamModelPrefab;
+	public GameObject hemlineModelPrefab;
+
     public Material garmentMaterial;
     public DeformManager deformManager;
     public GarmentHandler garmentHandler;
     
     private List<GameObject> clothModels = new List<GameObject> ();
 	private List<GameObject> seamModels = new List<GameObject> ();
+	private List<GameObject> hemlineModels = new List<GameObject> ();
 
     //sewing
     private List<GameObject> sewingList = new List<GameObject>();
@@ -64,6 +67,22 @@ public class ClothModelHandler : Behaviour {
 		if (Input.GetKeyUp (KeyCode.R)) {
 			Debug.Log ("Redo");
 			//actionManager.Redo ();
+		}
+
+		if(Input.GetKeyUp(KeyCode.H)){
+			Debug.Log ("Hemline");
+
+			List<GameObject> selectedLines = new List<GameObject> ();
+			foreach (GameObject cloth in clothModels) {
+				selectedLines.AddRange (cloth.GetComponent<BoundaryPointsHandler> ().GetSelectedLines ());
+			}
+
+			CreateHemline (selectedLines);
+		}
+
+		if(Input.GetKeyUp(KeyCode.I)){
+			Debug.Log("Load Hemlines");
+			LoadHemlines();
 		}
 
 
@@ -322,6 +341,24 @@ public class ClothModelHandler : Behaviour {
 	public void RemoveSeam(GameObject seam){
 		seamModels.Remove (seam);
 		GameObject.Destroy (seam);
+	}
+
+	public GameObject CreateHemline(List<GameObject> lines){
+		GameObject hemline = Instantiate (hemlineModelPrefab, transform);
+		//GameObject hemline = new GameObject ("Hemline");
+		//hemline.transform.parent = transform;
+		var hemlineBehaviour = hemline.GetComponent<HemlineBehaviour> ();
+		hemlineBehaviour.Init (lines);
+		hemlineModels.Add (hemline);
+
+		return hemline;
+	
+	}
+
+	public void LoadHemlines(){
+		foreach (GameObject hemline in hemlineModels) {
+			garmentHandler.LoadHemline (hemline);
+		}
 	}
 
 }

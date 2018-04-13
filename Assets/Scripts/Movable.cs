@@ -11,7 +11,9 @@ public class Movable : MonoBehaviour {
 
 	private static GameObject currentlyDragged;
 
-	private Vector3 currentPosition;
+	[HideInInspector]
+	public Vector3 currentPosition;
+
 	protected Vector3 offset;
 
 	protected ActionManager actionManager;
@@ -134,6 +136,8 @@ public class Movable : MonoBehaviour {
 
 		return new Vector3 (X, Y);
 	}
+
+
 
 
 	private class MoveAction : AbstractAction{

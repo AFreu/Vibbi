@@ -9,6 +9,12 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 	public Transform end;
     public bool isFirstStart = true;
     
+	protected override void Start(){
+		start = first;
+		end = second;
+		base.Start ();
+	}
+
 	void OnMouseUp(){
 
 		//Get mouse position on screen

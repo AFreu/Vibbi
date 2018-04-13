@@ -106,7 +106,7 @@ public class VibbiMeshUtils : MonoBehaviour
         return finalList;
     }
     
-    private static List<int> indicesFromLine(GameObject line)
+    public static List<int> indicesFromLine(GameObject line)
     {
         Vector3 start = line.GetComponent<BoundaryLineBehaviour>().start.localPosition;
         Vector3 end = line.GetComponent<BoundaryLineBehaviour>().end.localPosition;

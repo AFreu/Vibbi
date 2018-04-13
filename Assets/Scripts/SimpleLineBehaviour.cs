@@ -12,7 +12,7 @@ public class SimpleLineBehaviour : Behaviour {
 	[SerializeField]
 	private BoxCollider col;
 
-	void Start(){
+	protected virtual void Start(){
 
 		if (col == null) {
 			addColliderToLine ();

@@ -291,5 +291,42 @@ public class GarmentHandler : MonoBehaviour {
 			o.GetComponent<GarmentSeamBehaviour> ().UpdateIndices ();
 		}
 	}
-		
+
+	public void LoadHemline(GameObject hemline){
+		var hb = hemline.GetComponent<HemlineBehaviour> ();
+
+		hemline.transform.parent = deformManager.transform.parent;
+
+		var line = hb.lines [0];
+
+		Debug.Log ("Load Hemline");
+		//var seamBehaviour = seam.GetComponent<SeamBehaviour> ();
+		int firstLineMeshIndex = -1;
+
+		bool firstMeshFound = false;
+
+
+		for (int index = 0; index < clothPieces.Count; index++) {
+
+			//Check if first cloth is loaded
+			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (line.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh)) {
+				Debug.Log ("Cloth was previously loaded");
+				firstLineMeshIndex = index;
+				firstMeshFound = true;
+			}
+		}
+			
+		if (firstMeshFound) {
+			List<int> lineVerticeIndices = VibbiMeshUtils.indicesFromLine (line); 
+
+			if (lineVerticeIndices.Count <= 0) {
+				Debug.Log ("Hemline contains 0 vertices, aborting!");
+				return;
+			}
+				
+			hb.Init3D (firstLineMeshIndex, lineVerticeIndices, clothPieces [firstLineMeshIndex]);
+		}
+	
+	}
+	
 }

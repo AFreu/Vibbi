@@ -10,7 +10,10 @@ public class MovableLine : Movable {
 
 		BoundaryLineBehaviour blb = GetComponent<BoundaryLineBehaviour> ();
 
+		currentPosition = blb.GetMidPoint ();
+
 		offset = blb.GetMidPoint() - MouseWorldPosition ();
+
 
 		mla = new MoveLineAction(blb);
 

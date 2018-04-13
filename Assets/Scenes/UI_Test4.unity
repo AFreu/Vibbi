@@ -1746,6 +1746,8 @@ MonoBehaviour:
   clothModelPrefab: {fileID: 1670655632340280, guid: 82ab7af96e5df864faf753ca8fbacf2c,
     type: 2}
   seamModelPrefab: {fileID: 0}
+  hemlineModelPrefab: {fileID: 1484464870335034, guid: ae056ca8cd7ef48dcb12cab6368cfa12,
+    type: 2}
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 842208067}
   garmentHandler: {fileID: 189792675}
