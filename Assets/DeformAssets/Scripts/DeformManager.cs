@@ -160,11 +160,12 @@ public class DeformManager : MonoBehaviour {
 
         ResetSimulation();
     }
-
+    
     unsafe void Update()
     {
 		if (yoMOM)
 			return;
+        
 
         HandleInput();
         UpdateColliders();
