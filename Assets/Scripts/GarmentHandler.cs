@@ -78,6 +78,8 @@ public class GarmentHandler : MonoBehaviour {
 
     private void LoadCloth(GameObject clothModel, Vector3 position, Quaternion rotation)
     {
+        idsSet = false;
+        
         if (!clothModels.Contains(clothModel))
         {
             clothModels.Add(clothModel);
@@ -371,8 +373,13 @@ public class GarmentHandler : MonoBehaviour {
             for (int i = clothPieces.Count - 1; i > -1; i--)
             {
                 n++;
-                idToPositonInList.Add(clothPieces[i].GetComponent<DeformObject>().GetId(), totalNumberOfVertices); //so that we can get global index when sewing
-                totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;
+                int key = clothPieces[i].GetComponent<DeformObject>().GetId();
+                if (!idToPositonInList.ContainsKey(key))
+                {
+                    idToPositonInList.Add(key, totalNumberOfVertices); //so that we can get global index when sewing
+                    totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;
+                }
+                
             }
             if(n>0) idsSet = true;
 
