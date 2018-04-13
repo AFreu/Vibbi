@@ -8,10 +8,16 @@ public class SimpleLineBehaviour : Behaviour {
 	public Transform second;
 
 	public Vector3 unitVector;
+
+	[SerializeField]
 	private BoxCollider col;
 
 	void Start(){
-		addColliderToLine ();
+
+		if (col == null) {
+			addColliderToLine ();
+		}
+
 	}
 	
 	// Update is called once per frame
