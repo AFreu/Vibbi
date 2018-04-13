@@ -437,7 +437,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 
 	public void HandleInput(){
-        if (GetComponent<Selectable>() == null)
+        /*if (GetComponent<Selectable>() == null)
         {
 			Debug.Log ("Has no Selectable");
             return;
@@ -449,14 +449,15 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			} else if (Input.GetKeyUp (KeyCode.D)) {
 				Remove ();
 			}
-		}
+		}*/
 	}
 
-	public void Remove(){
+	//Not currently used
+	//public void Remove(){
 		//GetComponentInParent starts looking in "this" object before looking into parents. 
-		transform.parent.GetComponentInParent<BoundaryPointsHandler> ().RemoveDart (gameObject);
-		GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
-	}
+	//	transform.parent.GetComponentInParent<BoundaryPointsHandler> ().RemoveDart (gameObject);
+	//	GetComponentInParent<ClothModelHandler> ().RemoveCloth(gameObject);
+	//}
 
 	public void RemoveDart(GameObject dart){
 		Debug.Log ("Removing dart: " + dart);
@@ -464,9 +465,9 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	}
 
 	//Probably some nicer way to implement this
-	public void Duplicate(){
-		GetComponentInParent<ClothModelHandler> ().CopyCloth(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
-	}
+	//public void Duplicate(){
+	//	GetComponentInParent<ClothModelHandler> ().CopyCloth(gameObject, new Vector3(1.0f, 1.0f, 0.0f));
+	//}
 
 
 

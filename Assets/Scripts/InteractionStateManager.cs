@@ -101,6 +101,20 @@ public class InteractionStateManager : MonoBehaviour {
 		}
 	}
 
+	public void DefaultInteractionState(){
+		SetInteractionState ("Select");
+	}
+
+	public void SetInteractionState(string tag){
+
+		var toggle = GameObject.FindGameObjectWithTag (tag).GetComponent<Toggle> ();
+
+		if (toggle != null) {
+			toggle.isOn = true;
+		}
+
+	}
+
 	private InteractionState GetInteractionState(string tag){
 		InteractionState temp = InteractionState.NONE;
 		switch (tag) {
