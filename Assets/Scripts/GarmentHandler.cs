@@ -279,7 +279,7 @@ public class GarmentHandler : MonoBehaviour {
     {
         foreach(GameObject o in clothPieces)
          {
-            Mesh mesh = o.GetComponent<MeshFilter>().sharedMesh;
+            Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
             DeformObject deformObject = o.AddComponent<DeformObject>();
 
             deformObject.originalMesh = mesh;
@@ -309,8 +309,7 @@ public class GarmentHandler : MonoBehaviour {
         }
         deformManager.Reset();
     }
-
-    private List<GameObject> savedClothPieces = new List<GameObject>();
+    
     public void StopSimulation()
     {
         
@@ -343,41 +342,7 @@ public class GarmentHandler : MonoBehaviour {
 
 
     }
-
-
-    /*    public void StopSimulation()
-        {
-            //First unload all seams
-            foreach (GameObject seam in garmentSeams)
-            {
-                Destroy(seam);
-            }
-            garmentSeams.Clear();
-
-            //spara i en temp lista eftersom vi vill tömma clothpieces listan
-            foreach (GameObject o in clothPieces)
-            {
-                savedClothPieces.Add(o);
-            }
-
-            clothPieces.Clear();
-
-            //load all pieces and set the old piece to inactive
-            foreach (GameObject o in savedClothPieces)
-            {
-                LoadClothPiece(o);
-                o.SetActive(false);
-            }
-            //clear tmplist
-            savedClothPieces.Clear();
-
-
-            foreach (GameObject s in seamModels)
-            {
-                LoadSeam(s);
-            }
-        }*/
-
+    
     public void InitSeams()
     {
         foreach (GameObject seam in garmentSeams)
