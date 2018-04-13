@@ -9,8 +9,8 @@ public class ClothModelBehaviour : Behaviour {
 
     //for triangulation
     public bool editedAndNotTriangulated = true;
-
-	void Start(){
+    
+    void Start(){
 		clothModelHandler = GetComponentInParent<ClothModelHandler> ();
 	}
 	// Update is called once per frame
