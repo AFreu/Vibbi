@@ -471,7 +471,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 
 
 	public void InitCopy(){
-		Debug.Log ("InitCopy");
+		/*Debug.Log ("InitCopy");
 		boundaryPoints.Clear ();
 		boundaryLines.Clear ();
 		darts.Clear ();
@@ -483,11 +483,11 @@ public class BoundaryPointsHandler : MonoBehaviour {
 			}
 
 			//Only needed if Boundaries are not seriliazable
-			/*if (childObject.tag == "Boundaries") {
-				Debug.Log ("Adding Boundaries to copy");
+			//if (childObject.tag == "Boundaries") {
+			//	Debug.Log ("Adding Boundaries to copy");
 
-				boundaries = childObject;
-			}*/
+			//	boundaries = childObject;
+			//}
 		}
 
 		foreach (Transform boundary in boundaries) {
@@ -501,7 +501,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 				boundaryPoints.Add (boundary.gameObject);
 				break;
 			}
-		}
+		}*/
 
 		InitMesh ();
 	}
