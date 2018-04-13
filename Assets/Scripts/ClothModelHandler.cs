@@ -62,7 +62,7 @@ public class ClothModelHandler : Behaviour {
 		}
 
 		if (Input.GetKeyUp (KeyCode.R)) {
-			Debug.Log ("Redo");
+			//Debug.Log ("Redo");
 			//actionManager.Redo ();
 		}
 

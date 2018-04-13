@@ -160,11 +160,12 @@ public class DeformManager : MonoBehaviour {
 
         ResetSimulation();
     }
-
+    
     unsafe void Update()
     {
 		if (yoMOM)
 			return;
+        
 
         HandleInput();
         UpdateColliders();
@@ -594,7 +595,7 @@ public class DeformManager : MonoBehaviour {
 
     unsafe void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.R)) Reset(); 
+        //if (Input.GetKeyDown(KeyCode.R)) Reset(); 
         if (Input.GetKeyDown(KeyCode.Escape)) Quit(); 
 
        /* if (Input.GetKeyDown(KeyCode.Return)) StartFBXCapture(0, deformables[0].transform.position);

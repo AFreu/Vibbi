@@ -52,31 +52,49 @@ public class GarmentHandler : MonoBehaviour {
             Debug.Log("Stop Simulation");
             StopSimulation();
         }
+
+        if (Input.GetKeyDown(KeyCode.R)) Reset();
     }
+
+    private List<GameObject> clothModels = new List<GameObject>();
 
     public void LoadCloth(GameObject clothModel)
     {
-
-		//Create a cloth piece
-		GameObject clothPiece = Instantiate (clothPiecePrefab, deformManager.transform.parent);
+        //get position and rotation
+        Vector3 position = new Vector3(0, 11, 0);
+        Quaternion rotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
 
         Transform selectedAttachmentPoint = attachMentPointsHandler.getSelectedAttachmentPoint();
 		if(selectedAttachmentPoint != null)
         {
 			//Place cloth piece on the selected attachment point
-			AttachCloth(clothPiece, selectedAttachmentPoint);
+			AttachCloth(selectedAttachmentPoint, out position, out rotation);
         }
-        else
-        {
-			//Place cloth piece above avatar
-			clothPiece.transform.localPosition = new Vector3(0, 11, 0);
-			clothPiece.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
-        }
+
+        LoadCloth(clothModel, position, rotation);
+
+       
+    }
+
+    private void LoadCloth(GameObject clothModel, Vector3 position, Quaternion rotation)
+    {
         
-		//Init cloth piece mesh according to the given cloth model mesh
-		var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
-		clothPiece.GetComponent<MeshFilter> ().sharedMesh = clothModelMesh;
-		clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
+        if (!clothModels.Contains(clothModel))
+        {
+            clothModels.Add(clothModel);
+        }
+
+        //Create a cloth piece
+        GameObject clothPiece = Instantiate(clothPiecePrefab, position, rotation, deformManager.transform.parent);
+
+        //save position & rotation of clothpiece
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = clothPiece.transform.rotation;
+
+        //Init cloth piece mesh according to the given cloth model mesh
+        var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
+        clothPiece.GetComponent<MeshFilter>().sharedMesh = clothModelMesh;
+        clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
 
         //Set garment material accordingly
         if (randomizeMaterial)
@@ -87,26 +105,26 @@ public class GarmentHandler : MonoBehaviour {
         }
         else
         {
-			var clothModelFabric = clothModel.GetComponent<Fabricable>();
-			var clothPieceFabric = clothPiece.GetComponent<Fabricable> ();
+            var clothModelFabric = clothModel.GetComponent<Fabricable>();
+            var clothPieceFabric = clothPiece.GetComponent<Fabricable>();
 
-			//Clone reference used to update fabric when changed
-			clothPieceFabric.clone = clothModelFabric;
-			clothModelFabric.clone = clothPieceFabric;
+            //Clone reference used to update fabric when changed
+            clothPieceFabric.clone = clothModelFabric;
+            clothModelFabric.clone = clothPieceFabric;
 
-			//Use same material as cloth model
-			clothPieceFabric.materialIndex = clothModelFabric.GetSimulationMaterialIndex ();
-			//clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
-			//clothPieceFabric.SetSimulationMaterial
+            //Use same material as cloth model
+            clothPieceFabric.materialIndex = clothModelFabric.GetSimulationMaterialIndex();
+            //clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
+            //clothPieceFabric.SetSimulationMaterial
         }
 
         //Keep eventual scaling
         clothPiece.transform.localScale = clothModel.transform.localScale;
 
-		clothPieces.Add(clothPiece);
+        clothPieces.Add(clothPiece);
     }
 
-	public void UnloadCloth(GameObject clothPiece){
+    public void UnloadCloth(GameObject clothPiece){
 
 		List<GameObject> connectedSeams = new List<GameObject> ();
 
@@ -121,19 +139,24 @@ public class GarmentHandler : MonoBehaviour {
 			UnloadSeam (seam);
 		}
 
-		clothPieces.Remove (clothPiece);
+        //idToPositonInList.Remove(clothPiece.GetComponent<DeformBody>().GetId());
+
+        clothModels.RemoveAt(clothPieces.IndexOf(clothPiece));
+        clothPieces.Remove (clothPiece);
+
 		Destroy (clothPiece);
 	}
 
 	public void UnloadSeam(GameObject garmentSeam){
+        seamModels.Remove(garmentSeam);
 		garmentSeams.Remove (garmentSeam);
 		Destroy (garmentSeam);
 	}
 
 	public void UnloadAll(){
 
-		//First unload all seams
-		foreach (GameObject seam in garmentSeams) {
+        //First unload all seams
+        foreach (GameObject seam in garmentSeams) {
 			Destroy (seam);
 		}
 
@@ -147,13 +170,16 @@ public class GarmentHandler : MonoBehaviour {
 		clothPieces.Clear ();
 	}
 
-    public void AttachCloth(GameObject go, Transform t)
+    public void AttachCloth(Transform t, out Vector3 position, out Quaternion rotation)
     {
-        go.transform.position = t.position;
-        go.transform.forward = -t.up;
+        position = t.position;
+        GameObject hej = new GameObject();
+        hej.transform.forward = -t.up;
+        rotation = hej.transform.rotation;
+        //-t.up
     }
 
-	/*public bool ClothIsLoaded(GameObject cloth){
+    /*public bool ClothIsLoaded(GameObject cloth){
 		var clothModelMesh = cloth.GetComponent<MeshFilter> ().sharedMesh;
 
 		for (int index = 0; index < clothPieces.Count; index++) {
@@ -163,10 +189,15 @@ public class GarmentHandler : MonoBehaviour {
 		}
 		return false;
 	}*/
-
+    private List<GameObject> seamModels = new List<GameObject>();
 	public void LoadSeam(GameObject seam){
 		Debug.Log ("Load Seam");
-		var seamBehaviour = seam.GetComponent<SeamBehaviour> ();
+        if (!seamModels.Contains(seam))
+        {
+            seamModels.Add(seam);
+        }
+
+        var seamBehaviour = seam.GetComponent<SeamBehaviour> ();
 		int firstLineMeshIndex = -1;
 		int secondLineMeshIndex = -1;
 		bool firstMeshFound = false;
@@ -227,12 +258,13 @@ public class GarmentHandler : MonoBehaviour {
     private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
     private bool idsSet = false;
     private int totalNumberOfVertices = 0;
+    
 
     public void StartSimulation()
     {
         foreach(GameObject o in clothPieces)
          {
-            Mesh mesh = o.GetComponent<MeshFilter>().sharedMesh;
+            Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
             DeformObject deformObject = o.AddComponent<DeformObject>();
 
             deformObject.originalMesh = mesh;
@@ -245,11 +277,57 @@ public class GarmentHandler : MonoBehaviour {
 
     }
 
+
+    private void Reset()
+    {
+        foreach (GameObject o in clothPieces)
+        {
+            Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
+            
+
+            DeformObject deformObject = o.GetComponent<DeformObject>();
+            
+            deformObject.originalMesh = mesh;
+            //deformObject.material = o.GetComponent<MeshRenderer>().material;
+            deformObject.material = o.GetComponent<Fabricable>().GetSimulationMaterial();
+            deformObject.AddToSimulation();
+        }
+        deformManager.Reset();
+    }
+    
     public void StopSimulation()
     {
-        deformManager.ShutDownDeformPlugin();
-    }
+        
+        Vector3[] positions = new Vector3[clothPieces.Count];
+        Quaternion[] rotations = new Quaternion[clothPieces.Count];
 
+        for(int i = 0; i < clothPieces.Count; i++)
+        {
+            Vector3 position = clothPieces[i].GetComponent<ClothPieceBehaviour>().originalPosition;
+            Quaternion rotation = clothPieces[i].GetComponent<ClothPieceBehaviour>().originalRotation;
+
+            positions[i] = position;
+            rotations[i] = rotation;
+
+        }
+
+
+        UnloadAll(); //empties garmentSeams & clothPieces
+
+        for (int i = 0; i < clothModels.Count; i++)
+        {
+            LoadCloth(clothModels[i], positions[i], rotations[i]);
+        }
+
+
+        foreach (GameObject s in seamModels)
+        {
+            LoadSeam(s);
+        }
+
+
+    }
+    
     public void InitSeams()
     {
         foreach (GameObject seam in garmentSeams)
@@ -257,6 +335,7 @@ public class GarmentHandler : MonoBehaviour {
             GarmentSeamBehaviour gsb = seam.GetComponent<GarmentSeamBehaviour>();
             int id1 = gsb.firstClothPiece.GetComponent<DeformObject>().GetId();
             int id2 = gsb.secondClothPiece.GetComponent<DeformObject>().GetId();
+            
 
             uint[] vertices = new uint[gsb.lineVerticeIndices.Count];
             for (int i = 0; i < gsb.lineVerticeIndices.Count; i = i + 2)
@@ -271,19 +350,23 @@ public class GarmentHandler : MonoBehaviour {
 
     public void setIDs()
     {
-        if (!idsSet)
+        if (clothPieces.Count == 0)
         {
-            int n = 0; //if there are no cloth pieces, no ids will be set
-            //gå baklänges
-            for (int i = clothPieces.Count - 1; i > -1; i--)
-            {
-                n++;
-                idToPositonInList.Add(clothPieces[i].GetComponent<DeformObject>().GetId(), totalNumberOfVertices); //so that we can get global index when sewing
-                totalNumberOfVertices += clothPieces[i].GetComponent<MeshFilter>().sharedMesh.vertexCount;
-            }
-            if(n>0) idsSet = true;
-
+            return;
         }
+
+        //gå baklänges
+        for (int i = clothPieces.Count - 1; i > -1; i--)
+        {
+            int key = clothPieces[i].GetComponent<DeformObject>().GetId();
+            if (!idToPositonInList.ContainsKey(key))
+            {
+                idToPositonInList.Add(key, totalNumberOfVertices); //so that we can get global index when sewing
+                totalNumberOfVertices += clothPieces[i].GetComponent<MeshCollider>().sharedMesh.vertexCount;
+            }
+                
+        }
+            
     }
 
 	public void UpdateGarmentSeams(){

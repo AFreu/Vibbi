@@ -45,7 +45,7 @@ public class MovableClothPiece : MonoBehaviour {
 		var newPosition = GetRotationDirection () - currentRotationDirection + transform.position;
 
 		transform.position = newPosition;
-
+        GetComponentInParent<ClothPieceBehaviour>().originalPosition = transform.position;
 
 
 	}
