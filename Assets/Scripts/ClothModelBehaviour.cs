@@ -10,8 +10,13 @@ public class ClothModelBehaviour : Behaviour {
     //for triangulation
     public bool editedAndNotTriangulated = true;
     
+    public int id { set; get; }
+
     void Start(){
 		clothModelHandler = GetComponentInParent<ClothModelHandler> ();
+        int r = Random.Range(1,13);
+        int h = (int)Time.realtimeSinceStartup;
+        id = r * h;
 	}
 
 	void OnMouseUp(){

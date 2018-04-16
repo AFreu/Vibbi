@@ -87,9 +87,12 @@ public class GarmentHandler : MonoBehaviour {
         //Create a cloth piece
         GameObject clothPiece = Instantiate(clothPiecePrefab, position, rotation, deformManager.transform.parent);
 
+        //save id
+        clothPiece.GetComponent<ClothPieceBehaviour>().id = clothModel.GetComponent<ClothModelBehaviour>().id;
+
         //save position & rotation of clothpiece
-        clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = clothPiece.transform.position;
-        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = clothPiece.transform.rotation;
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = position;
+        clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = rotation;
 
         //Init cloth piece mesh according to the given cloth model mesh
         var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
@@ -148,7 +151,7 @@ public class GarmentHandler : MonoBehaviour {
 	}
 
 	public void UnloadSeam(GameObject garmentSeam){
-        seamModels.Remove(garmentSeam);
+        seamModels.RemoveAt(garmentSeams.IndexOf(garmentSeam));
 		garmentSeams.Remove (garmentSeam);
 		Destroy (garmentSeam);
 	}
@@ -192,10 +195,10 @@ public class GarmentHandler : MonoBehaviour {
     private List<GameObject> seamModels = new List<GameObject>();
 	public void LoadSeam(GameObject seam){
 		Debug.Log ("Load Seam");
-        if (!seamModels.Contains(seam))
-        {
-            seamModels.Add(seam);
-        }
+         if (!seamModels.Contains(seam))
+         {
+             seamModels.Add(seam);
+         }
 
         var seamBehaviour = seam.GetComponent<SeamBehaviour> ();
 		int firstLineMeshIndex = -1;
@@ -206,16 +209,18 @@ public class GarmentHandler : MonoBehaviour {
 
 
 		for (int index = 0; index < clothPieces.Count; index++) {
-			
-			//Check if first cloth is loaded
-			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetFirstMesh ())) {
-				//Debug.Log ("Mesh 1 is previously loaded");
+
+            //Check if first cloth is loaded
+            //if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetFirstMesh ())) { // do this with an ID?
+            if (clothPieces[index].GetComponent<ClothPieceBehaviour>().id == seamBehaviour.firstClothPieceID)
+            {
+                //Debug.Log ("Mesh 1 is previously loaded");
 				firstLineMeshIndex = index;
 				firstMeshFound = true;
 			}
 
 			//Check if second cloth is loaded
-			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetSecondMesh ())) {
+			if (clothPieces[index].GetComponent<ClothPieceBehaviour>().id == seamBehaviour.secondClothPieceID) {
 				//Debug.Log ("Mesh 2 is previously loaded");
 				secondLineMeshIndex = index;
 				secondMeshFound = true;
@@ -291,7 +296,7 @@ public class GarmentHandler : MonoBehaviour {
         Vector3[] positions = new Vector3[clothPieces.Count];
         Quaternion[] rotations = new Quaternion[clothPieces.Count];
 
-        for(int i = 0; i < clothPieces.Count; i++)
+        /*for(int i = 0; i < clothPieces.Count; i++)
         {
             Vector3 position = clothPieces[i].GetComponent<ClothPieceBehaviour>().originalPosition;
             Quaternion rotation = clothPieces[i].GetComponent<ClothPieceBehaviour>().originalRotation;
@@ -299,6 +304,23 @@ public class GarmentHandler : MonoBehaviour {
             positions[i] = position;
             rotations[i] = rotation;
 
+        }*/
+
+        int index = 0;
+       
+        for (int i = 0; i < clothModels.Count; i++)
+        {
+            for (int j = 0; j < clothPieces.Count; j++)
+            {
+                if (clothModels[i].GetComponent<ClothModelBehaviour>().id == clothPieces[j].GetComponent<ClothPieceBehaviour>().id)
+                {
+                    Debug.Log("Found piece");
+                    positions[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().originalPosition;
+                    rotations[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().originalRotation;
+                    index++;
+                    break;
+                }
+            }
         }
 
 
@@ -308,7 +330,7 @@ public class GarmentHandler : MonoBehaviour {
         {
             LoadCloth(clothModels[i], positions[i], rotations[i]);
         }
-
+        
 
         foreach (GameObject s in seamModels)
         {
