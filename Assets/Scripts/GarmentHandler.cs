@@ -61,7 +61,7 @@ public class GarmentHandler : MonoBehaviour {
     public void LoadCloth(GameObject clothModel)
     {
         //get position and rotation
-        Vector3 position = new Vector3(0, 11, 0);
+        Vector3 position = new Vector3(0, 11, 0); //places clothpiece above character
         Quaternion rotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
 
         Transform selectedAttachmentPoint = attachMentPointsHandler.getSelectedAttachmentPoint();
@@ -173,9 +173,9 @@ public class GarmentHandler : MonoBehaviour {
     public void AttachCloth(Transform t, out Vector3 position, out Quaternion rotation)
     {
         position = t.position;
-        GameObject hej = new GameObject();
-        hej.transform.forward = -t.up;
-        rotation = hej.transform.rotation;
+        GameObject tmpGO = new GameObject();
+        tmpGO.transform.forward = -t.up;
+        rotation = tmpGO.transform.rotation;
         //-t.up
     }
 
@@ -209,14 +209,14 @@ public class GarmentHandler : MonoBehaviour {
 			
 			//Check if first cloth is loaded
 			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetFirstMesh ())) {
-				Debug.Log ("Mesh 1 is previously loaded");
+				//Debug.Log ("Mesh 1 is previously loaded");
 				firstLineMeshIndex = index;
 				firstMeshFound = true;
 			}
 
 			//Check if second cloth is loaded
 			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (seamBehaviour.GetSecondMesh ())) {
-				Debug.Log ("Mesh 2 is previously loaded");
+				//Debug.Log ("Mesh 2 is previously loaded");
 				secondLineMeshIndex = index;
 				secondMeshFound = true;
 			}
@@ -264,7 +264,7 @@ public class GarmentHandler : MonoBehaviour {
     {
         foreach(GameObject o in clothPieces)
          {
-            Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
+            Mesh mesh = o.GetComponent<ClothPieceBehaviour>().initialMesh;
             DeformObject deformObject = o.AddComponent<DeformObject>();
 
             deformObject.originalMesh = mesh;
@@ -280,21 +280,6 @@ public class GarmentHandler : MonoBehaviour {
 
     private void Reset()
     {
-        //ResetIDs();
-        /*foreach (GameObject o in clothPieces)
-        {
-            Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
-            
-
-            DeformObject deformObject = o.GetComponent<DeformObject>();
-            
-            deformObject.originalMesh = mesh;
-            //deformObject.material = o.GetComponent<MeshRenderer>().material;
-            deformObject.material = o.GetComponent<Fabricable>().GetSimulationMaterial();
-            deformObject.AddToSimulation();
-        }
-        deformManager.Reset();*/
-
         StopSimulation();
         StartSimulation();
     }
@@ -374,7 +359,7 @@ public class GarmentHandler : MonoBehaviour {
             if (!idToPositonInList.ContainsKey(key))
             {
                 idToPositonInList.Add(key, totalNumberOfVertices); //so that we can get global index when sewing
-                totalNumberOfVertices += clothPieces[i].GetComponent<MeshCollider>().sharedMesh.vertexCount;
+                totalNumberOfVertices += clothPieces[i].GetComponent<ClothPieceBehaviour>().initialMesh.vertexCount;
             }
                 
         }
