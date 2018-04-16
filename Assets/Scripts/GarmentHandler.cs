@@ -297,6 +297,10 @@ public class GarmentHandler : MonoBehaviour {
 
 		hemline.transform.parent = deformManager.transform.parent;
 
+
+		List<List<int>> verticeIndices = new List<List<int>> ();
+		List<GameObject> hemlineClothPieces = new List<GameObject> ();
+
 		var line = hb.lines [0];
 
 		Debug.Log ("Load Hemline");
@@ -324,7 +328,10 @@ public class GarmentHandler : MonoBehaviour {
 				return;
 			}
 				
-			hb.Init3D (firstLineMeshIndex, lineVerticeIndices, clothPieces [firstLineMeshIndex]);
+			verticeIndices.Add (lineVerticeIndices);
+			hemlineClothPieces.Add(clothPieces[firstLineMeshIndex]);
+
+			hb.Init3D (verticeIndices, hemlineClothPieces);
 		}
 	
 	}
