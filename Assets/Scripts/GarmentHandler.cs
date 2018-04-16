@@ -297,7 +297,8 @@ public class GarmentHandler : MonoBehaviour {
     
     public void StopSimulation()
     {
-        
+        ResetIDs(); //add to reset?
+
         Vector3[] positions = new Vector3[clothPieces.Count];
         Quaternion[] rotations = new Quaternion[clothPieces.Count];
 
@@ -313,7 +314,7 @@ public class GarmentHandler : MonoBehaviour {
 
 
         UnloadAll(); //empties garmentSeams & clothPieces
-
+        
         for (int i = 0; i < clothModels.Count; i++)
         {
             LoadCloth(clothModels[i], positions[i], rotations[i]);
@@ -326,6 +327,12 @@ public class GarmentHandler : MonoBehaviour {
         }
 
 
+    }
+
+    private void ResetIDs()
+    {
+        idToPositonInList.Clear();
+        totalNumberOfVertices = 0;
     }
     
     public void InitSeams()
@@ -359,6 +366,7 @@ public class GarmentHandler : MonoBehaviour {
         for (int i = clothPieces.Count - 1; i > -1; i--)
         {
             int key = clothPieces[i].GetComponent<DeformObject>().GetId();
+
             if (!idToPositonInList.ContainsKey(key))
             {
                 idToPositonInList.Add(key, totalNumberOfVertices); //so that we can get global index when sewing
