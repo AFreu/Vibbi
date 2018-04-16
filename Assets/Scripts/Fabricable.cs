@@ -15,7 +15,7 @@ public class Fabricable : Behaviour {
 	//Clone used for bidirectionality
 	public Fabricable clone;
 
-	void Start(){
+	void Awake(){
 		materials = new List<Material> ();
 		materials.Add(defaultMaterial);
 

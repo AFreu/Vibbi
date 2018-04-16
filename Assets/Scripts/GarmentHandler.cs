@@ -280,7 +280,8 @@ public class GarmentHandler : MonoBehaviour {
 
     private void Reset()
     {
-        foreach (GameObject o in clothPieces)
+        //ResetIDs();
+        /*foreach (GameObject o in clothPieces)
         {
             Mesh mesh = o.GetComponent<MeshCollider>().sharedMesh;
             
@@ -292,7 +293,10 @@ public class GarmentHandler : MonoBehaviour {
             deformObject.material = o.GetComponent<Fabricable>().GetSimulationMaterial();
             deformObject.AddToSimulation();
         }
-        deformManager.Reset();
+        deformManager.Reset();*/
+
+        StopSimulation();
+        StartSimulation();
     }
     
     public void StopSimulation()
