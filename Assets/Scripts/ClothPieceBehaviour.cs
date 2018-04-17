@@ -10,6 +10,7 @@ public class ClothPieceBehaviour : Behaviour {
     public Vector3 originalPosition { set; get; }
     public Quaternion originalRotation { set; get; }
     public int id { set; get; }
+    public bool isBended { set; get; }
 
     public Mesh initialMesh;
 
