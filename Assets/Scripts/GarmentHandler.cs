@@ -132,8 +132,8 @@ public class GarmentHandler : MonoBehaviour {
             clothModelFabric.clone = clothPieceFabric;
 
             //Use same material as cloth model
-            clothPieceFabric.materialIndex = clothModelFabric.GetSimulationMaterialIndex();
-            //clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
+            //clothPieceFabric.materialIndex = clothModelFabric.GetSimulationMaterialIndex();
+            clothPieceFabric.SetSimulationMaterial(clothModelFabric.GetSimulationMaterialIndex ());
             //clothPieceFabric.SetSimulationMaterial
         }
 
