@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bf29bb119084ba39cb8ed9b160c9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumArea: 0.025
+  maximumArea: 0.0025
   minimumAngle: 0
   conformingDelaunay: 1
   naive: 0

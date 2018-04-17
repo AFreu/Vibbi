@@ -38,8 +38,8 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 	private void UpdateLineRenderer(){
 		var renderer = GetComponent<LineRenderer> ();
 
-		var fMeshVertices = firstClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
-		var sMeshVertices = secondClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
+		var fMeshVertices = firstClothPiece.GetComponent<MeshCollider> ().sharedMesh.vertices;
+		var sMeshVertices = secondClothPiece.GetComponent<MeshCollider> ().sharedMesh.vertices;
 
 		var count = lineVerticeIndices.Count;
         //count = 4;

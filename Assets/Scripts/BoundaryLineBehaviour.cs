@@ -27,6 +27,7 @@ public class BoundaryLineBehaviour : SimpleLineBehaviour{
 		var hit =  Camera.main.ScreenToWorldPoint(mousePos);
 
         if (Input.GetKey(KeyCode.A) || interactionStateManager.currentState == InteractionStateManager.InteractionState.ADDPOINT) {
+            GetComponentInParent<ClothModelBehaviour>().editedAndNotTriangulated = true;
             GetComponentInParent<BoundaryPointsHandler>().AddPoint(gameObject, hit);
             //case where user adds a point on a seamline
             if (isFirstStart) end = second;

@@ -14,6 +14,9 @@ public class SeamBehaviour : MonoBehaviour {
     private Vector3 notchPos1;
     private Vector3 notchPos2;
 
+    public int firstClothPieceID { set; get; }
+    public int secondClothPieceID { set; get; }
+
     private Color color;
 
 	void Update(){
@@ -94,7 +97,10 @@ public class SeamBehaviour : MonoBehaviour {
 		this.line1 = line1;
 		this.line2 = line2;
 
-		var firstStart = line1.GetComponent<BoundaryLineBehaviour> ().start;
+        firstClothPieceID = line1.GetComponentInParent<ClothModelBehaviour>().id;
+        secondClothPieceID = line2.GetComponentInParent<ClothModelBehaviour>().id;
+
+        var firstStart = line1.GetComponent<BoundaryLineBehaviour> ().start;
 		var secondStart = line2.GetComponent<BoundaryLineBehaviour> ().start;
 		var firstEnd = line1.GetComponent<BoundaryLineBehaviour> ().end;
 		var secondEnd = line2.GetComponent<BoundaryLineBehaviour> ().end;
@@ -165,12 +171,12 @@ public class SeamBehaviour : MonoBehaviour {
 	}
 
 	public Mesh GetFirstMesh(){
-		Debug.Log("GetFirstMesh");
+//		Debug.Log("GetFirstMesh");
 		return line1.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
 	}
 
 	public Mesh GetSecondMesh(){
-		Debug.Log("GetSecondMesh");
+//		Debug.Log("GetSecondMesh");
 		return line2.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh;
 	}
 

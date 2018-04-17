@@ -64,7 +64,7 @@ public class Orbit : MonoBehaviour
 			// Rotate
 			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
 			{
-				Debug.Log ("Rotate");
+				//Debug.Log ("Rotate");
 				//Cursor.visible = false;
 				//Cursor.lockState = CursorLockMode.Locked;
 
