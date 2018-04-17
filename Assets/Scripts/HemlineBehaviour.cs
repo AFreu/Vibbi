@@ -19,7 +19,7 @@ public class HemlineBehaviour : MonoBehaviour {
 	public List<GameObject> clothPieces;
 
 
-
+	public List<int> clothPieceIDs;
 
 
 
@@ -88,7 +88,7 @@ public class HemlineBehaviour : MonoBehaviour {
 		}
 
 		renderer.positionCount = numberOfPositions;
-		renderer.SetPositions (newPositions);
+		renderer.SetPositions (newPositions.ToArray());
 
 		var averagePosition = sumOfPositions / numberOfPositions;
 		transform.position = averagePosition;
@@ -100,6 +100,10 @@ public class HemlineBehaviour : MonoBehaviour {
 
 	public void Init(List<GameObject> lines){
 		this.lines = lines;
+
+		foreach (GameObject line in lines) {
+			this.clothPieceIDs.Add(line.GetComponentInParent<ClothModelBehaviour>().id);
+		}
 	}
 		
 

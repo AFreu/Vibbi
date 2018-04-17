@@ -405,25 +405,28 @@ public class GarmentHandler : MonoBehaviour {
 		List<List<int>> verticeIndices = new List<List<int>> ();
 		List<GameObject> hemlineClothPieces = new List<GameObject> ();
 
+		var count = hb.lines.Count;
 
-		int firstLineMeshIndex = -1;
-		bool firstMeshFound = false;
+		hemlineClothPieces.Capacity = count;
 
 
-		for (int i = 0; i < hb.lines.Count; i++) {
+
+
+		for (int i = 0; i < count; i++) {
 			var line = hb.lines [i];
 			List<int> lineVerticeIndices = VibbiMeshUtils.indicesFromLine (line); 
 			verticeIndices.Add (lineVerticeIndices);
 
+
+			foreach (GameObject clothPiece in clothPieces) {
+				if (clothPiece.GetComponent<ClothPieceBehaviour> ().id == hb.clothPieceIDs [i]) {
+					hemlineClothPieces.Add(clothPiece);
+				}
+			}
+
 		}
-			
 
-
-				
-			
-			//hemlineClothPieces.Add(clothPieces[firstLineMeshIndex]);
-
-			//hb.Init3D (verticeIndices, hemlineClothPieces);
+		hb.Init3D (verticeIndices, hemlineClothPieces);
 
 	
 	}

@@ -345,8 +345,6 @@ public class ClothModelHandler : Behaviour {
 
 	public GameObject CreateHemline(List<GameObject> lines){
 		GameObject hemline = Instantiate (hemlineModelPrefab, transform);
-		//GameObject hemline = new GameObject ("Hemline");
-		//hemline.transform.parent = transform;
 		var hemlineBehaviour = hemline.GetComponent<HemlineBehaviour> ();
 		hemlineBehaviour.Init (lines);
 		hemlineModels.Add (hemline);
