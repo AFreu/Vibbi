@@ -87,6 +87,7 @@ public class GarmentHandler : MonoBehaviour {
         //Create a cloth piece
         GameObject clothPiece = Instantiate(clothPiecePrefab, position, rotation, deformManager.transform.parent);
 
+
         //save id
         clothPiece.GetComponent<ClothPieceBehaviour>().id = clothModel.GetComponent<ClothModelBehaviour>().id;
 
@@ -98,6 +99,10 @@ public class GarmentHandler : MonoBehaviour {
         var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
         clothPiece.GetComponent<MeshFilter>().sharedMesh = clothModelMesh;
         clothPiece.GetComponent<MeshCollider>().sharedMesh = clothModelMesh;
+
+        //bend
+        clothPiece.GetComponent<Bendable>().Bend();
+        Debug.Break();
 
         //Set garment material accordingly
         if (randomizeMaterial)
