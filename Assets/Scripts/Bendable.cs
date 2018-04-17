@@ -8,13 +8,8 @@ public class Bendable : MonoBehaviour
     public float rotate = 90;
     public float fromPosition = 0.5F; //from 0 to 1
     public BendAxis axis = BendAxis.X;
-    public Mesh mesh;
+    Mesh mesh;
     Vector3[] vertices;
-
-    void Awake()
-    {
-        
-    }
 
     public void Bend()
     {

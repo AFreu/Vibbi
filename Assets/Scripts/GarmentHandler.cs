@@ -98,7 +98,7 @@ public class GarmentHandler : MonoBehaviour {
         //save position & rotation of clothpiece
         clothPiece.GetComponent<ClothPieceBehaviour>().originalPosition = position;
         clothPiece.GetComponent<ClothPieceBehaviour>().originalRotation = rotation;
-        clothPiece.GetComponent<ClothPieceBehaviour>().isBended = bend;
+        clothPiece.GetComponent<ClothPieceBehaviour>().isBent = bend;
 
         //Init cloth piece mesh according to the given cloth model mesh
         var clothModelMesh = clothModel.GetComponent<MeshFilter>().mesh;
@@ -109,8 +109,11 @@ public class GarmentHandler : MonoBehaviour {
         if (bend)
         {
             clothPiece.GetComponent<Bendable>().Bend();
+            clothPiece.GetComponent<MeshCollider>().sharedMesh = clothPiece.GetComponent<MeshFilter>().sharedMesh;
         }
-        
+
+        clothPiece.GetComponent<ClothPieceBehaviour>().initialMesh = clothPiece.GetComponent<MeshCollider>().sharedMesh;
+
 
         //Set garment material accordingly
         if (randomizeMaterial)
@@ -310,16 +313,6 @@ public class GarmentHandler : MonoBehaviour {
         Quaternion[] rotations = new Quaternion[clothPieces.Count];
         bool[] isBended = new bool[clothPieces.Count];
 
-        /*for(int i = 0; i < clothPieces.Count; i++)
-        {
-            Vector3 position = clothPieces[i].GetComponent<ClothPieceBehaviour>().originalPosition;
-            Quaternion rotation = clothPieces[i].GetComponent<ClothPieceBehaviour>().originalRotation;
-
-            positions[i] = position;
-            rotations[i] = rotation;
-
-        }*/
-
         int index = 0;
        
         for (int i = 0; i < clothModels.Count; i++)
@@ -330,7 +323,7 @@ public class GarmentHandler : MonoBehaviour {
                 {
                     positions[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().originalPosition;
                     rotations[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().originalRotation;
-                    isBended[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().isBended;
+                    isBended[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().isBent;
                     index++;
                     break;
                 }
