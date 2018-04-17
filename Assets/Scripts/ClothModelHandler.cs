@@ -69,8 +69,12 @@ public class ClothModelHandler : Behaviour {
 
 	}
 
+	public void AddCloth(){
+		AddCloth (new Vector3(0,0,0));
+	}
+
 	//Records an add cloth model action at the given position
-	public void AddCloth(Vector3 position = new Vector3()){
+	public void AddCloth(Vector3 position){
         Debug.Log("Adding cloth");
         actionManager.RecordAction (new AddClothAction (this, position));
 
