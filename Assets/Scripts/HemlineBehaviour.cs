@@ -19,9 +19,17 @@ public class HemlineBehaviour : MonoBehaviour {
 	public List<GameObject> clothPieces;
 
 
+
+
+
+
+		
+
 	void Update(){
-		if(loaded){
+		if (loaded) {
 			UpdateLineRenderer ();
+		} else {
+			GetComponent<LineRenderer> ().enabled = false;
 		}
 
 	}
@@ -50,55 +58,50 @@ public class HemlineBehaviour : MonoBehaviour {
 	void UpdateLineRenderer(){
 		var renderer = GetComponent<LineRenderer> ();
 
+		List<Vector3> newPositions = new List<Vector3>();
 
+		Vector3 sumOfPositions = Vector3.zero;
+		int numberOfPositions = 0;
 
+		//Fetch vertices for every cloth pice
 		for(int i = 0; i < clothPieces.Count; i++){
 			var clothPiece = clothPieces [i];
+
+			//Indices of the vertices in question
 			var lineVerticeIndices = verticeIndices [i];
 
-
+			//Fetch all vertices
 			var meshVertices = clothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices;
-			var count = lineVerticeIndices.Count;
 
 
-			renderer.positionCount = count;
+			for (int j = 0; j < lineVerticeIndices.Count; j++) {
 
-			Vector3 [] positions = new Vector3[count];
+				var position = clothPiece.transform.TransformPoint (meshVertices [lineVerticeIndices [j]]);
 
-			for (int j = 0; j < count; j++) {
+				newPositions.Add (position);
 
-				var start = clothPiece.transform.TransformPoint (meshVertices [lineVerticeIndices [j]]);
-
-				positions [j] = start;
+				sumOfPositions += position;
+				numberOfPositions++;
 			}
 
-			renderer.SetPositions (positions);
+
 		}
+
+		renderer.positionCount = numberOfPositions;
+		renderer.SetPositions (newPositions);
+
+		var averagePosition = sumOfPositions / numberOfPositions;
+		transform.position = averagePosition;
+
+
+
 
 	}
 
 	public void Init(List<GameObject> lines){
 		this.lines = lines;
 	}
-
-	/*public void Init3D(List<int> lineVerticeIndices, GameObject firstClothPiece){
-
-		this.lineVerticeIndices = lineVerticeIndices;
-		this.firstClothPiece = firstClothPiece;
-
-		var firstVertexPosition = firstClothPiece.GetComponent<MeshFilter> ().sharedMesh.vertices [lineVerticeIndices [0]];
-		transform.position = firstClothPiece.transform.TransformPoint (firstVertexPosition);
-
-		loaded = true;
-
-		var renderer = GetComponent<LineRenderer> ();
-		renderer.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-		renderer.startColor = seamColor;
-		renderer.endColor = seamColor;
-		renderer.startWidth = seamWidth;
-		renderer.endWidth = seamWidth;
-
-	}*/
+		
 
 	public void Init3D(List<List<int>> verticeIndices, List<GameObject> clothPieces){
 
@@ -117,6 +120,10 @@ public class HemlineBehaviour : MonoBehaviour {
 		renderer.endColor = seamColor;
 		renderer.startWidth = seamWidth;
 		renderer.endWidth = seamWidth;
+
+		renderer.enabled = true;
+
+
 	
 	}
 

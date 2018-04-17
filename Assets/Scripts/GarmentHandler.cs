@@ -293,6 +293,8 @@ public class GarmentHandler : MonoBehaviour {
 	}
 
 	public void LoadHemline(GameObject hemline){
+		Debug.Log ("Load Hemline");
+
 		var hb = hemline.GetComponent<HemlineBehaviour> ();
 
 		hemline.transform.parent = deformManager.transform.parent;
@@ -301,38 +303,26 @@ public class GarmentHandler : MonoBehaviour {
 		List<List<int>> verticeIndices = new List<List<int>> ();
 		List<GameObject> hemlineClothPieces = new List<GameObject> ();
 
-		var line = hb.lines [0];
 
-		Debug.Log ("Load Hemline");
-		//var seamBehaviour = seam.GetComponent<SeamBehaviour> ();
 		int firstLineMeshIndex = -1;
-
 		bool firstMeshFound = false;
 
 
-		for (int index = 0; index < clothPieces.Count; index++) {
+		for (int i = 0; i < hb.lines.Count; i++) {
+			var line = hb.lines [i];
+			List<int> lineVerticeIndices = VibbiMeshUtils.indicesFromLine (line); 
+			verticeIndices.Add (lineVerticeIndices);
 
-			//Check if first cloth is loaded
-			if (clothPieces[index].GetComponent<MeshFilter> ().sharedMesh.Equals (line.GetComponentInParent<BoundaryPointsHandler> ().gameObject.GetComponent<MeshFilter>().mesh)) {
-				Debug.Log ("Cloth was previously loaded");
-				firstLineMeshIndex = index;
-				firstMeshFound = true;
-			}
 		}
 			
-		if (firstMeshFound) {
-			List<int> lineVerticeIndices = VibbiMeshUtils.indicesFromLine (line); 
 
-			if (lineVerticeIndices.Count <= 0) {
-				Debug.Log ("Hemline contains 0 vertices, aborting!");
-				return;
-			}
+
 				
-			verticeIndices.Add (lineVerticeIndices);
-			hemlineClothPieces.Add(clothPieces[firstLineMeshIndex]);
+			
+			//hemlineClothPieces.Add(clothPieces[firstLineMeshIndex]);
 
-			hb.Init3D (verticeIndices, hemlineClothPieces);
-		}
+			//hb.Init3D (verticeIndices, hemlineClothPieces);
+
 	
 	}
 	
