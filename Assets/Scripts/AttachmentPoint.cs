@@ -5,9 +5,10 @@ using UnityEngine;
 public class AttachmentPoint : MonoBehaviour {
 
 	public GameObject body;
+    public bool bendPoint { set; get; }
 
-	private Vector3 closestPointOnBody;
-
+    private Vector3 closestPointOnBody;
+    
 	// Use this for initialization
 	void Start () {
 		if (body == null) {
@@ -15,6 +16,7 @@ public class AttachmentPoint : MonoBehaviour {
 		}
 
 		closestPointOnBody = body.GetComponent<Collider> ().ClosestPoint (transform.position);
+        
 
 		Debug.DrawLine (closestPointOnBody, transform.position, Color.blue, 100);
 
@@ -22,7 +24,11 @@ public class AttachmentPoint : MonoBehaviour {
 		Vector3 normal = v.normalized;
 
 		transform.up = normal;
-	
+
+        if (name.Equals("RAO") || name.Equals("LAO"))
+        {
+            bendPoint = true;
+        }
 
 	}
 	

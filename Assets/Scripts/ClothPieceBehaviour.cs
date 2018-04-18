@@ -10,20 +10,21 @@ public class ClothPieceBehaviour : Behaviour {
     public Vector3 originalPosition { set; get; }
     public Quaternion originalRotation { set; get; }
     public int id { set; get; }
+    public bool isBent { set; get; }
 
-    public Mesh initialMesh;
+    public Mesh initialMesh { set; get; }
 
     private MeshCollider meshCollider;
     
 
 	void Awake(){
 		garmentHandler = FindObjectOfType<GarmentHandler> ();
-	}
+    }
 
     void Start()
     {
         meshCollider = GetComponent<MeshCollider>();
-        initialMesh = meshCollider.sharedMesh;
+       // initialMesh = meshCollider.sharedMesh;
     }
 
     void LateUpdate()

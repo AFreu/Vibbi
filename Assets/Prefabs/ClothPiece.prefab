@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114385917285496932}
   - component: {fileID: 114089889244199898}
   - component: {fileID: 33172201788525300}
+  - component: {fileID: 114961953907426082}
   m_Layer: 11
   m_Name: ClothPiece
   m_TagString: ClothPiece
@@ -152,6 +153,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   garmentHandler: {fileID: 0}
+  initialMesh: {fileID: 0}
+--- !u!114 &114961953907426082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1592297285166562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dd08f3d5732a34983ab756663c6864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotate: -180
+  fromPosition: 0.5
+  axis: 0
+  mesh: {fileID: 0}
 --- !u!114 &114979540358759480
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,7 +9,8 @@ public class AttachmentPointsHandler : MonoBehaviour {
 	public float distance = 0.1f;
 
 	public List<GameObject> attachmentPoints = new List<GameObject>();
-    private Transform selectedAttachMentPoint;
+    //private Transform selectedAttachMentPoint;
+    private GameObject selectedAttachmentPoint;
 	// Use this for initialization
 	void Start () {
 		
@@ -19,12 +20,12 @@ public class AttachmentPointsHandler : MonoBehaviour {
 	void Update () {
 		HandleInput ();
 
-        selectedAttachMentPoint = null;
+        selectedAttachmentPoint = null;
         foreach(GameObject a in attachmentPoints)
         {
             if (a.GetComponent<Selectable>().isSelected())
             {
-                selectedAttachMentPoint = a.transform;
+                selectedAttachmentPoint = a;
             }
         }
 	}
@@ -47,8 +48,8 @@ public class AttachmentPointsHandler : MonoBehaviour {
 		attachmentPoints.Add (o);
 	}
 
-    public Transform getSelectedAttachmentPoint()
+    public GameObject GetSelectedAttachmentPoint()
     {
-        return selectedAttachMentPoint;
+        return selectedAttachmentPoint;
     }
 }
