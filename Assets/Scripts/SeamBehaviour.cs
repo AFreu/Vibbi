@@ -51,10 +51,14 @@ public class SeamBehaviour : MonoBehaviour {
 		var lineRendererOne = connections[0].GetComponent<LineRenderer> ();
 		lineRendererOne.SetPosition (0, line1.GetComponent<BoundaryLineBehaviour>().start.position);
 		lineRendererOne.SetPosition (1, line2.GetComponent<BoundaryLineBehaviour>().start.position);
+		lineRendererOne.endColor = color;
+		lineRendererOne.startColor = color;
 
 		var lineRendererTwo = connections[1].GetComponent<LineRenderer> ();
 		lineRendererTwo.SetPosition (0, line1.GetComponent<BoundaryLineBehaviour>().end.position);
 		lineRendererTwo.SetPosition (1, line2.GetComponent<BoundaryLineBehaviour>().end.position);
+		lineRendererTwo.endColor = color;
+		lineRendererTwo.startColor = color;
 
 	}
 

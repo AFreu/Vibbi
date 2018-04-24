@@ -64,10 +64,6 @@ public class Orbit : MonoBehaviour
 			// Rotate
 			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
 			{
-				//Debug.Log ("Rotate");
-				//Cursor.visible = false;
-				//Cursor.lockState = CursorLockMode.Locked;
-
 				x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
 				y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
@@ -76,8 +72,6 @@ public class Orbit : MonoBehaviour
 			// Pan
 			else if (Input.GetMouseButton(2))
 			{
-				//Cursor.visible = false;
-				//Cursor.lockState = CursorLockMode.Locked;
 
 				Vector3 forwardVector = GetComponent<Camera>().transform.forward;
 

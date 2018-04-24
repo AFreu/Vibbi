@@ -55,6 +55,7 @@ MonoBehaviour:
   first: {fileID: 0}
   second: {fileID: 0}
   unitVector: {x: 0, y: 0, z: 0}
+  col: {fileID: 0}
 --- !u!120 &120154155104774352
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -68,7 +69,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: c29d8b23659a44d3f9545c0205ae8e14, type: 2}
+  - {fileID: 2100000, guid: 5759550b6401943018e68940f176685a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

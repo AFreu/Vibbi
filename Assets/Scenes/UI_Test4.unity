@@ -3086,7 +3086,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Green Flannel
+  m_Text: Purple Flannel
 --- !u!222 &545197084
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4208,7 +4208,7 @@ MonoBehaviour:
   m_CaptionImage: {fileID: 1762028258}
   m_ItemText: {fileID: 1646292839}
   m_ItemImage: {fileID: 1233621973}
-  m_Value: 0
+  m_Value: 3
   m_Options:
     m_Options:
     - m_Text: Green Flannel
@@ -7321,7 +7321,7 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 0.9763271, b: 0.9117647, a: 1}
-  m_Intensity: 10
+  m_Intensity: 2.5
   m_Range: 200
   m_SpotAngle: 100
   m_CookieSize: 10
@@ -9506,7 +9506,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1762028256}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -9519,7 +9519,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 7b3af3778512046e1acb6687f8b256de, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

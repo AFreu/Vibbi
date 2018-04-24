@@ -178,6 +178,8 @@ MonoBehaviour:
     type: 2}
   notchPrefab: {fileID: 1583172564579452, guid: d47a7aab2230f124eaeb895b87d7e8a6,
     type: 2}
+  boundaries: {fileID: 0}
+  mesh: {fileID: 0}
 --- !u!114 &114669878136980068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
-  materialIndex: 0
+  materialIndex: 3
   clone: {fileID: 0}
 --- !u!114 &114725319676228154
 MonoBehaviour:

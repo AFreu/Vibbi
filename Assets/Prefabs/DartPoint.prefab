@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: c29d8b23659a44d3f9545c0205ae8e14, type: 2}
+  - {fileID: 2100000, guid: 5759550b6401943018e68940f176685a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,9 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a356b9572df5d41ffbbf4a00bcbd46b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedMaterial: {fileID: 2100000, guid: 065322cfd02e64d9e95ca905c35149e3, type: 2}
-  highlightMaterial: {fileID: 2100000, guid: 01eb17def71244c9b852bdab0e183712, type: 2}
-  normalMaterial: {fileID: 2100000, guid: c29d8b23659a44d3f9545c0205ae8e14, type: 2}
+  selectedColor: {r: 1, g: 0, b: 0, a: 1}
+  highlightColor: {r: 1, g: 1, b: 1, a: 1}
+  normalColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &114572088087870408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapToGrid: 0
-  GRIDWIDTH: 0
-  origin: {x: 0, y: 0, z: 0}
+  gridWidth: 0.3
+  start: {fileID: 0}
+  end: {fileID: 0}
 --- !u!114 &114928586274951128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfba0f5006acc4d98949154ac22db119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  revertScaling: 1
   line: {fileID: 0}
 --- !u!135 &135880040089416470
 SphereCollider:

@@ -36,7 +36,6 @@ public class SimpleLineBehaviour : Behaviour {
 		GetComponent<LineRenderer>().SetPositions(n);
 
 		UpdateCollider();
-		//UpdateColliderLocal ();
 
 	}
 		

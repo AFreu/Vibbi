@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
   highlightColor: {r: 1, g: 1, b: 1, a: 1}
-  normalColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &114738302130460766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,7 +139,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dartHandler: {fileID: 0}
-  triangulator: {fileID: 0}
+  triangulator: {fileID: 114193369739845924, guid: 6d9caed5987f849ea81b847d4ef337cf,
+    type: 2}
   boundaryPoints: []
   boundaryLines: []
   darts: []
@@ -148,8 +149,8 @@ MonoBehaviour:
   boundaryLinePrefab: {fileID: 1186314178957548, guid: 2716a4389d75b452b86f4a2cb691e1e5,
     type: 2}
   notchPrefab: {fileID: 0}
-  boundaryCollection: {fileID: 0}
   boundaries: {fileID: 0}
+  mesh: {fileID: 0}
 --- !u!114 &114917534555622818
 MonoBehaviour:
   m_ObjectHideFlags: 1
