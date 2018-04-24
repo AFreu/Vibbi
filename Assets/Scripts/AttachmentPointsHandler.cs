@@ -52,4 +52,10 @@ public class AttachmentPointsHandler : MonoBehaviour {
     {
         return selectedAttachmentPoint;
     }
+
+	public void ShowAttachmentPoints(bool enabled){
+		foreach (GameObject o in attachmentPoints) {
+			o.GetComponent<Renderer> ().enabled = enabled;
+		}
+	}
 }

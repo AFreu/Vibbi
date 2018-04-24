@@ -283,6 +283,9 @@ public class GarmentHandler : MonoBehaviour {
 
     public void StartSimulation()
     {
+
+		attachMentPointsHandler.ShowAttachmentPoints (false);
+
         foreach(GameObject o in clothPieces)
          {
             Mesh mesh = o.GetComponent<ClothPieceBehaviour>().initialMesh;
@@ -343,6 +346,8 @@ public class GarmentHandler : MonoBehaviour {
         {
             LoadSeam(s);
         }
+
+		attachMentPointsHandler.ShowAttachmentPoints (true);
 
 
     }
