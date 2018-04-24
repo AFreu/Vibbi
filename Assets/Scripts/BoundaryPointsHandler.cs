@@ -462,6 +462,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 	public void RemoveDart(GameObject dart){
 		Debug.Log ("Removing dart: " + dart);
 		darts.Remove (dart);
+		GetComponent<ClothModelBehaviour> ().editedAndNotTriangulated = true;
 	}
 
 	//Probably some nicer way to implement this
@@ -570,6 +571,7 @@ public class BoundaryPointsHandler : MonoBehaviour {
 		
 	public void AddDart(GameObject dart){
 		darts.Add (dart);
+		GetComponent<ClothModelBehaviour> ().editedAndNotTriangulated = true;
 	}
 
 	public List<Vector2> GetPointPositions() {
