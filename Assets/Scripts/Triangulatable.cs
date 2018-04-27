@@ -36,9 +36,15 @@ public class Triangulatable : MonoBehaviour {
 		if (mesh == null)
 			Debug.Log ("Mesh is null");
 
-		triangulator.Triangulate(mesh, coords, holeCoords);
 
-	}
+        float time = Time.realtimeSinceStartup;
+
+        triangulator.Triangulate(mesh, coords, holeCoords);
+
+
+        Debug.Log("Triangulation time: " + (Time.realtimeSinceStartup - time));
+
+    }
 
 	protected virtual void UpdateCoords(){
 		coords.Clear ();

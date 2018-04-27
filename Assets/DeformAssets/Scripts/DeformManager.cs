@@ -298,6 +298,11 @@ public class DeformManager : MonoBehaviour {
             AttachParticles(deformables[i], attachmentPoints);
             //AttachParticles2(deformables[i], attachmentPoints, attachmentTriangles);
         }
+
+        if (testing)
+        {
+            SetDeformObjectsToZero();
+        }
     }
 
     void AttachParticles(DeformBody body, Vector3[] attachmentPoints)

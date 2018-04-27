@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AnimationChanger" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAAAACAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\AnimationChanger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeformBody" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBBAQTAgCCIJAAAAAGACAAAAwABAAGAABhEABJAGkE=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\DeformBody.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeformCloth" Collapsed="true">
+    <Position X="4.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAASAAAAABAAAAoEIBCAAABAAACAAQAAAAAAAAAg=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\DeformCloth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeformCollider" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUggACECAAEIAAAAIAACAMAQKgBQAAAAAACCAIAAgA=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\DeformCollider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeformManager" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gKQzRB2iiaJGBjjGEAE4RwCSQgi4IgRhTAIyFAlOBQo=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\DeformManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeformObject" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABAASAAAAAAAAAEAEgBAAAAAAAAAAAAAAEAAAAAAg=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\DeformObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ForwardMover" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\ForwardMover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImportPostProcessor" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAg=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\ImportPostProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MeshUtils" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAQAAAAAAAAAEAAAgACIAAAAIAAABIAAAAAAAAAAAAg=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\MeshUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseOrbit" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAKAAAIIMBAEAAAgAAAABgIIAEAAA=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\MouseOrbit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Primitives" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAABAAAAAAAAAAAAAAgAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\DeformAssets\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

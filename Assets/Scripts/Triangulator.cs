@@ -57,6 +57,7 @@ public class Triangulator : MonoBehaviour {
 		}
 
 		Triangulate (mesh, points, holes);
+
 	}
 
 	public void Init(GameObject o){
@@ -82,7 +83,7 @@ public class Triangulator : MonoBehaviour {
 	{
 
 
-		List<int> indices = null;
+        List<int> indices = null;
 		List<Vector3> vertices = null;
 
 		var options = new ConstraintOptions() { ConformingDelaunay = conformingDelaunay };
@@ -100,6 +101,5 @@ public class Triangulator : MonoBehaviour {
 			uvs [i] = new Vector2 (m.vertices[i].x, m.vertices[i].y);
 		}
 		m.uv = uvs;
-
-	}
+    }
 }
