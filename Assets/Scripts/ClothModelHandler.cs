@@ -206,7 +206,7 @@ public class ClothModelHandler : Behaviour {
 		}
 	}
 
-    public void LoadSeamsOfActiveClothPieces(GameObject gameObject)
+    public void LoadSeamsOfActiveClothPiece(GameObject gameObject)
     {
         foreach (GameObject seam in seamModels)
         {
@@ -222,6 +222,21 @@ public class ClothModelHandler : Behaviour {
         }
     }
 
+    private void LoadSeamIfClothIsLoaded(GameObject seam)
+    {
+        List<GameObject> clothPieces = garmentHandler.clothPieces;
+        var first = seam.GetComponent<SeamBehaviour>().GetFirstCloth();
+        var second = seam.GetComponent<SeamBehaviour>().GetSecondCloth();
+
+        foreach (GameObject o in clothPieces)
+        {
+            if (first.GetComponent<ClothModelBehaviour>().id == o.GetComponent<ClothPieceBehaviour>().id ||
+                second.GetComponent<ClothModelBehaviour>().id == o.GetComponent<ClothPieceBehaviour>().id)
+            {
+                LoadSeam(seam);
+            }
+        }
+    }
 
     public void Simulate()
     {
@@ -298,8 +313,9 @@ public class ClothModelHandler : Behaviour {
                 break; //only one seam possible to find
             }
         }
+
+        LoadSeamIfClothIsLoaded(CreateSeam(sewingList[0], sewingList[1]));
         
-        CreateSeam(sewingList[0], sewingList[1]);
 
     }
 
@@ -335,7 +351,7 @@ public class ClothModelHandler : Behaviour {
 		seamBehaviour.Init (firstLine, secondLine, color);
 		seamModels.Add (seam);
 		return seam;
-	}
+    }
 
 	public void RemoveSeam(GameObject seam){
 		seamModels.Remove (seam);
