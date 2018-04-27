@@ -143,7 +143,7 @@ public class GarmentHandler : MonoBehaviour {
 
         clothPieces.Add(clothPiece);
 
-        cmh.LoadSeamsOfActiveClothPiece(clothPiece);
+        cmh.LoadSeamsOfActiveClothPiece(clothPiece); //tell clothmodelhandler to load the seams
     }
 
     public void UnloadCloth(GameObject clothPiece){
