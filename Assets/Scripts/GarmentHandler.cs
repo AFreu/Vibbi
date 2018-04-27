@@ -341,11 +341,11 @@ public class GarmentHandler : MonoBehaviour {
             LoadCloth(clothModels[i], positions[i], rotations[i], isBended[i]);
         }
         
-
+        /*
         foreach (GameObject s in seamModels)
         {
             LoadSeam(s);
-        }
+        }*/
 
 		attachMentPointsHandler.ShowAttachmentPoints (true);
 
