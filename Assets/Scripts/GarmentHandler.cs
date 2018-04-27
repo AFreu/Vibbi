@@ -6,6 +6,7 @@ using UnityEngine;
 public class GarmentHandler : MonoBehaviour {
 
 	public GameObject clothPiecePrefab;
+    public ClothModelHandler cmh;
 
     public Material garmentMaterial;
     public bool randomizeMaterial;
@@ -141,6 +142,8 @@ public class GarmentHandler : MonoBehaviour {
         clothPiece.transform.localScale = clothModel.transform.localScale;
 
         clothPieces.Add(clothPiece);
+
+        cmh.LoadSeamsOfActiveClothPieces(clothPiece);
     }
 
     public void UnloadCloth(GameObject clothPiece){

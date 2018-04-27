@@ -206,7 +206,21 @@ public class ClothModelHandler : Behaviour {
 		}
 	}
 
+    public void LoadSeamsOfActiveClothPieces(GameObject gameObject)
+    {
+        foreach (GameObject seam in seamModels)
+        {
+            var first = seam.GetComponent<SeamBehaviour>().GetFirstCloth();
+            var second = seam.GetComponent<SeamBehaviour>().GetSecondCloth();
 
+            //If cloth has a seam, try to load it. It won't be loaded if the other cloth isn't
+            if (first.GetComponent<ClothModelBehaviour>().id == gameObject.GetComponent<ClothPieceBehaviour>().id ||
+                second.GetComponent<ClothModelBehaviour>().id == gameObject.GetComponent<ClothPieceBehaviour>().id)
+            {
+                LoadSeam(seam);
+            }
+        }
+    }
 
 
     public void Simulate()
