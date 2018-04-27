@@ -11,6 +11,7 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 	public GameObject secondClothPiece{ set; get;}
 
 	public List<int> lineVerticeIndices { set; get;}
+    public bool isSimulationRunning { set; get; }
 
 	private GameObject seam;
 
@@ -36,6 +37,12 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 
 	private void UpdateLineRenderer(){
 		var renderer = GetComponent<LineRenderer> ();
+
+        if (isSimulationRunning)
+        {
+            renderer.enabled = false;
+            return;
+        }
 
 		var fMeshVertices = firstClothPiece.GetComponent<MeshCollider> ().sharedMesh.vertices;
 		var sMeshVertices = secondClothPiece.GetComponent<MeshCollider> ().sharedMesh.vertices;
@@ -77,7 +84,9 @@ public class GarmentSeamBehaviour : MonoBehaviour {
 		this.secondClothPiece = secondClothPiece;
 
 		this.seam = seam;
-	}
+        isSimulationRunning = false;
+
+    }
 
 
 }
