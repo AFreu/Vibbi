@@ -2561,7 +2561,7 @@ MonoBehaviour:
   transformA: {fileID: 1716503646}
   transformB: {fileID: 1467242400}
   radius: 0.64
-  otherRadius: 0.48
+  otherRadius: 0.58
   showColliderInEditor: 1
   showColliderInGame: 0
 --- !u!1 &455006155

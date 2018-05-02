@@ -15,6 +15,7 @@ public class Orbit : MonoBehaviour
 	public float distanceMax = 15f;
 
 	private Rigidbody m_rigidbody;
+    private bool cameraButtonClicked;
 
 	float x = 0.0f;
 	float y = 0.0f;
@@ -24,6 +25,8 @@ public class Orbit : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+        cameraButtonClicked = false;
+
 		Vector3 angles = transform.eulerAngles;
 		x = angles.y;
 		y = angles.x;
@@ -45,71 +48,82 @@ public class Orbit : MonoBehaviour
 	void LateUpdate()
 	{
 
-		Camera camera = GetComponent<Camera> ();
-		Vector3 point = camera.ScreenToViewportPoint(Input.mousePosition);
-		bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
+        if (cameraButtonClicked)
+        {
+            gameObject.transform.position = new Vector3(2.227537f, 7.813982f, -5.627961f);
+            gameObject.transform.eulerAngles = new Vector3(19.68f, -16.56f, 0.0f);
+        }
+        else
+        {
 
-		if (Input.GetKeyDown(KeyCode.Return))
-		{
-			SetActive(!active);
-		}
-
-		if (target && active )
-		{
-
-			if (Cursor.lockState != CursorLockMode.Locked && !cursorInViewPort)
-				return;
+            Camera camera = GetComponent<Camera>();
+            Vector3 point = camera.ScreenToViewportPoint(Input.mousePosition);
+            bool cursorInViewPort = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
 
 
-			// Rotate
-			if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
-			{
-				x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
-				y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SetActive(!active);
+            }
 
-				y = ClampAngle(y, yMinLimit, yMaxLimit);
-			}
-			// Pan
-			else if (Input.GetMouseButton(2))
-			{
+            if (target && active)
+            {
 
-				Vector3 forwardVector = GetComponent<Camera>().transform.forward;
-
-				float mx = Input.GetAxis("Mouse X");
-				float my = Input.GetAxis("Mouse Y");
-
-				Vector3 panDelta;
-
-				if(Input.GetKey(KeyCode.LeftShift)) // Depth pan
-				{
-					panDelta = new Vector3(forwardVector.x * my, forwardVector.y * my, forwardVector.z * my);
-				}
-				else // Normal pan
-				{
-					panDelta = new Vector3(forwardVector.z * mx, my * 0.5f, -forwardVector.x * mx);
-				}
-
-				target.position += panDelta;
-			}
-			else
-			{
-				Cursor.visible = true;
-				Cursor.lockState = CursorLockMode.None;
+                if (Cursor.lockState != CursorLockMode.Locked && !cursorInViewPort)
+                    return;
 
 
-			}
+                // Rotate
+                if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftAlt))
+                {
+                    x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
+                    y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
-			Quaternion rotation = Quaternion.Euler(y, x, 0);
+                    y = ClampAngle(y, yMinLimit, yMaxLimit);
+                }
+                // Pan
+                else if (Input.GetMouseButton(2))
+                {
 
-			distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
+                    Vector3 forwardVector = GetComponent<Camera>().transform.forward;
 
-			Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
-			Vector3 position = rotation * negDistance + target.position;
+                    float mx = Input.GetAxis("Mouse X");
+                    float my = Input.GetAxis("Mouse Y");
 
-			transform.rotation = rotation;
-			transform.position = position;
-		}
-	}
+                    Vector3 panDelta;
+
+                    if (Input.GetKey(KeyCode.LeftShift)) // Depth pan
+                    {
+                        panDelta = new Vector3(forwardVector.x * my, forwardVector.y * my, forwardVector.z * my);
+                    }
+                    else // Normal pan
+                    {
+                        panDelta = new Vector3(forwardVector.z * mx, my * 0.5f, -forwardVector.x * mx);
+                    }
+
+                    target.position += panDelta;
+                }
+                else
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+
+
+                }
+
+                Quaternion rotation = Quaternion.Euler(y, x, 0);
+
+                distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
+
+                Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
+                Vector3 position = rotation * negDistance + target.position;
+
+                transform.rotation = rotation;
+                transform.position = position;
+            }
+
+        }
+    }
 
 	public static float ClampAngle(float angle, float min, float max)
 	{
@@ -124,4 +138,9 @@ public class Orbit : MonoBehaviour
 	{
 		active = a;
 	}
+
+    public void SetCamerButtonClicked()
+    {
+        cameraButtonClicked = cameraButtonClicked == true ? false : true;
+    }
 }
