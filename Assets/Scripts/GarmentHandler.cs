@@ -24,8 +24,16 @@ public class GarmentHandler : MonoBehaviour {
 
     private List<Material> materials = new List<Material>();
 
+    private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
+    private bool idsSet;
+    private int totalNumberOfVertices;
+
+
     private void Start()
     {
+        idsSet = false;
+        totalNumberOfVertices = 0;
+
         materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Chevron/Chevron.mat", typeof(Material)));
        // materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Leather/Materials/Leather.mat", typeof(Material)));
         materials.Add((Material)AssetDatabase.LoadAssetAtPath("Assets/DeformAssets/Materials/Flannel/Flannel.mat", typeof(Material)));
@@ -278,11 +286,7 @@ public class GarmentHandler : MonoBehaviour {
 
 	}
 
-    private IDictionary<int, int> idToPositonInList = new Dictionary<int, int>();
-    private bool idsSet = false;
-    private int totalNumberOfVertices = 0;
-    
-
+  
     public void StartSimulation()
     {
         attachMentPointsHandler.ShowAttachmentPoints (false);
@@ -321,7 +325,7 @@ public class GarmentHandler : MonoBehaviour {
 
         Vector3[] positions = new Vector3[clothPieces.Count];
         Quaternion[] rotations = new Quaternion[clothPieces.Count];
-        bool[] isBended = new bool[clothPieces.Count];
+        bool[] isBent = new bool[clothPieces.Count];
 
         int index = 0;
        
@@ -333,12 +337,15 @@ public class GarmentHandler : MonoBehaviour {
                 {
                     positions[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().originalPosition;
                     rotations[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().originalRotation;
-                    isBended[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().isBent;
+                    isBent[index] = clothPieces[j].GetComponent<ClothPieceBehaviour>().isBent;
                     index++;
                     break;
                 }
             }
         }
+
+        Debug.Log("number of pieces according to index "+index);
+        Debug.Log("number of pieces according to clothModel count " + clothModels.Count);
 
 
         UnloadAll(); //empties garmentSeams & clothPieces
@@ -346,14 +353,9 @@ public class GarmentHandler : MonoBehaviour {
         
         for (int i = 0; i < clothModels.Count; i++)
         {
-            LoadCloth(clothModels[i], positions[i], rotations[i], isBended[i]);
+            LoadCloth(clothModels[i], positions[i], rotations[i], isBent[i]);
         }
         
-        /*
-        foreach (GameObject s in seamModels)
-        {
-            LoadSeam(s);
-        }*/
 
 		attachMentPointsHandler.ShowAttachmentPoints (true);
         
@@ -363,6 +365,7 @@ public class GarmentHandler : MonoBehaviour {
     {
         idToPositonInList.Clear();
         totalNumberOfVertices = 0;
+        idsSet = false;
     }
     
     public void InitSeams()
