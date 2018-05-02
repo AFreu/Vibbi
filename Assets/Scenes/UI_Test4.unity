@@ -1593,6 +1593,7 @@ MonoBehaviour:
   garmentMaterial: {fileID: 2100000, guid: bf9d8711dd663d14c8e117e14770645c, type: 2}
   deformManager: {fileID: 842208067}
   garmentHandler: {fileID: 189792675}
+  clothModelIds: 
 --- !u!114 &279091889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7030,9 +7031,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8483df24c85d644bceee8681cf090e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transform: {fileID: 0}
+  useEditorValues: 0
   position: {x: 2.467759, y: 8.278679, z: -4.714069}
-  rotation: {x: 22.32, y: -25.62, z: 0, w: 0}
+  rotation: {x: 22.32, y: -25.62, z: 0}
 --- !u!1 &1233621971
 GameObject:
   m_ObjectHideFlags: 0
@@ -10959,6 +10960,18 @@ Prefab:
     - target: {fileID: 1200108037061340, guid: 8ce21c0fd06b749d9a4d9f9a5fcbc222, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820174473892738, guid: 8ce21c0fd06b749d9a4d9f9a5fcbc222, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.571
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820174473892738, guid: 8ce21c0fd06b749d9a4d9f9a5fcbc222, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.092
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820174473892738, guid: 8ce21c0fd06b749d9a4d9f9a5fcbc222, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8ce21c0fd06b749d9a4d9f9a5fcbc222, type: 2}
