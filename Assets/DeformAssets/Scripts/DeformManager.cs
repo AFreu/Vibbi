@@ -165,7 +165,11 @@ public class DeformManager : MonoBehaviour {
     {
 		if (yoMOM)
 			return;
-        
+
+        if (deformables == null)
+        {
+            return;
+        }
 
         HandleInput();
         UpdateColliders();
@@ -715,5 +719,11 @@ public class DeformManager : MonoBehaviour {
     {
         MoveParticle(id, index, position);
     }
-    
+
+    public void UnloadDeformables()
+    {
+        deformables = null;
+    }
+
+
 }

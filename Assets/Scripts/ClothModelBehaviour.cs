@@ -14,9 +14,17 @@ public class ClothModelBehaviour : Behaviour {
 
     void Start(){
 		clothModelHandler = GetComponentInParent<ClothModelHandler> ();
-        int r = Random.Range(1,13);
-        int h = (int)Time.realtimeSinceStartup;
-        id = r * h;
+
+        id = 1;
+
+        while (clothModelHandler.clothModelIds.Contains(id))
+        {
+            int r = Random.Range(1, 13);
+            int h = (int)Time.realtimeSinceStartup;
+            id = r * h;
+        }
+
+        clothModelHandler.clothModelIds.Add(id);
 	}
 
 	void OnMouseUp(){

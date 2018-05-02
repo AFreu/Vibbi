@@ -22,10 +22,14 @@ public class ClothModelHandler : Behaviour {
 
 	private Color color;
 
+    //ids
+    public List<int> clothModelIds = new List<int>();
+
 
     // Use this for initialization
     void Start () {
-		actionManager = GetComponentInParent<ActionManager> ();
+        Application.targetFrameRate = 30;
+        actionManager = GetComponentInParent<ActionManager> ();
 	}
 
 	// Update is called once per frame

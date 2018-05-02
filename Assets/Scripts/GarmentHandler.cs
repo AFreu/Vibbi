@@ -160,8 +160,7 @@ public class GarmentHandler : MonoBehaviour {
 		foreach (GameObject seam in connectedSeams) {
 			UnloadSeam (seam);
 		}
-
-        //idToPositonInList.Remove(clothPiece.GetComponent<DeformBody>().GetId());
+        
 
         clothModels.RemoveAt(clothPieces.IndexOf(clothPiece));
         clothPieces.Remove (clothPiece);
@@ -286,8 +285,7 @@ public class GarmentHandler : MonoBehaviour {
 
     public void StartSimulation()
     {
-
-		attachMentPointsHandler.ShowAttachmentPoints (false);
+        attachMentPointsHandler.ShowAttachmentPoints (false);
 
         foreach (GameObject s in garmentSeams)
         {
@@ -304,7 +302,7 @@ public class GarmentHandler : MonoBehaviour {
 			deformObject.material = o.GetComponent<Fabricable>().GetSimulationMaterial();
             deformObject.AddToSimulation();
         }
-        
+
         deformManager.Reset();
 
     }
@@ -318,6 +316,7 @@ public class GarmentHandler : MonoBehaviour {
     
     public void StopSimulation()
     {
+        deformManager.UnloadDeformables();
         ResetIDs(); //add to reset?
 
         Vector3[] positions = new Vector3[clothPieces.Count];
@@ -344,6 +343,7 @@ public class GarmentHandler : MonoBehaviour {
 
         UnloadAll(); //empties garmentSeams & clothPieces
         
+        
         for (int i = 0; i < clothModels.Count; i++)
         {
             LoadCloth(clothModels[i], positions[i], rotations[i], isBended[i]);
@@ -356,8 +356,7 @@ public class GarmentHandler : MonoBehaviour {
         }*/
 
 		attachMentPointsHandler.ShowAttachmentPoints (true);
-
-
+        
     }
 
     private void ResetIDs()
