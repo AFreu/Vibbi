@@ -6104,7 +6104,7 @@ MonoBehaviour:
   pointB: {x: 0.3, y: 5.7, z: -0.11}
   transformA: {fileID: 1716503646}
   transformB: {fileID: 1467242400}
-  radius: 0.64
+  radius: 0.69
   otherRadius: 0.43
   showColliderInEditor: 1
   showColliderInGame: 0
@@ -8493,7 +8493,7 @@ MonoBehaviour:
   pointB: {x: 0.03, y: 8.03, z: -0.45}
   transformA: {fileID: 118027103}
   transformB: {fileID: 30636704}
-  radius: 0.42
+  radius: 0.43
   otherRadius: 0.3
   showColliderInEditor: 1
   showColliderInGame: 0
@@ -11080,7 +11080,7 @@ MonoBehaviour:
   pointB: {x: -0.3, y: 5.7, z: -0.11}
   transformA: {fileID: 1716503646}
   transformB: {fileID: 1467242400}
-  radius: 0.64
+  radius: 0.69
   otherRadius: 0.43
   showColliderInEditor: 1
   showColliderInGame: 0

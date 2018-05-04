@@ -6,7 +6,7 @@ public class Selectable : MonoBehaviour {
 
     public Color selectedColor = Color.red;
     public Color highlightColor = Color.white;
-    public Color normalColor = Color.green;
+    public Color normalColor = Color.black;
 
 	private bool highlighted = false;
 	private bool selected = false;
